@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MesaControl" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WS_GMX" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMesaControl_ObtieneIndicadores_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneIndicadores" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneIndicadores_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneIndicadoresResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneIdFolio_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneIdFolio" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneIdFolio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneIdFolioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneNegocio_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneNegocio" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneNegocio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneNegocioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneRiesgo_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneRiesgo" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneRiesgo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneRiesgoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneGrupos_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneGrupos" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneGrupos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneGruposResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneReparto_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneReparto" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneReparto_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneRepartoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneProgramaCapas_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneProgramaCapas" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneProgramaCapas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneProgramaCapasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneCapas_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneCapas" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneCapas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneCapasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneDistribucion_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneDistribucion" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneDistribucion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneDistribucionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneBrokers_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneBrokers" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneBrokers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneBrokersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneReaseguradores_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneReaseguradores" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneReaseguradores_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneReaseguradoresResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneSubjetividad_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneSubjetividad" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneSubjetividad_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneSubjetividadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtienePagos_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePagos" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtienePagos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePagosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtienePolizasAseg_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePolizasAseg" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtienePolizasAseg_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePolizasAsegResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneRiesgoPoliza_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneRiesgoPoliza" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneRiesgoPoliza_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneRiesgoPolizaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneUbicacionesPoliza_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneUbicacionesPoliza" />
+  </wsdl:message>
+  <wsdl:message name="IMesaControl_ObtieneUbicacionesPoliza_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneUbicacionesPolizaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMesaControl">
+    <wsdl:operation name="ObtieneIndicadores">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneIndicadores" message="tns:IMesaControl_ObtieneIndicadores_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneIndicadoresResponse" message="tns:IMesaControl_ObtieneIndicadores_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneIdFolio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneIdFolio" message="tns:IMesaControl_ObtieneIdFolio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneIdFolioResponse" message="tns:IMesaControl_ObtieneIdFolio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneNegocio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneNegocio" message="tns:IMesaControl_ObtieneNegocio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneNegocioResponse" message="tns:IMesaControl_ObtieneNegocio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneRiesgo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneRiesgo" message="tns:IMesaControl_ObtieneRiesgo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneRiesgoResponse" message="tns:IMesaControl_ObtieneRiesgo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneGrupos">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneGrupos" message="tns:IMesaControl_ObtieneGrupos_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneGruposResponse" message="tns:IMesaControl_ObtieneGrupos_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneReparto">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneReparto" message="tns:IMesaControl_ObtieneReparto_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneRepartoResponse" message="tns:IMesaControl_ObtieneReparto_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneProgramaCapas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneProgramaCapas" message="tns:IMesaControl_ObtieneProgramaCapas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneProgramaCapasResponse" message="tns:IMesaControl_ObtieneProgramaCapas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneCapas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneCapas" message="tns:IMesaControl_ObtieneCapas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneCapasResponse" message="tns:IMesaControl_ObtieneCapas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneDistribucion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneDistribucion" message="tns:IMesaControl_ObtieneDistribucion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneDistribucionResponse" message="tns:IMesaControl_ObtieneDistribucion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneBrokers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneBrokers" message="tns:IMesaControl_ObtieneBrokers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneBrokersResponse" message="tns:IMesaControl_ObtieneBrokers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneReaseguradores">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneReaseguradores" message="tns:IMesaControl_ObtieneReaseguradores_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneReaseguradoresResponse" message="tns:IMesaControl_ObtieneReaseguradores_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSubjetividad">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneSubjetividad" message="tns:IMesaControl_ObtieneSubjetividad_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneSubjetividadResponse" message="tns:IMesaControl_ObtieneSubjetividad_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePagos">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtienePagos" message="tns:IMesaControl_ObtienePagos_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtienePagosResponse" message="tns:IMesaControl_ObtienePagos_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePolizasAseg">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtienePolizasAseg" message="tns:IMesaControl_ObtienePolizasAseg_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtienePolizasAsegResponse" message="tns:IMesaControl_ObtienePolizasAseg_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneRiesgoPoliza">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneRiesgoPoliza" message="tns:IMesaControl_ObtieneRiesgoPoliza_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneRiesgoPolizaResponse" message="tns:IMesaControl_ObtieneRiesgoPoliza_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneUbicacionesPoliza">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMesaControl/ObtieneUbicacionesPoliza" message="tns:IMesaControl_ObtieneUbicacionesPoliza_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMesaControl/ObtieneUbicacionesPolizaResponse" message="tns:IMesaControl_ObtieneUbicacionesPoliza_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMesaControl" type="tns:IMesaControl">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ObtieneIndicadores">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneIndicadores" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneIdFolio">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneIdFolio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneNegocio">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneNegocio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneRiesgo">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneRiesgo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneGrupos">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneGrupos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneReparto">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneReparto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneProgramaCapas">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneProgramaCapas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneCapas">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneCapas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneDistribucion">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneDistribucion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneBrokers">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneBrokers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneReaseguradores">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneReaseguradores" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSubjetividad">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneSubjetividad" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePagos">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtienePagos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePolizasAseg">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtienePolizasAseg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneRiesgoPoliza">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneRiesgoPoliza" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneUbicacionesPoliza">
+      <soap:operation soapAction="http://tempuri.org/IMesaControl/ObtieneUbicacionesPoliza" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MesaControl">
+    <wsdl:port name="BasicHttpBinding_IMesaControl" binding="tns:BasicHttpBinding_IMesaControl">
+      <soap:address location="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

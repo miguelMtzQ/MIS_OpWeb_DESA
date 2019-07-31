@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Generales" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WS_GMX" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGenerales_fn_InsertaBitacora_InputMessage">
+    <wsdl:part name="parameters" element="tns:fn_InsertaBitacora" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_InsertaBitacora_OutputMessage">
+    <wsdl:part name="parameters" element="tns:fn_InsertaBitacoraResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_InsertaExcepcion_InputMessage">
+    <wsdl:part name="parameters" element="tns:fn_InsertaExcepcion" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_InsertaExcepcion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:fn_InsertaExcepcionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_InsertaTransaccion_InputMessage">
+    <wsdl:part name="parameters" element="tns:fn_InsertaTransaccion" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_InsertaTransaccion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:fn_InsertaTransaccionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_InsertaATabla_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaATabla" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_InsertaATabla_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaATablaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_IsAuthenticated_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsAuthenticated" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_IsAuthenticated_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsAuthenticatedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneUsuario" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneMenu_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneMenu" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneMenu_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneMenuResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneSubMenu_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneSubMenu" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneSubMenu_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneSubMenuResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_EnviaCorreo_InputMessage">
+    <wsdl:part name="parameters" element="tns:EnviaCorreo" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_EnviaCorreo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EnviaCorreoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneCatalogo_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneCatalogo" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneCatalogo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneCatalogoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtienePolizas_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePolizas" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtienePolizas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePolizasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneEndosos_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneEndosos" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneEndosos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneEndososResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtienePagador_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePagador" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtienePagador_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePagadorResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtienePagadorCuotas_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePagadorCuotas" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtienePagadorCuotas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePagadorCuotasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneDetallePagoCuota_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneDetallePagoCuota" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneDetallePagoCuota_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneDetallePagoCuotaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneEndososNoPago_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneEndososNoPago" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneEndososNoPago_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneEndososNoPagoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneAclaraciones_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneAclaraciones" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneAclaraciones_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneAclaracionesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneParametro_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneParametro" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneParametro_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneParametroResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneTiposdeCambio_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneTiposdeCambio" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ObtieneTiposdeCambio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneTiposdeCambioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ActualizaParametro_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaParametro" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_ActualizaParametro_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaParametroResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_Ejecuta_InputMessage">
+    <wsdl:part name="parameters" element="tns:fn_Ejecuta" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_Ejecuta_OutputMessage">
+    <wsdl:part name="parameters" element="tns:fn_EjecutaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_EjecutaStr_InputMessage">
+    <wsdl:part name="parameters" element="tns:fn_EjecutaStr" />
+  </wsdl:message>
+  <wsdl:message name="IGenerales_fn_EjecutaStr_OutputMessage">
+    <wsdl:part name="parameters" element="tns:fn_EjecutaStrResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGenerales">
+    <wsdl:operation name="fn_InsertaBitacora">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/fn_InsertaBitacora" message="tns:IGenerales_fn_InsertaBitacora_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/fn_InsertaBitacoraResponse" message="tns:IGenerales_fn_InsertaBitacora_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="fn_InsertaExcepcion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/fn_InsertaExcepcion" message="tns:IGenerales_fn_InsertaExcepcion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/fn_InsertaExcepcionResponse" message="tns:IGenerales_fn_InsertaExcepcion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="fn_InsertaTransaccion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/fn_InsertaTransaccion" message="tns:IGenerales_fn_InsertaTransaccion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/fn_InsertaTransaccionResponse" message="tns:IGenerales_fn_InsertaTransaccion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaATabla">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/InsertaATabla" message="tns:IGenerales_InsertaATabla_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/InsertaATablaResponse" message="tns:IGenerales_InsertaATabla_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IsAuthenticated">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/IsAuthenticated" message="tns:IGenerales_IsAuthenticated_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/IsAuthenticatedResponse" message="tns:IGenerales_IsAuthenticated_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneUsuario">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneUsuario" message="tns:IGenerales_ObtieneUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneUsuarioResponse" message="tns:IGenerales_ObtieneUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneMenu">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneMenu" message="tns:IGenerales_ObtieneMenu_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneMenuResponse" message="tns:IGenerales_ObtieneMenu_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSubMenu">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneSubMenu" message="tns:IGenerales_ObtieneSubMenu_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneSubMenuResponse" message="tns:IGenerales_ObtieneSubMenu_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviaCorreo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/EnviaCorreo" message="tns:IGenerales_EnviaCorreo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/EnviaCorreoResponse" message="tns:IGenerales_EnviaCorreo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneCatalogo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneCatalogo" message="tns:IGenerales_ObtieneCatalogo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneCatalogoResponse" message="tns:IGenerales_ObtieneCatalogo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePolizas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtienePolizas" message="tns:IGenerales_ObtienePolizas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtienePolizasResponse" message="tns:IGenerales_ObtienePolizas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneEndosos">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneEndosos" message="tns:IGenerales_ObtieneEndosos_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneEndososResponse" message="tns:IGenerales_ObtieneEndosos_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePagador">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtienePagador" message="tns:IGenerales_ObtienePagador_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtienePagadorResponse" message="tns:IGenerales_ObtienePagador_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePagadorCuotas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtienePagadorCuotas" message="tns:IGenerales_ObtienePagadorCuotas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtienePagadorCuotasResponse" message="tns:IGenerales_ObtienePagadorCuotas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneDetallePagoCuota">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneDetallePagoCuota" message="tns:IGenerales_ObtieneDetallePagoCuota_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneDetallePagoCuotaResponse" message="tns:IGenerales_ObtieneDetallePagoCuota_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneEndososNoPago">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneEndososNoPago" message="tns:IGenerales_ObtieneEndososNoPago_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneEndososNoPagoResponse" message="tns:IGenerales_ObtieneEndososNoPago_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneAclaraciones">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneAclaraciones" message="tns:IGenerales_ObtieneAclaraciones_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneAclaracionesResponse" message="tns:IGenerales_ObtieneAclaraciones_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneParametro">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneParametro" message="tns:IGenerales_ObtieneParametro_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneParametroResponse" message="tns:IGenerales_ObtieneParametro_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneTiposdeCambio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ObtieneTiposdeCambio" message="tns:IGenerales_ObtieneTiposdeCambio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ObtieneTiposdeCambioResponse" message="tns:IGenerales_ObtieneTiposdeCambio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaParametro">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/ActualizaParametro" message="tns:IGenerales_ActualizaParametro_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/ActualizaParametroResponse" message="tns:IGenerales_ActualizaParametro_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="fn_Ejecuta">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/fn_Ejecuta" message="tns:IGenerales_fn_Ejecuta_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/fn_EjecutaResponse" message="tns:IGenerales_fn_Ejecuta_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="fn_EjecutaStr">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerales/fn_EjecutaStr" message="tns:IGenerales_fn_EjecutaStr_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerales/fn_EjecutaStrResponse" message="tns:IGenerales_fn_EjecutaStr_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IGenerales" type="tns:IGenerales">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="fn_InsertaBitacora">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/fn_InsertaBitacora" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fn_InsertaExcepcion">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/fn_InsertaExcepcion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fn_InsertaTransaccion">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/fn_InsertaTransaccion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaATabla">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/InsertaATabla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAuthenticated">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/IsAuthenticated" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneUsuario">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneMenu">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneMenu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSubMenu">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneSubMenu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaCorreo">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/EnviaCorreo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneCatalogo">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneCatalogo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePolizas">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtienePolizas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneEndosos">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneEndosos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePagador">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtienePagador" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePagadorCuotas">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtienePagadorCuotas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneDetallePagoCuota">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneDetallePagoCuota" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneEndososNoPago">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneEndososNoPago" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneAclaraciones">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneAclaraciones" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneParametro">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneParametro" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneTiposdeCambio">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ObtieneTiposdeCambio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaParametro">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/ActualizaParametro" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fn_Ejecuta">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/fn_Ejecuta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fn_EjecutaStr">
+      <soap:operation soapAction="http://tempuri.org/IGenerales/fn_EjecutaStr" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Generales">
+    <wsdl:port name="BasicHttpBinding_IGenerales" binding="tns:BasicHttpBinding_IGenerales">
+      <soap:address location="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

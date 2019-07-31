@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="736b51f5-341b-4659-bd2d-16695ec3708e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/OrdenPago/OrdenPago.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="OrdenPago1.disco" MetadataType="Disco" ID="3f9a69e9-6717-4245-88ff-bfef67222af6" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/OrdenPago/OrdenPago.svc?disco" />
+    <MetadataFile FileName="OrdenPago1.xsd" MetadataType="Schema" ID="9d28b833-e450-4d3d-b39c-dd2dccf2b7dd" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/OrdenPago/OrdenPago.svc?xsd=xsd1" />
+    <MetadataFile FileName="OrdenPago12.xsd" MetadataType="Schema" ID="99344afa-d669-4e4a-9cb8-2331e263b704" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/OrdenPago/OrdenPago.svc?xsd=xsd2" />
+    <MetadataFile FileName="OrdenPago13.xsd" MetadataType="Schema" ID="e4fce529-2d30-4a0c-8e01-8696d8039357" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/OrdenPago/OrdenPago.svc?xsd=xsd0" />
+    <MetadataFile FileName="OrdenPago1.wsdl" MetadataType="Wsdl" ID="b4840829-603b-4bcf-9822-57fe6c97e6e6" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/OrdenPago/OrdenPago.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

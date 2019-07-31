@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FirmasDigital" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WS_GMX" />
+      <xsd:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IFirmasDigital_ActualizaFirma_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaFirma" />
+  </wsdl:message>
+  <wsdl:message name="IFirmasDigital_ActualizaFirma_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaFirmaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFirmasDigital_ObtieneUsuarioFirmaE_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneUsuarioFirmaE" />
+  </wsdl:message>
+  <wsdl:message name="IFirmasDigital_ObtieneUsuarioFirmaE_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneUsuarioFirmaEResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFirmasDigital_ObtienePermisosXUsu_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePermisosXUsu" />
+  </wsdl:message>
+  <wsdl:message name="IFirmasDigital_ObtienePermisosXUsu_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePermisosXUsuResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFirmasDigital_ActualizaDestinatarioFirma_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaDestinatarioFirma" />
+  </wsdl:message>
+  <wsdl:message name="IFirmasDigital_ActualizaDestinatarioFirma_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaDestinatarioFirmaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IFirmasDigital">
+    <wsdl:operation name="ActualizaFirma">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFirmasDigital/ActualizaFirma" message="tns:IFirmasDigital_ActualizaFirma_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFirmasDigital/ActualizaFirmaResponse" message="tns:IFirmasDigital_ActualizaFirma_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneUsuarioFirmaE">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFirmasDigital/ObtieneUsuarioFirmaE" message="tns:IFirmasDigital_ObtieneUsuarioFirmaE_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFirmasDigital/ObtieneUsuarioFirmaEResponse" message="tns:IFirmasDigital_ObtieneUsuarioFirmaE_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePermisosXUsu">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFirmasDigital/ObtienePermisosXUsu" message="tns:IFirmasDigital_ObtienePermisosXUsu_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFirmasDigital/ObtienePermisosXUsuResponse" message="tns:IFirmasDigital_ObtienePermisosXUsu_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaDestinatarioFirma">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFirmasDigital/ActualizaDestinatarioFirma" message="tns:IFirmasDigital_ActualizaDestinatarioFirma_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFirmasDigital/ActualizaDestinatarioFirmaResponse" message="tns:IFirmasDigital_ActualizaDestinatarioFirma_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IFirmasDigital" type="tns:IFirmasDigital">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ActualizaFirma">
+      <soap:operation soapAction="http://tempuri.org/IFirmasDigital/ActualizaFirma" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneUsuarioFirmaE">
+      <soap:operation soapAction="http://tempuri.org/IFirmasDigital/ObtieneUsuarioFirmaE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePermisosXUsu">
+      <soap:operation soapAction="http://tempuri.org/IFirmasDigital/ObtienePermisosXUsu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaDestinatarioFirma">
+      <soap:operation soapAction="http://tempuri.org/IFirmasDigital/ActualizaDestinatarioFirma" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FirmasDigital">
+    <wsdl:port name="BasicHttpBinding_IFirmasDigital" binding="tns:BasicHttpBinding_IFirmasDigital">
+      <soap:address location="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

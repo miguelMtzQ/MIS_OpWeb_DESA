@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="83101a49-0a72-4968-82cd-2f01d9febe69" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="FirmasDigital1.xsd" MetadataType="Schema" ID="1743fe15-c45c-466e-96ab-446ef5852c0a" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd3" />
+    <MetadataFile FileName="FirmasDigital1.wsdl" MetadataType="Wsdl" ID="5877355d-c18d-4cbe-89d7-b51fc62316f3" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?wsdl" />
+    <MetadataFile FileName="FirmasDigital1.disco" MetadataType="Disco" ID="1cf57618-dddb-42aa-8952-ee91486ebb2d" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?disco" />
+    <MetadataFile FileName="FirmasDigital12.xsd" MetadataType="Schema" ID="e57fd465-3b78-40ea-99a9-66f9cf868b0f" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd0" />
+    <MetadataFile FileName="FirmasDigital13.xsd" MetadataType="Schema" ID="8f6ffe7a-4fc8-46b8-beb4-e810bc09de3a" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd2" />
+    <MetadataFile FileName="FirmasDigital14.xsd" MetadataType="Schema" ID="d747960e-7202-46cb-aaac-32902660e56d" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/FirmasDigital/FirmasDigital.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

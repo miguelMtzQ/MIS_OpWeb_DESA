@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ff072ab2-9e00-4433-a4db-d721b1cbbe05" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MesaControl1.xsd" MetadataType="Schema" ID="95fc8d85-6380-4a27-87c0-2cd12720c061" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?xsd=xsd1" />
+    <MetadataFile FileName="MesaControl12.xsd" MetadataType="Schema" ID="c3807005-83e6-4260-a31f-3da22a1d8fc9" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?xsd=xsd0" />
+    <MetadataFile FileName="MesaControl1.wsdl" MetadataType="Wsdl" ID="d385cd48-16ac-486e-86eb-f1d930d058de" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?wsdl" />
+    <MetadataFile FileName="MesaControl1.disco" MetadataType="Disco" ID="f8b5af91-62a2-4e3a-a4c8-734e2922a360" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?disco" />
+    <MetadataFile FileName="MesaControl13.xsd" MetadataType="Schema" ID="5eb5c21c-966d-448f-aa3b-e6ef8fcd18c7" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/MesaControl/MesaControl.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

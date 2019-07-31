@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/OrdenPago/OrdenPago.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WS_GMX" />
+  <xs:element name="InsertaPolNoPago">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_pv" type="xs:double" />
+        <xs:element minOccurs="0" name="cod_usuario" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaPolNoPagoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InsertaPolNoPagoResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaPolNoPago">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_pv" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaPolNoPagoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EliminaPolNoPagoResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneOrdenPago">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nro_orden" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroBrokerCia" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroContrato" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroPoliza" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroFecPago" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroRamoCont" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroUsuario" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroEstatus" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroFecGen" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cod_moneda" type="xs:int" />
+        <xs:element minOccurs="0" name="FiltroAseg" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FiltroMonto" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FitroNatOP" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="intFirmas" type="xs:int" />
+        <xs:element minOccurs="0" name="CodUsuPermiso" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="strSeleccion" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneOrdenPagoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WS_GMX" minOccurs="0" name="ObtieneOrdenPagoResult" nillable="true" type="q1:ArrayOfspS_OrdenPago_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneContabilidadOP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nro_op" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneContabilidadOPResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WS_GMX" minOccurs="0" name="ObtieneContabilidadOPResult" nillable="true" type="q2:ArrayOfspS_ContabilidadOP_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

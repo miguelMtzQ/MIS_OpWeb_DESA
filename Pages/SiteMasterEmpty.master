@@ -1,0 +1,161 @@
+﻿<%@ Master Language="VB" CodeFile="SiteMasterEmpty.master.vb" Inherits="Pages_SiteMasterEmpty" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=11" />
+
+    <asp:ContentPlaceHolder id="head" runat="server">
+        <script src="../Scripts/jquery-1.10.2.js"></script>
+        <script src="../Scripts/jquery-ui.js"></script>
+        <script src="../Scripts/bootstrap.min.js"></script>
+        <script src="../Scripts/MasterEmpty.js"></script>
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="frmMaster" runat="server">
+        <asp:ScriptManager runat="server" ID="ScrManagerMaster">
+        </asp:ScriptManager>
+
+        <asp:UpdateProgress ID="prgLoadingStatus" runat="server" DynamicLayout="true">
+            <ProgressTemplate>
+                <div class="over-lay">
+                    <div class="modal-progress" style="width:150px; height:95px">
+                            <img src="../Images/loading.gif" />
+                            Procesando.....
+                    </div>
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>  
+
+        <div id="div_Estilos">
+            <link href="../Content/General.css" rel="stylesheet" />
+            <link href="../Content/jquery-ui.css" rel="stylesheet" />
+            <link href="../Content/jquery-ui.min.css" rel="stylesheet" />
+            <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+        </div>
+        
+        <div id="div_Scripts">
+            <script src="../Scripts/FechaLargaHora.js"></script>
+            <script src="../Scripts/PiePagina.js"></script>
+        </div>
+
+        <div id="Principal">
+
+            <%--ZONA DE ENCABEZADO--%>
+            <div id="menu_contenedor" >
+		        <div id="header" class="panel-encabezado">
+			        <div id="logo">
+                        <img src="../Images/menu_fondo_logo_gmx.png" height="75" width="130" />
+			        </div>
+
+                    <div id="titulo" >
+                        <asp:Label runat="server" ID="lbl_Titulo" Text="REASEGURO" CssClass="titulo-pagina"></asp:Label>
+                    </div>
+
+                    <div id="menu_superior" class="etiqueta-control">
+                        <asp:Label runat="server" ID="lbl_Sucursal" Text="Ciudad de México"></asp:Label>
+                        |
+                        <asp:Label runat="server" ID="lbl_fecha"></asp:Label>
+                        |
+                        <asp:Label runat="server" ID="lbl_hora"></asp:Label>
+                    </div>        
+		        </div>
+            </div>   
+       
+
+
+            <%--CONTENDOR PRINCIPAL--%>
+            <div align="center" class="principal-contenido">
+                <div class="zona-form-empty">
+                <asp:ContentPlaceHolder id="cph_principal" runat="server">
+            
+                </asp:ContentPlaceHolder>
+                </div>
+            </div>
+
+    
+            <div class="clear padding50"></div>
+
+            <div id="inicio_eslogan" align="center">
+                <p><span class="info_negritas">GMX Seguros</span> es una aseguradora 100% mexicana, comprometida con la seguridad y protección patrimonial, a través de productos innovadores con un gran respaldo y experiencia.</p>
+                <h3 class="info_negritas_verdes">Juntos el riesgo es menor<sup>&reg;</sup></h3>
+            </div>
+
+    
+            <%--PIE DE PAGINA--%>
+            <div id="pie_contenedor">
+                <div id="pie">
+                    <table style="width:100%;  min-width:1366px; height:50px; border:0px;">
+                        <tr>
+                            <td>
+                                <div class="pie_esquina"></div>
+                            </td>
+                            <td>
+                                <div id="pie_menu">
+                                    <ul>
+                                        <li><a href="aviso_legal.html" onclick="return popup(this)">Aviso Legal</a></li>
+
+                                        <li><a href="aviso_de_privacidad.html" onclick="return popup(this)">Aviso de Privacidad</a></li>
+
+                                        <li><a href="http://www.twitter.com/#!/@GMXSeguros" class="pie_twitter" target="_blank" onmouseover="MM_swapImage('twitter','','../Images/pie_logo_twitter_over.png',1)" onmouseout="MM_swapImgRestore()"><img src="../Images/pie_logo_twitter_up.png" alt="Síguenos en Twitter - GMX Seguros" width="38" height="40" border="0" id="twitter" /><div class="pie_twitter_ventana">Síguenos en Twitter</div></a></li>
+
+                                        <li><a href="https://www.facebook.com/pages/GMX-Seguros/212294618921704?fref=ts" class="pie_facebook" target="_blank" onmouseover="MM_swapImage('facebook','','../Images/pie_logo_facebook_over.png',1)" onmouseout="MM_swapImgRestore()"><img src="../Images/pie_logo_facebook_up.png" alt="Síguenos en Facebook - GMX Seguros"  width="38" height="40" border="0" id="facebook" /><div class="pie_facebook_ventana">Síguenos en Facebook</div></a></li>
+
+                                        <li><a href="http://www.buro.gob.mx/" class="pie_buro" target="_blank" onmouseover="MM_swapImage('buro','','../Images/pie_logo_buro_over.png',1)" onmouseout="MM_swapImgRestore()"><img src="../Images/pie_logo_buro_up.png" alt="Buró Financiero"  width="38" height="40" border="0" id="buro" /><div class="pie_buro_ventana">Buró Financiero</div></a></li>
+
+                                        <li><a href="http://www.condusef.gob.mx/" target="_blank" class="pie_condusef" onmousedown="MM_swapImage('condusef','','../Images/imagen.gif',1)" onmouseover="MM_swapImage('condusef','','../Images/pie_logo_condusef_over.png',1)" onmouseout="MM_swapImgRestore()"><img src="../Images/pie_logo_condusef_up.png" alt="CONDUSEF" width="74" height="40" border="0" id="condusef" oncontextmenu="return false" /><div class="pie_condusef_ventana">CONDUSEF</div></a></li>
+
+                                        <li><a href="esr.html" class="pie_esr" onmousedown="MM_swapImage('esr','','../Images/imagen.gif',1)" onmouseover="MM_swapImage('esr','','../Images/pie_logo_esr_over.png',1)" onmouseout="MM_swapImgRestore()" onclick="return popup(this)"><img src="../Images/pie_logo_esr_up.png" alt="Somos una Empresa Socialmente Responsable"  width="74" height="40" border="0" id="esr" oncontextmenu="return false"  /><div class="pie_esr_ventana">Somos una Empresa Socialmente Responsable</div></a></li>
+                                    </ul>
+                                </div>
+                            </td>
+
+                            <td><div class="pie_esquina"></div></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="Mensajes" style="width:400px; height:185px"  class="modal-mensaje">
+             <asp:UpdatePanel runat="server" ID="upMensajes">
+                    <ContentTemplate>
+                        <div class="cuadro-titulo" style="height:30px">
+                            <asp:label ID="lbl_TituloMensaje" runat="server" Text="TITULO" CssClass="titulo-modal" Height="30px"></asp:label>
+                            <button type="button" style="color:white;" class="close"  data-dismiss="modal">&times;</button>
+                            <asp:HiddenField runat="server" ID="hid_ControlASP" Value="" />
+                        </div>
+                        <div class="modal-body" style="height:155px">
+                            <div class="row">
+                                 <div class="col-md-2">
+                                     <img id="img_advertencia"  src="../Images/advertencia_mini.png"/>
+                                     <img id="img_confirma"  src="../Images/confirma_mini.png" />
+                                     <img id="img_error"   src="../Images/error_mini.png" />
+                                     <img id="img_pregunta"  src="../Images/pregunta_mini.png" />
+                                 </div>
+                                 <div class="col-md-10">
+                                     <asp:label ID="lbl_Mensaje" runat="server" Text="Texto Prueba" BorderStyle="None" CssClass="texto-mensaje" Height="100px" Width="300px" TextMode="MultiLine"></asp:label>
+                                 </div>
+                            </div>
+
+                            <div style="width:100%; text-align:right;">
+                                <button id="btn_Si"  type="button" class="btn botones" onclick="fn_Repuesta();">
+                                    <span>Si</span>
+                                </button> 
+
+                                <button id="btn_No" type="button" class="btn botones" data-dismiss="modal">
+                                    <span>No</span>
+                                </button> 
+                            </div>
+                
+                        </div>
+                    </ContentTemplate>
+              </asp:UpdatePanel>
+        </div> 
+
+    </form>
+</body>
+</html>

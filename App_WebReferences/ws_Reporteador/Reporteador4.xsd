@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/Reporteador/Reporteador.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Reaseguro/Reporteador/Reporteador.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/WS_GMX" />
+  <xs:element name="InsertaVersionReporte">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cod_modulo" type="xs:int" />
+        <xs:element minOccurs="0" name="cod_submodulo_web" type="xs:int" />
+        <xs:element minOccurs="0" name="cod_reporte" type="xs:int" />
+        <xs:element minOccurs="0" name="cod_usuario" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="descripcion" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="filtros" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="formato" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sn_Temporal" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaVersionReporteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="InsertaVersionReporteResult" nillable="true" type="q1:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneVersionReporte">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cod_reporte" type="xs:int" />
+        <xs:element minOccurs="0" name="cod_config" type="xs:int" />
+        <xs:element minOccurs="0" name="cod_usuario" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneVersionReporteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WS_GMX" minOccurs="0" name="ObtieneVersionReporteResult" nillable="true" type="q2:ArrayOfspS_VersionReporte_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

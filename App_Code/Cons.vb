@@ -1,0 +1,87 @@
+﻿Imports Microsoft.VisualBasic
+
+Public Class Cons
+
+    'Valores Reportes (cREP_Reportes)
+    Public Const ModuloRea As Integer = 16
+    Public Const ModuloStros As Integer = 7
+
+    Public Const SubModRecSin As Integer = 41
+    Public Const RptFac As Integer = 3
+    Public Const RptEsp As Integer = 4
+
+    'Parametros (cPAR_Parametros)
+    Public Const ParamRpt As Integer = 3
+    Public Const ConsulFac As Integer = 5
+    Public Const ConsulEsp As Integer = 6
+
+    Public Const ReaseguroProduccion = 4
+    Public Const ReaseguroPruebas = 10
+    Public Const ReaseguroLocal = 23
+
+    Public Const ReportesDESA = 3
+    Public Const ReportesProduccion = 8
+    Public Const ReportesUAT = 9
+
+    Public Const MachoteAcuseOP = 11
+    Public Const Rol5801 = 12
+    Public Const Rol5802 = 13
+    Public Const Rol5803 = 14
+    Public Const Rol5804 = 15
+    Public Const Rol5805 = 16
+    Public Const Rol5806 = 17
+    Public Const MachoteAvisoProrroga = 18
+
+    Public Const FirmasProduccion = 19
+    Public Const FirmasPruebas = 24
+
+    Public Const Repositorio = 26
+
+    Public Const SectorReaseguro = 32
+
+    Public Const SubModMesaControl As Integer = 11
+    Public Const SubModTableroControl As Integer = 12
+    Public Const SubModMemoriaCalculo As Integer = 13
+    Public Const SubModFirmas As Integer = 53
+    Public Const SubModAcusePago As Integer = 54
+    Public Const SubModOrdenPago As Integer = 55
+    Public Const SubModReporteador As Integer = 71
+    Public Const SubModRepDetCtaCte As Integer = 72
+    Public Const SubModRepDecenal As Integer = 75
+    Public Const SubModContactos As Integer = 81
+    Public Const SubModReSumenTemp As Integer = 311
+    Public Const SubModRepGarantias As Integer = 561
+    Public Const SubModRepCalendario As Integer = 562
+    Public Const SubModBitacora As Integer = 563
+    Public Const SubModBitacoraFirma As Integer = 564
+
+
+    'Tipo Consulta
+    Public Enum TipoMov
+        Fac = 1
+        Esp = 2
+    End Enum
+
+    'Acciones Filtros
+    Public Enum Accion
+        Consultar
+        Guardar
+    End Enum
+
+    'Modulos Recordatorios
+    Public Enum Recordatorio
+        Siniestros = 61
+    End Enum
+
+    Public Enum TipoPersona
+        Manual = -1
+        Solicitante = 5800
+        JefeInmediato = 5801
+        Subdirector = 5802
+        Director = 5803
+        Tesoreria = 5804
+        Contabilidad = 5805
+        Rechazo = 5806
+        DirectorGeneral = 5807
+    End Enum
+End Class

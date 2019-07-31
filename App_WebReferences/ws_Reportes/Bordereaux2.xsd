@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WS_GMX" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WS_GMX" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfspS_AjusteHistBdx_Result2">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="spS_AjusteHistBdx_Result2" nillable="true" type="tns:spS_AjusteHistBdx_Result2" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfspS_AjusteHistBdx_Result2" nillable="true" type="tns:ArrayOfspS_AjusteHistBdx_Result2" />
+  <xs:complexType name="spS_AjusteHistBdx_Result2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AJUSTE" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ENDOSO" type="xs:decimal" />
+      <xs:element minOccurs="0" name="FECHA_DISTRIBUCION" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MONEDA" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MONTO_MOVIMIENTO" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="POLIZA" type="xs:decimal" />
+      <xs:element minOccurs="0" name="RAMO" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SINIESTRO" type="xs:int" />
+      <xs:element minOccurs="0" name="SOLICITUD" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SUBSINIESTRO" type="xs:int" />
+      <xs:element minOccurs="0" name="SUCURSAL" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SUFIJO" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="spS_AjusteHistBdx_Result2" nillable="true" type="tns:spS_AjusteHistBdx_Result2" />
+</xs:schema>

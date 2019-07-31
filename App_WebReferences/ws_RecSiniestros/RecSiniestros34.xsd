@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://gmxwebservice01/WS_GMX/Reaseguro/Recordatorios/Siniestros/RecSiniestros.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://gmxwebservice01/WS_GMX/Reaseguro/Recordatorios/Siniestros/RecSiniestros.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/WS_GMX" />
+  <xs:element name="ActualizaFaseRecup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_Fase" type="xs:int" />
+        <xs:element minOccurs="0" name="strFase" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaFaseRecupResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ActualizaFaseRecupResult" nillable="true" type="q1:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaFaseRecup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strFase" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaFaseRecupResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="InsertaFaseRecupResult" nillable="true" type="q2:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaFaseRecup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_Fase" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaFaseRecupResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="EliminaFaseRecupResult" nillable="true" type="q3:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaEstatusStro">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strEstatus" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="id_Fase" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaEstatusStroResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="InsertaEstatusStroResult" nillable="true" type="q4:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaEstatusStro">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_Estatus" type="xs:int" />
+        <xs:element minOccurs="0" name="strFase" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="id_Fase" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaEstatusStroResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ActualizaEstatusStroResult" nillable="true" type="q5:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaEstatusStro">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_Estatus" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaEstatusStroResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="EliminaEstatusStroResult" nillable="true" type="q6:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaNivel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strNivel" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DiasT" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaNivelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="InsertaNivelResult" nillable="true" type="q7:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaNivel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_Nivel" type="xs:int" />
+        <xs:element minOccurs="0" name="strNivel" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DiasT" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaNivelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ActualizaNivelResult" nillable="true" type="q8:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaNivel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_Nivel" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaNivelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="EliminaNivelResult" nillable="true" type="q9:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaAvUsuario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cod_usuario" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cod_sector" type="xs:int" />
+        <xs:element minOccurs="0" name="id_nivel" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaAvUsuarioResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="InsertaAvUsuarioResult" nillable="true" type="q10:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaAvUsuario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cod_usuario" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cod_sector" type="xs:int" />
+        <xs:element minOccurs="0" name="idav" type="xs:int" />
+        <xs:element minOccurs="0" name="id_nivel" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaAvUsuarioResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ActualizaAvUsuarioResult" nillable="true" type="q11:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaAvUsuario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idav" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaAvUsuarioResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="EliminaAvUsuarioResult" nillable="true" type="q12:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaJobParam">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="srtHora" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="blnActivo" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaJobParamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ActualizaJobParamResult" nillable="true" type="q13:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaHoraJob">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="srtHoraIni" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="strFechaIni" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Activado" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizaHoraJobResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="ActualizaHoraJobResult" nillable="true" type="q14:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneSiniestros">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="tipo_mov" type="xs:int" />
+        <xs:element minOccurs="0" name="nro_stro" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="broker" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="aseg" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="reaseg" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cod_ramo_conta" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="poliza" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fec_desde" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fec_hasta" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneSiniestrosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/WS_GMX" minOccurs="0" name="ObtieneSiniestrosResult" nillable="true" type="q15:ArrayOfsp_rptMovSinxReas_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GuardaAjustes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="siniestro" type="xs:int" />
+        <xs:element minOccurs="0" name="consecutivo" type="xs:int" />
+        <xs:element minOccurs="0" name="reasegurador_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="reasegurador" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="corredor_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="corredor" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="reg_rea_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="reg_rea" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fec_ini_vig_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fec_ini_vig" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fec_fin_vig_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fec_fin_vig" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="causa_stro_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="causa_stro" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="dir_stro_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="dir_stro" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ajustador_ant" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ajustador" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fecha_ajuste" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="usuarioLog" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GuardaAjustesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="GuardaAjustesResult" nillable="true" type="q16:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaPolNoAC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_pv" type="xs:int" />
+        <xs:element minOccurs="0" name="cod_usuario" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="cod_submod_web" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertaPolNoACResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="InsertaPolNoACResult" nillable="true" type="q17:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaPolNoAC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_pv" type="xs:int" />
+        <xs:element minOccurs="0" name="cod_submod_web" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EliminaPolNoACResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="EliminaPolNoACResult" nillable="true" type="q18:ArrayOfNullableOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtienePolNoAC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cod_submod_web" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtienePolNoACResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/WS_GMX" minOccurs="0" name="ObtienePolNoACResult" nillable="true" type="q19:ArrayOfspS_EndososNoAC_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneRepartoFac">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_pv" type="xs:int" />
+        <xs:element minOccurs="0" name="nro_stro" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtieneRepartoFacResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/WS_GMX" minOccurs="0" name="ObtieneRepartoFacResult" nillable="true" type="q20:ArrayOfsp_RepartoReaFac_Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

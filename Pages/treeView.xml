@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tree>
+  <Node Text="Personal Folders" Expanded="True" ImageUrl="~/TreeView/images/Outlook/1PersonalFolders.gif">
+    <Node Text="Deleted Items (6)" ImageUrl="~/TreeView/images/Outlook/2DeletedItems.gif" />
+    <Node Text="Drafts" ImageUrl="~/TreeView/images/Outlook/3Drafts.gif" />
+    <Node Text="Inbox (14)" Expanded="True" ImageUrl="~/TreeView/images/Outlook/4Inbox.gif">
+      <Node Text="Invoices" ImageUrl="~/TreeView/images/Outlook/folder.gif" />
+    </Node>
+    <Node Text="Junk E-mail" ImageUrl="~/TreeView/images/Outlook/folder.gif" />
+    <Node Text="Outbox" ImageUrl="~/TreeView/images/Outlook/outbox.gif" />
+    <Node Text="Sent Items" ImageUrl="~/TreeView/images/Outlook/sent.gif" />
+    <Node Text="Search Folders" ImageUrl="~/TreeView/images/Outlook/searchFolder.gif">
+      <Node Text="Form Follow Up" ImageUrl="~/TreeView/images/Outlook/searchFolder.gif" />
+      <Node Text="Large Mail" ImageUrl="~/TreeView/images/Outlook/searchFolder.gif" />
+      <Node Text="Unread Mail" ImageUrl="~/TreeView/images/Outlook/searchFolder.gif" />
+    </Node>
+  </Node>
+</Tree>

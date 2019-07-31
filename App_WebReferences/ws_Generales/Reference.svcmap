@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="13ec7fc2-6438-4b4c-9068-837c8d080f96" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Generales1.disco" MetadataType="Disco" ID="28411cc7-c4c0-429e-a852-734bc379f184" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?disco" />
+    <MetadataFile FileName="Generales4.xsd" MetadataType="Schema" ID="beb52eb3-f0b0-445e-822b-42bbf615c234" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd2" />
+    <MetadataFile FileName="Generales42.xsd" MetadataType="Schema" ID="1347e9a5-fbd6-448a-befb-eef971d4c697" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd3" />
+    <MetadataFile FileName="Generales43.xsd" MetadataType="Schema" ID="356e62ca-d6ab-48ba-bdac-a1a5935cde63" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd0" />
+    <MetadataFile FileName="Generales44.xsd" MetadataType="Schema" ID="c41718ea-9776-4dc4-9c54-e26c07b0d4aa" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?xsd=xsd1" />
+    <MetadataFile FileName="Generales1.wsdl" MetadataType="Wsdl" ID="ffea6276-f9b6-4d59-ab9c-82d7e36c2681" SourceId="1" SourceUrl="http://internoservicios.gmx.com.mx:88/WS_GMXStros/Generales/Generales.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="RecSiniestros" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://gmxwebservice01/WS_GMX/Reaseguro/Recordatorios/Siniestros/RecSiniestros.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://gmxwebservice01/WS_GMX/Reaseguro/Recordatorios/Siniestros/RecSiniestros.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://gmxwebservice01/WS_GMX/Reaseguro/Recordatorios/Siniestros/RecSiniestros.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://gmxwebservice01/WS_GMX/Reaseguro/Recordatorios/Siniestros/RecSiniestros.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/WS_GMX" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IRecSiniestros_ActualizaFaseRecup_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaFaseRecup" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaFaseRecup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaFaseRecupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaFaseRecup_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaFaseRecup" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaFaseRecup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaFaseRecupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaFaseRecup_InputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaFaseRecup" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaFaseRecup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaFaseRecupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaEstatusStro_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaEstatusStro" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaEstatusStro_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaEstatusStroResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaEstatusStro_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaEstatusStro" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaEstatusStro_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaEstatusStroResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaEstatusStro_InputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaEstatusStro" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaEstatusStro_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaEstatusStroResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaNivel_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaNivel" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaNivel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaNivelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaNivel_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaNivel" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaNivel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaNivelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaNivel_InputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaNivel" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaNivel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaNivelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaAvUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaAvUsuario" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaAvUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaAvUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaAvUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaAvUsuario" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaAvUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaAvUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaAvUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaAvUsuario" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaAvUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaAvUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaJobParam_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaJobParam" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaJobParam_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaJobParamResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaHoraJob_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaHoraJob" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ActualizaHoraJob_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActualizaHoraJobResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ObtieneSiniestros_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneSiniestros" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ObtieneSiniestros_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneSiniestrosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_GuardaAjustes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GuardaAjustes" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_GuardaAjustes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GuardaAjustesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaPolNoAC_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaPolNoAC" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_InsertaPolNoAC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertaPolNoACResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaPolNoAC_InputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaPolNoAC" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_EliminaPolNoAC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EliminaPolNoACResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ObtienePolNoAC_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePolNoAC" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ObtienePolNoAC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtienePolNoACResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ObtieneRepartoFac_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneRepartoFac" />
+  </wsdl:message>
+  <wsdl:message name="IRecSiniestros_ObtieneRepartoFac_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtieneRepartoFacResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IRecSiniestros">
+    <wsdl:operation name="ActualizaFaseRecup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaFaseRecup" message="tns:IRecSiniestros_ActualizaFaseRecup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaFaseRecupResponse" message="tns:IRecSiniestros_ActualizaFaseRecup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaFaseRecup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaFaseRecup" message="tns:IRecSiniestros_InsertaFaseRecup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaFaseRecupResponse" message="tns:IRecSiniestros_InsertaFaseRecup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminaFaseRecup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaFaseRecup" message="tns:IRecSiniestros_EliminaFaseRecup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaFaseRecupResponse" message="tns:IRecSiniestros_EliminaFaseRecup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaEstatusStro">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaEstatusStro" message="tns:IRecSiniestros_InsertaEstatusStro_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaEstatusStroResponse" message="tns:IRecSiniestros_InsertaEstatusStro_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaEstatusStro">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaEstatusStro" message="tns:IRecSiniestros_ActualizaEstatusStro_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaEstatusStroResponse" message="tns:IRecSiniestros_ActualizaEstatusStro_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminaEstatusStro">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaEstatusStro" message="tns:IRecSiniestros_EliminaEstatusStro_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaEstatusStroResponse" message="tns:IRecSiniestros_EliminaEstatusStro_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaNivel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaNivel" message="tns:IRecSiniestros_InsertaNivel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaNivelResponse" message="tns:IRecSiniestros_InsertaNivel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaNivel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaNivel" message="tns:IRecSiniestros_ActualizaNivel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaNivelResponse" message="tns:IRecSiniestros_ActualizaNivel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminaNivel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaNivel" message="tns:IRecSiniestros_EliminaNivel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaNivelResponse" message="tns:IRecSiniestros_EliminaNivel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaAvUsuario">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaAvUsuario" message="tns:IRecSiniestros_InsertaAvUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaAvUsuarioResponse" message="tns:IRecSiniestros_InsertaAvUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaAvUsuario">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaAvUsuario" message="tns:IRecSiniestros_ActualizaAvUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaAvUsuarioResponse" message="tns:IRecSiniestros_ActualizaAvUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminaAvUsuario">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaAvUsuario" message="tns:IRecSiniestros_EliminaAvUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaAvUsuarioResponse" message="tns:IRecSiniestros_EliminaAvUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaJobParam">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaJobParam" message="tns:IRecSiniestros_ActualizaJobParam_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaJobParamResponse" message="tns:IRecSiniestros_ActualizaJobParam_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaHoraJob">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaHoraJob" message="tns:IRecSiniestros_ActualizaHoraJob_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ActualizaHoraJobResponse" message="tns:IRecSiniestros_ActualizaHoraJob_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSiniestros">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ObtieneSiniestros" message="tns:IRecSiniestros_ObtieneSiniestros_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ObtieneSiniestrosResponse" message="tns:IRecSiniestros_ObtieneSiniestros_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GuardaAjustes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/GuardaAjustes" message="tns:IRecSiniestros_GuardaAjustes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/GuardaAjustesResponse" message="tns:IRecSiniestros_GuardaAjustes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaPolNoAC">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaPolNoAC" message="tns:IRecSiniestros_InsertaPolNoAC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/InsertaPolNoACResponse" message="tns:IRecSiniestros_InsertaPolNoAC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminaPolNoAC">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaPolNoAC" message="tns:IRecSiniestros_EliminaPolNoAC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/EliminaPolNoACResponse" message="tns:IRecSiniestros_EliminaPolNoAC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePolNoAC">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ObtienePolNoAC" message="tns:IRecSiniestros_ObtienePolNoAC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ObtienePolNoACResponse" message="tns:IRecSiniestros_ObtienePolNoAC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneRepartoFac">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRecSiniestros/ObtieneRepartoFac" message="tns:IRecSiniestros_ObtieneRepartoFac_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRecSiniestros/ObtieneRepartoFacResponse" message="tns:IRecSiniestros_ObtieneRepartoFac_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IRecSiniestros" type="tns:IRecSiniestros">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ActualizaFaseRecup">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ActualizaFaseRecup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaFaseRecup">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/InsertaFaseRecup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminaFaseRecup">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/EliminaFaseRecup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaEstatusStro">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/InsertaEstatusStro" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaEstatusStro">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ActualizaEstatusStro" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminaEstatusStro">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/EliminaEstatusStro" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaNivel">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/InsertaNivel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaNivel">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ActualizaNivel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminaNivel">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/EliminaNivel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaAvUsuario">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/InsertaAvUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaAvUsuario">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ActualizaAvUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminaAvUsuario">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/EliminaAvUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaJobParam">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ActualizaJobParam" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaHoraJob">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ActualizaHoraJob" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSiniestros">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ObtieneSiniestros" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GuardaAjustes">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/GuardaAjustes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaPolNoAC">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/InsertaPolNoAC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminaPolNoAC">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/EliminaPolNoAC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtienePolNoAC">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ObtienePolNoAC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneRepartoFac">
+      <soap:operation soapAction="http://tempuri.org/IRecSiniestros/ObtieneRepartoFac" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RecSiniestros">
+    <wsdl:port name="BasicHttpBinding_IRecSiniestros" binding="tns:BasicHttpBinding_IRecSiniestros">
+      <soap:address location="http://gmxwebservice01/WS_GMX/Reaseguro/Recordatorios/Siniestros/RecSiniestros.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

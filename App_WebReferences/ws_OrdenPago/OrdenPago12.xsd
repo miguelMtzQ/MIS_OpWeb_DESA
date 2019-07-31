@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WS_GMX" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WS_GMX" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfspS_OrdenPago_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="spS_OrdenPago_Result" nillable="true" type="tns:spS_OrdenPago_Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfspS_OrdenPago_Result" nillable="true" type="tns:ArrayOfspS_OrdenPago_Result" />
+  <xs:complexType name="spS_OrdenPago_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Abona" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Asegurado" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Baja" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Banco" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Cheque" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contabilidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Impuesto" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Moneda" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Monto" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OrigenPago" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ramos" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SigMon" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Solicitante" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Solicitud" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SucEmision" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SucPago" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tesoreria" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Texto" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_abona" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_abona_vrs" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_agente" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_aseg" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_banco_transferencia" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_cobrador" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_concepto_anulacion" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_estatus_op" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_moneda" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_origen_pago" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_sector" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_status_transferencia" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_suc" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_suc_pago" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_tipo_agente" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_tipo_doc" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_usuario_contabilidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_usuario_director" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_usuario_director_gral" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_usuario_jefe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_usuario_rechazo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_usuario_solicita" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_usuario_subdirector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_usuario_tesoreria" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="estatus" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_autoriz_cobranzas" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_autoriz_contab" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_autoriz_sector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_baja" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_estim_pago" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_contabilidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_director" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_director_gral" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_jefe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_rechazo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_solicita" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_subdirector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_firma_tesoreria" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_generacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fec_pago" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="firma_contabilidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="firma_director" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="firma_director_gral" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="firma_jefe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="firma_solicita" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="firma_subdirector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="firma_tesoreria" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id_cuenta_bancaria" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="id_imputacion" type="xs:int" />
+      <xs:element minOccurs="0" name="id_persona" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="id_pv" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="imp_cambio" type="xs:decimal" />
+      <xs:element minOccurs="0" name="mail_contabilidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mail_director" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mail_director_gral" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mail_jefe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mail_solicita" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mail_subdirector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mail_tesoreria" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="motivo_rechazo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nro_ch" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="nro_cuenta_transferencia" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nro_doc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nro_nit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nro_op" type="xs:int" />
+      <xs:element minOccurs="0" name="nro_recibo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="sn_autoriza_director" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_contabilidad" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_contabilidad_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_devolucion" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="sn_director" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_director_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_director_gral" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_director_gral_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_financiado" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_contabilidad" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_director" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_director_gral" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_jefe" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_rechazo" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_solicita" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_subdirector" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_firma_tesoreria" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_impresion" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_jefe_inmediato" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_jefe_inmediato_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_manual" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_ocultar" type="xs:int" />
+      <xs:element minOccurs="0" name="sn_rechazo" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_rechazo_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_rol_contabilidad" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_rol_director" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_rol_director_gral" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_rol_jefe" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_rol_rechazo" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_rol_solicita" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_rol_subdirector" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_rol_tesoreria" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sn_solicita" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_solicita_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_subdirector" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_subdirector_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_tesoreria" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_tesoreria_aux" type="xs:decimal" />
+      <xs:element minOccurs="0" name="sn_transferencia" type="xs:decimal" />
+      <xs:element minOccurs="0" name="tSEl_Val" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="txt_cheque_a_nom" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="txt_nombre_autoriz_contab" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="txt_nombre_autoriz_sector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="txt_nombre_baja" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="txt_nombre_modifica" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="txt_otros" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id_contabilidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id_director" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id_director_gral" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id_jefe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id_solicita" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id_subdirector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id_tesoreria" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario_contabilidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario_director" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario_director_gral" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario_jefe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario_solicita" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario_subdirector" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario_tesoreria" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="spS_OrdenPago_Result" nillable="true" type="tns:spS_OrdenPago_Result" />
+  <xs:complexType name="ArrayOfspS_ContabilidadOP_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="spS_ContabilidadOP_Result" nillable="true" type="tns:spS_ContabilidadOP_Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfspS_ContabilidadOP_Result" nillable="true" type="tns:ArrayOfspS_ContabilidadOP_Result" />
+  <xs:complexType name="spS_ContabilidadOP_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Poliza" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="aaaa_ejercicio_stro" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="aaaamm_movimiento" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="broker" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_broker" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_cia" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_class_peril" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_cpto_com" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_cpto_pri" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_deb_cred_com" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_deb_cred_pri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cod_major" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_minor" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_profit_center" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_ramo_contable" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="cod_subprofit_center" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="cod_suc_stro" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="comision" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="comisiones" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="compañia" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="fecha_fac" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="id_contrato" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id_imputacion" type="xs:int" />
+      <xs:element minOccurs="0" name="id_pv" type="xs:int" />
+      <xs:element minOccurs="0" name="monto_isr" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="monto_isr_dev" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="nro_cuota" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="nro_layer" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="nro_reas" type="xs:int" />
+      <xs:element minOccurs="0" name="nro_stro" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="nro_tramo" type="xs:decimal" />
+      <xs:element minOccurs="0" name="pje_com" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="pje_isr" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="pje_pri" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="prima" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="prima_cedida" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="prima_neta" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ramo_contable" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sn_ogis" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="txt_clave" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="txt_clave_isr" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="spS_ContabilidadOP_Result" nillable="true" type="tns:spS_ContabilidadOP_Result" />
+</xs:schema>
