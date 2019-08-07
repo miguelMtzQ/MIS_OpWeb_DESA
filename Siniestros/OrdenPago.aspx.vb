@@ -99,9 +99,11 @@ Partial Class Siniestros_OrdenPago
         If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
             Onbase.Style("display") = ""
             pnlProveedor.Style("display") = ""
+            cmbOrigenOP.Enabled = False
         Else
             Onbase.Style("display") = "" 'FFUENTES
             pnlProveedor.Style("display") = "none"
+            cmbOrigenOP.Enabled = True
         End If
 
     End Sub
