@@ -197,21 +197,21 @@
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Moneda") %>' CssClass="estandar-control"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Clase de pago">
-                                                <ItemTemplate>
-                                                    <asp:DropDownList AutoPostBack="True" runat="server" ClientIDMode="Static" CssClass="estandar-control clase_pago" OnSelectedIndexChanged="cmb_SelectedIndexChanged">
-                                                    </asp:DropDownList>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Concepto de pago">
                                                 <ItemTemplate>
                                                     <asp:DropDownList AutoPostBack="True" runat="server" ClientIDMode="Static" CssClass="estandar-control concepto_pago" OnSelectedIndexChanged="cmb_SelectedIndexChanged">
                                                     </asp:DropDownList>
                                                 </ItemTemplate>
-                                            </asp:TemplateField>                                                                                        
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Clase de pago">
+                                                <ItemTemplate>
+                                                    <asp:DropDownList AutoPostBack="True" runat="server" Enabled="false" ClientIDMode="Static" CssClass="estandar-control clase_pago">
+                                                    </asp:DropDownList>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>                                                                                                                                    
                                             <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Pago">
                                                 <ItemTemplate>
-                                                    <asp:TextBox AutoPostBack="True" OnTextChanged="grid_TextChanged" runat="server" Text='<%# Eval("Pago") %>' CssClass="estandar-control pago" autocomplete="off" placeholder="0.00"></asp:TextBox>
+                                                    <asp:TextBox AutoPostBack="True" OnSelectedIndexChanged="cmb_SelectedIndexChanged" OnTextChanged="grid_TextChanged" runat="server" Text='<%# Eval("Pago") %>' CssClass="estandar-control pago" autocomplete="off" placeholder="0.00"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Deducibles">
@@ -290,7 +290,7 @@
                     <div class="row">
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Origen</asp:Label>
-                            <asp:DropDownList ID="cmbOrigenOP" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero"></asp:DropDownList>
+                            <asp:DropDownList ID="cmbOrigenOP" runat="server" ClientIDMode="Static" Enabled="false" ReadOnly="true" CssClass="estandar-control Tablero"></asp:DropDownList>
                         </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Tipo de pago</asp:Label>
@@ -316,8 +316,14 @@
                                         <img class="btn-guardar"/> GENERAR OP
                                     </span>
                                 </asp:LinkButton>
-                            </div>
-                    
+                     </div>
+                    <div style="width:100%; text-align: right">
+                                <asp:LinkButton ID="btnLimpiar" runat="server" class="btn btn-primary btn-sm" style="background-color: #006AA9;">
+                                    <span>
+                                        <img class="btn-limpiar"/> LIMPIAR
+                                    </span>
+                                </asp:LinkButton>
+                     </div>
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
