@@ -2,7 +2,7 @@
 <%@ MasterType VirtualPath="~/Pages/SiteMaster.master" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cph_principal" runat="Server">
-    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|0" />
+    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|1|0" />
     <script src="../Scripts/Siniestros/OrdenPago.js"></script>
     <style>
         .table>tbody>tr>td{
@@ -147,10 +147,7 @@
                             <%--<asp:TextBox ID="txtFechaContable" OnTextChanged="txt_TextChanged" runat="server" CssClass="estandar-control fechaContable Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>--%>
                             <asp:TextBox ID="txtFechaContable" runat="server" CssClass="estandar-control fechaContable Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>
                         </div>
-                        <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Origen de pago</asp:Label>
-                            <asp:DropDownList ID="cmbOrigendePago" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero"></asp:DropDownList>
-                        </div>
+                        
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Total</asp:Label>
                             <asp:TextBox ID="txtimporte" runat="server" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txtimporte_TextChanged" ReadOnly="false" placeholder="Importe"></asp:TextBox>
@@ -372,7 +369,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        
+                        <div class="form-group col-md-2">
+                            <asp:Label runat="server" class="etiqueta-control">Origen de pago</asp:Label>
+                            <asp:DropDownList ID="cmbOrigendePago" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero"></asp:DropDownList>
+                        </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Tipo de pago</asp:Label>
                             <asp:DropDownList Autopostback="true" ID="cmbTipoPagoOP" runat="server" ClientIDMode="Static" CssClass="estandar-control tipo_pago_OP Tablero" OnSelectedIndexChanged="cmb_SelectedIndexChanged">
@@ -398,6 +398,13 @@
                                     </span>
                                 </asp:LinkButton>
                             </div>
+                    <div style="width:100%; text-align: right">
+                                <asp:LinkButton ID="btnLimpiar" runat="server" class="btn btn-primary btn-sm" style="background-color: #006AA9;">
+                                    <span>
+                                        <img class="btn-limpiar"/> LIMPIAR
+                                    </span>
+                                </asp:LinkButton>
+                     </div>
                     
                 </div>
             </ContentTemplate>

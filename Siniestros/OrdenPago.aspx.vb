@@ -100,11 +100,19 @@ Partial Class Siniestros_OrdenPago
             Onbase.Style("display") = ""
             pnlProveedor.Style("display") = ""
             cmbOrigenOP.Enabled = False
+            cmbTipoPagoOP.Enabled = False
+            txtRFC.Enabled = False
         Else
             Onbase.Style("display") = "" 'FFUENTES
             pnlProveedor.Style("display") = "none"
-            cmbOrigenOP.Enabled = True
+            cmbOrigenOP.Enabled = False
+            cmbTipoPagoOP.Enabled = True
+            txtRFC.Enabled = False
+            If cmbTipoUsuario.SelectedValue = eTipoUsuario.Tercero Then
+                txtRFC.Enabled = True
+            End If
         End If
+
 
     End Sub
     Public Sub EliminarFila(Elimi As Int16)
@@ -283,55 +291,60 @@ Partial Class Siniestros_OrdenPago
 
                 Case "clase_pago"
 
-                    If cmb.SelectedValue = "26" Then
-                        If Not SiniestroAbierto(CLng(oGrdOrden.Rows(iFila)("Siniestro")), CInt(oGrdOrden.Rows(iFila)("Subsiniestro"))) Then
-                            Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("EL SINIESTRO {0} - {1} ESTA CERRADO O CANCELADO. SE TOMARA LA SIGUIENTE CLASE DE PAGO DISPONIBLE", oGrdOrden.Rows(iFila)("Siniestro"), oGrdOrden.Rows(iFila)("Subsiniestro")), TipoMsg.Advertencia)
-                            oGrdOrden.Rows(iFila)("ClasePago") = oClavesPago.Rows(1).Item(0)
-                            cmb.SelectedValue = oClavesPago.Rows(1).Item(0)
-                        End If
-                        cmbOrigenOP.SelectedValue = 5
-                    End If
-                    If cmb.SelectedValue = "27" Then
-                        oGrdOrden.Rows(iFila)("ConceptoPago") = IIf(oGrdOrden.Rows(iFila)("ClasePago") = "27", "350", String.Empty)
-                        cmbOrigenOP.SelectedValue = 6
-                    End If
-                    oGrdOrden.Rows(iFila)("ClasePago") = cmb.SelectedValue
+                    'If cmb.SelectedValue = "26" Then
+                    '    If Not SiniestroAbierto(CLng(oGrdOrden.Rows(iFila)("Siniestro")), CInt(oGrdOrden.Rows(iFila)("Subsiniestro"))) Then
+                    '        Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("EL SINIESTRO {0} - {1} ESTA CERRADO O CANCELADO. SE TOMARA LA SIGUIENTE CLASE DE PAGO DISPONIBLE", oGrdOrden.Rows(iFila)("Siniestro"), oGrdOrden.Rows(iFila)("Subsiniestro")), TipoMsg.Advertencia)
+                    '        oGrdOrden.Rows(iFila)("ClasePago") = oClavesPago.Rows(1).Item(0)
+                    '        cmb.SelectedValue = oClavesPago.Rows(1).Item(0)
+                    '    End If
+                    '    cmbOrigenOP.SelectedValue = 5
+                    'End If
+                    'If cmb.SelectedValue = "27" Then
+                    '    oGrdOrden.Rows(iFila)("ConceptoPago") = IIf(oGrdOrden.Rows(iFila)("ClasePago") = "27", "350", String.Empty)
+                    '    cmbOrigenOP.SelectedValue = 6
+                    'End If
+                    'oGrdOrden.Rows(iFila)("ClasePago") = cmb.SelectedValue
 
-                    'Selección automática en INDEMINIZACIONES
-                    oGrdOrden.Rows(iFila)("ConceptoPago") = IIf(oGrdOrden.Rows(iFila)("ClasePago") = "26", "350", String.Empty)
+                    ''Selección automática en INDEMINIZACIONES
+                    'oGrdOrden.Rows(iFila)("ConceptoPago") = IIf(oGrdOrden.Rows(iFila)("ClasePago") = "26", "350", String.Empty)
 
-                    CargarConceptosPagodefault(row, iFila, cmb.SelectedValue)
+                    'CargarConceptosPagodefault(row, iFila, cmb.SelectedValue, "0")
 
-                    'En caso de que el siniestro haya sido cancelado y se haya asignado la clase de pago
-                    'de honorarios o gastos de siniestros se seleccionara el tipo de pago como final,
-                    'de lo contrario se habilitara para poder cambiar el tipo de pago
-                    If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor AndAlso
-                            (oGrdOrden.Rows(iFila)("ClasePago") = "27" OrElse oGrdOrden.Rows(iFila)("ClasePago") = "28") Then
+                    ''En caso de que el siniestro haya sido cancelado y se haya asignado la clase de pago
+                    ''de honorarios o gastos de siniestros se seleccionara el tipo de pago como final,
+                    ''de lo contrario se habilitara para poder cambiar el tipo de pago
+                    'If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor AndAlso
+                    '        (oGrdOrden.Rows(iFila)("ClasePago") = "27" OrElse oGrdOrden.Rows(iFila)("ClasePago") = "28") Then
 
-                        cmb = New DropDownList
-                        cmb = BuscarControlPorClase(row, "estandar-control tipo_pago")
+                    '    cmb = New DropDownList
+                    '    cmb = BuscarControlPorClase(row, "estandar-control tipo_pago")
 
-                        If Not cmb Is Nothing Then
-                            cmb.SelectedValue = "F"
-                            cmb.Enabled = False
-                        End If
+                    '    If Not cmb Is Nothing Then
+                    '        cmb.SelectedValue = "F"
+                    '        cmb.Enabled = False
+                    '    End If
 
-                        oGrdOrden.Rows(iFila)("TipoPago") = 2
+                    '    oGrdOrden.Rows(iFila)("TipoPago") = 2
 
-                    Else
+                    'Else
 
-                        cmb = New DropDownList
-                        cmb = BuscarControlPorClase(row, "estandar-control tipo_pago")
+                    '    cmb = New DropDownList
+                    '    cmb = BuscarControlPorClase(row, "estandar-control tipo_pago")
 
-                        If Not cmb Is Nothing Then
-                            cmb.Enabled = True
-                        End If
+                    '    If Not cmb Is Nothing Then
+                    '        cmb.Enabled = True
+                    '    End If
 
-                    End If
+                    'End If
 
-                    CalcularTotales()
+                    'CalcularTotales()
 
                 Case "concepto_pago"
+
+                    Dim cmbClasePago As DropDownList
+                    cmbClasePago = New DropDownList
+
+
                     If cmb.SelectedValue = 350 Or cmb.SelectedValue = 365 Then
                         If Not SiniestroAbierto(CLng(oGrdOrden.Rows(iFila)("Siniestro")), CInt(oGrdOrden.Rows(iFila)("Subsiniestro"))) Then
                             Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("EL SINIESTRO {0} - {1} ESTA CERRADO O CANCELADO. SE TOMARA LA SIGUIENTE CLASE DE PAGO DISPONIBLE", oGrdOrden.Rows(iFila)("Siniestro"), oGrdOrden.Rows(iFila)("Subsiniestro")), TipoMsg.Advertencia)
@@ -341,9 +354,22 @@ Partial Class Siniestros_OrdenPago
                         End If
                     End If
                     CargarClasePago(row, iFila, txtCodigoBeneficiario_stro.Text, cmb.SelectedValue)
+                    cmbClasePago = BuscarControlPorClase(row, "estandar-control clase_pago")
                     cmbOrigenOP.SelectedValue = 6
-                    If (cmb.SelectedValue = 905) Then
+                    If (cmb.SelectedValue <> 350 Or cmb.SelectedValue <> 1260) Then
+                        oGrdOrden.Rows(iFila)("ConceptoPago") = cmb.SelectedValue
+                        oGrdOrden.Rows(iFila)("ClasePago") = cmbClasePago.SelectedValue
+                        If cmbClasePago.SelectedValue = 26 Or cmbClasePago.SelectedValue = 75 Then
+                            cmbOrigenOP.SelectedValue = 5
+                        Else
+                            cmbOrigenOP.SelectedValue = 6
+                        End If
                         CalcularTotales()
+                    End If
+                    If cmbClasePago.SelectedValue = 26 Or cmbClasePago.SelectedValue = 75 Then
+                        cmbOrigenOP.SelectedValue = 5
+                    Else
+                        cmbOrigenOP.SelectedValue = 6
                     End If
                 Case "tipo_pago"
                     oGrdOrden.Rows(iFila)("TipoPago") = IIf(cmb.SelectedValue = "P", 1, 2)
@@ -384,30 +410,46 @@ Partial Class Siniestros_OrdenPago
                 oSelector.DataValueField = "cod_clase_pago"
                 oSelector.DataBind()
 
+                Dim cerrado_open_stro As Int16 = 0
 
-                CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"))
 
                 If oGrdOrden.Rows(iIndex)("ClasePago") = "26" Then
                     If Not SiniestroAbierto(CLng(Me.txtSiniestro.Text.Trim), CInt(Me.cmbSubsiniestro.SelectedValue)) Then
                         If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
                             Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("EL SINIESTRO {0} - {1} ESTA CERRADO O CANCELADO. SE TOMARA LA SIGUIENTE OPCION DE CLASE DE PAGO ", Me.txtSiniestro.Text.Trim, Me.cmbSubsiniestro.SelectedItem.Text), TipoMsg.Advertencia)
-                            oGrdOrden.Rows(iIndex)("ClasePago") = oClavesPago.Rows(1).Item(0)
+                            oGrdOrden.Rows(iIndex)("ClasePago") = "27"
                             cmbOrigenOP.SelectedValue = 6
+                            cerrado_open_stro = 1
                         Else
                             Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("EL SINIESTRO {0} - {1} ESTA CERRADO O CANCELADO. NO SE PUEDE REALIZAR UN PAGO", Me.txtSiniestro.Text.Trim, Me.cmbSubsiniestro.SelectedItem.Text), TipoMsg.Advertencia)
                             oSelectorcpto.Items.Clear()
                             oSelector.Items.Clear()
                             cmbOrigenOP.Items.Clear()
+                            cerrado_open_stro = 1
                         End If
                     End If
                 End If
 
-                oSelector.Items.FindByValue(oGrdOrden.Rows(iIndex)("ClasePago")).Selected = True
+                'oSelector.Items.FindByValue(oGrdOrden.Rows(iIndex)("ClasePago")).Selected = True
 
                 'Concepto de pago
                 If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
-                    CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"))
+                    CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"), cerrado_open_stro)
+                    oGrdOrden.Rows(iIndex)("ClasePago") = oSelector.SelectedValue
+                    oGrdOrden.Rows(iIndex)("ConceptoPago") = oSelectorcpto.SelectedValue
+                    'Dim clase_pago_default As Int16 = oSelector.SelectedValue
+                    'Dim cpto_default As Int16 = oSelectorcpto.SelectedValue
+                Else
+                    If cerrado_open_stro = 0 Then
+                        CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"), cerrado_open_stro)
+                        oGrdOrden.Rows(iIndex)("ClasePago") = oSelector.SelectedValue
+                        oGrdOrden.Rows(iIndex)("ConceptoPago") = oSelectorcpto.SelectedValue
+                    Else
+                        oGrdOrden.Rows(iIndex)("ClasePago") = ""
+                        oGrdOrden.Rows(iIndex)("ConceptoPago") = ""
+                    End If
                 End If
+
 
                 'En caso de que el siniestro haya sido cancelado y se haya asignado la clase de pago
                 'de honorarios o gastos de siniestros se seleccionara el tipo de pago como final,
@@ -482,12 +524,14 @@ Partial Class Siniestros_OrdenPago
 
                 Case "onbase"
 
-                    Dim chkdelete As CheckBox
-                    For Each row In grd.Rows
-                        chkdelete = BuscarControlPorID(row, "eliminar")
-                        chkdelete.Checked = True
-                    Next
-                    EliminarFila(1)
+                    If chkVariasFacturas.Checked = False Then
+                        Dim chkdelete As CheckBox
+                        For Each row In grd.Rows
+                            chkdelete = BuscarControlPorID(row, "eliminar")
+                            chkdelete.Checked = True
+                        Next
+                        EliminarFila(1)
+                    End If
 
                     Select Case Me.cmbTipoUsuario.SelectedValue
 
@@ -519,6 +563,11 @@ Partial Class Siniestros_OrdenPago
 
                                         Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", IIf(.Item("cod_moneda") = 0, "1.00", ObtenerTipoCambio.ToString()))
 
+                                        'Mostrar los importes de la factura de conta electronica
+                                        Me.txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_subtotal"), 2))
+                                        Me.txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_impuestos"), 2))
+                                        Me.txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_retencion"), 2))
+                                        Me.txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_total"), 2))
                                         'Si la moneda de la factura es nacional y la de la póliza es extranjera
                                         'se asignara el tipo de cambio como nacional, por lo tanto solo se podrá pagar en 
                                         'moneda nacional.
@@ -529,6 +578,10 @@ Partial Class Siniestros_OrdenPago
                                         End If
                                         If .Item("sn_transferencia") = -1 Then
                                             Me.cmbTipoPagoOP.SelectedValue = "T"
+                                        Else
+                                            If .Item("sn_transferencia") = 0 Then
+                                                Me.cmbTipoPagoOP.SelectedValue = "C"
+                                            End If
                                         End If
                                     End If
                                 End With
@@ -565,19 +618,35 @@ Partial Class Siniestros_OrdenPago
                                 pnlProveedor.Style("display") = ""
 
                             Else
+                                If Not oDatos Is Nothing AndAlso oDatos.Tables(4).Rows.Count > 0 Then
+                                    'FFUENTES Esto es en caso de que no traiga nada la consulta con todas las tablas esta solo es la tabla de factura_conta_electronica 
+                                    oSeleccionActual = oDatos.Tables(4)
+                                    With oDatos.Tables(4).Rows(0)
+                                        If (oDatos.Tables(4).Rows(0).Item("sn_relacionado") = "-1") Then
+                                            Mensaje.MuestraMensaje("Folio OnBase Relacionado", "Fecha Relacionado: " + oDatos.Tables(4).Rows(0).Item("fecha_relacion").ToString() + " Usuario relacion: " + oDatos.Tables(4).Rows(0).Item("cod_usuario_relacion").ToString() + " Fecha de Comprobante: " + oDatos.Tables(4).Rows(0).Item("fecha_emision_gmx").ToString(), TipoMsg.Falla)
+                                        Else
+                                            Mensaje.MuestraMensaje("Folio Onbase con datos erroneos:", "Folio Onbase: " + oDatos.Tables(4).Rows(0).Item("num_folio").ToString() + " Numero Siniestro: " + oDatos.Tables(4).Rows(0).Item("num_siniestro").ToString() + " RFC Proveedor: " + oDatos.Tables(4).Rows(0).Item("RFC_proveedor").ToString(), TipoMsg.Falla)
 
-                                oSeleccionActual = Nothing
-
-                                Me.txtOnBase.Text = String.Empty
-                                Me.txtSiniestro.Text = String.Empty
-                                Me.txtRFC.Text = String.Empty
-                                Me.txtPoliza.Text = String.Empty
-                                Me.txtMonedaPoliza.Text = String.Empty
-
+                                            'Me.txtPoliza.Text = .Item("poliza")
+                                            'Me.txtMonedaPoliza.Text = .Item("txt_desc")
+                                            'Me.txtNumeroComprobante.Text = .Item("folio_GMX")
+                                            'Me.txtFechaComprobante.Text = .Item("fecha_emision_gmx")
+                                            EliminarFila(1)
+                                            'Me.txtBeneficiario.Text = .Item("Proveedor")
+                                            'Me.txtBeneficiario_stro.Text = .Item("Proveedor")
+                                            'Me.txtCodigoBeneficiario_stro.Text = .Item("cod_pres")
+                                        End If
+                                    End With
+                                Else
+                                    oSeleccionActual = Nothing
+                                    Me.txtOnBase.Text = String.Empty
+                                    Me.txtSiniestro.Text = String.Empty
+                                    Me.txtRFC.Text = String.Empty
+                                    Me.txtPoliza.Text = String.Empty
+                                    Me.txtMonedaPoliza.Text = String.Empty
+                                End If
                             End If
-
                         Case Else
-
                     End Select
 
                 Case "siniestro"
@@ -675,6 +744,10 @@ Partial Class Siniestros_OrdenPago
                         Mensaje.MuestraMensaje("OrdenPagoSiniestros", "No Puede ingresar una fecha menor al dia de hoy", TipoMsg.Advertencia)
                         Me.txtFechaEstimadaPago.Text = DateTime.Now.ToString("dd/MM/yyyy")
                     End If
+                Case "RFC"
+                    ObtenerRFC("0", "2", txtRFC.Text)
+                Case "Nombre"
+                    ObtenerRFC("0", "2", txtRFC.Text)
             End Select
 
 
@@ -743,6 +816,9 @@ Partial Class Siniestros_OrdenPago
                     Else
                         oTxt.Text = IIf(IsDBNull(oGrdOrden.Rows(iIndiceFila)("Pago")), "", oGrdOrden.Rows(iIndiceFila)("Pago"))
                     End If
+                Case "descuentos"
+
+
 
                 Case "deducibles"
 
@@ -754,7 +830,6 @@ Partial Class Siniestros_OrdenPago
 
                 Case Else
                     Return
-
             End Select
 
         Catch ex As Exception
@@ -783,7 +858,7 @@ Partial Class Siniestros_OrdenPago
             End If
 
             If cmbTipoUsuario.SelectedValue = eTipoUsuario.Tercero Then
-                If Not ObtenerRFC(Me.txtCodigoBeneficiario_stro.Text) Then
+                If Not ObtenerRFC(Me.txtCodigoBeneficiario_stro.Text, "1", "0") Then
                     Mensaje.MuestraMensaje("OrdenPagoSiniestros", "RFC Inexistente", TipoMsg.Advertencia)
                     Return
                 End If
@@ -830,10 +905,12 @@ Partial Class Siniestros_OrdenPago
 
                         oRegistro = oGrdOrden.AsEnumerable().[Select](Function(x) New With {
                                     Key .Siniestro = x.Field(Of String)("Siniestro"),
+                                    Key .RFC = x.Field(Of String)("RFC"),
                                     Key .Subsiniestro = x.Field(Of String)("Subsiniestro"),
                                     Key .Poliza = x.Field(Of String)("Poliza"),
                                     Key .Factura = x.Field(Of String)("Factura")
                           }).Where(Function(s) s.Siniestro = txtSiniestro.Text.Trim() AndAlso
+                                               s.RFC = txtRFC.Text.Trim() AndAlso
                                                s.Subsiniestro = cmbSubsiniestro.SelectedValue.ToString() AndAlso
                                                s.Factura = txtNumeroComprobante.Text.Trim()
                         ).FirstOrDefault()
@@ -849,10 +926,14 @@ Partial Class Siniestros_OrdenPago
                         If Not cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
                             oFilaSeleccion = oGrdOrden.Select(String.Format("Poliza = '{0}'", txtPoliza.Text))
                         Else
-                            oFilaSeleccion = oGrdOrden.Select(String.Format("Poliza = '{0}' AND Factura = '{1}'", txtPoliza.Text, txtNumeroComprobante.Text))
+                            'se comenta esta linea para realizar bien la validacion de un multipago
+                            'oFilaSeleccion = oGrdOrden.Select(String.Format("Poliza = '{0}' AND Factura = '{1}'", txtPoliza.Text, txtNumeroComprobante.Text))
+                            oFilaSeleccion = oGrdOrden.Select(String.Format("RFC = '{0}'", txtRFC.Text))
                         End If
 
                         If oFilaSeleccion.Length = 0 Then
+                            Limpiartodo()
+                            Mensaje.MuestraMensaje("OrdenPagoSiniestros", "El RFC debe ser igual para un multipago", TipoMsg.Falla)
                             Return
                         End If
 
@@ -875,7 +956,9 @@ Partial Class Siniestros_OrdenPago
 
                         oFila = oTabla.NewRow()
 
+
                         oFila("Siniestro") = txtSiniestro.Text.Trim()
+                        oFila("RFC") = txtRFC.Text.Trim()
                         oFila("Subsiniestro") = cmbSubsiniestro.SelectedValue.ToString()
                         oFila("Moneda") = txtMonedaPoliza.Text
                         'SE VA AGREGAR EL METODO PARA CARGAR LOS CONCEPTOS POR DEFAULT FFUENTES
@@ -883,6 +966,7 @@ Partial Class Siniestros_OrdenPago
                         oFila("ConceptoPago") = "350"
                         oFila("Poliza") = txtPoliza.Text.Trim()
                         oFila("TipoMoneda") = oFilaSeleccion(0).Item("Moneda_poliza")
+                        oFila("Descuentos") = 0
                         oFila("Deducible") = 0
 
                         oFila("IdSiniestro") = oFilaSeleccion(0).Item("id_stro")
@@ -963,9 +1047,11 @@ Partial Class Siniestros_OrdenPago
                             End If
 
                         Next
-
-                        txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc"))
-
+                        'aqui carga el numero siniestro mas la clase de pago
+                        'If oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc").ToString() <> " " Then
+                        '    txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc"))
+                        'End If
+                        txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim.ToString(), oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc").ToString())
                         If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
                             CalcularTotales()
                         End If
@@ -1034,6 +1120,7 @@ Partial Class Siniestros_OrdenPago
 
                 oParametros.Add("Codigo", CInt(oGrdOrden.Rows(0).Item("IdPersona")))
 
+
                 oDatos = Funciones.ObtenerDatos("usp_CargarDatosBancariosBeneficiario_stro", oParametros)
 
                 If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
@@ -1045,6 +1132,20 @@ Partial Class Siniestros_OrdenPago
                         oTipoCuentaT_stro.Value = .Item("TipoCuenta")
                         oCuentaBancariaT_stro.Value = .Item("NumeroCuenta")
                         oBeneficiarioT_stro.Value = .Item("Beneficiario")
+
+                        oSucursalT_stro.Value = "CIUDAD DE MEXICO"
+                        oBeneficiarioT_stro.Value = IIf(oBeneficiarioT_stro.Value = String.Empty, Me.txtBeneficiario.Text.Trim, oBeneficiarioT_stro.Value)
+                        oBeneficiarioT_stro.Value = Me.txtBeneficiario.Text.Trim
+
+                        oParametros.Add("Banco", oBancoT_stro.Value)
+                        oParametros.Add("Sucursal", oSucursalT_stro.Value)
+                        oParametros.Add("Beneficiario", oBeneficiarioT_stro.Value)
+                        oParametros.Add("Moneda", cmbMonedaPago.SelectedValue)
+                        'oParametros.Add("Moneda", oMonedaT_stro.Value)
+                        oParametros.Add("TipoCuenta", oTipoCuentaT_stro.Value)
+                        oParametros.Add("CuentaBancaria", oCuentaBancariaT_stro.Value)
+                        oParametros.Add("Plaza", oPlazaT_stro.Value)
+                        oParametros.Add("ABA", oAbaT_stro.Value)
 
                         bTieneDatosBancarios = True
 
@@ -1059,21 +1160,38 @@ Partial Class Siniestros_OrdenPago
                         Return
                     End If
 
+                    oSucursalT_stro.Value = "CIUDAD DE MEXICO"
+                    'oBeneficiarioT_stro.Value = IIf(oBeneficiarioT_stro.Value = String.Empty, Me.txtBeneficiario.Text.Trim, oBeneficiarioT_stro.Value)
+                    oBeneficiarioT_stro.Value = Me.txtBeneficiario.Text.Trim
+                    oBancoT_stro.Value = ""
+
+                    oParametros.Add("Banco", oBancoT_stro.Value)
+                    oParametros.Add("Sucursal", oSucursalT_stro.Value)
+                    oParametros.Add("Beneficiario", oBeneficiarioT_stro.Value)
+                    oParametros.Add("Moneda", cmbMonedaPago.SelectedValue)
+                    'oParametros.Add("Moneda", oMonedaT_stro.Value)
+                    oParametros.Add("TipoCuenta", oTipoCuentaT_stro.Value)
+                    oParametros.Add("CuentaBancaria", oCuentaBancariaT_stro.Value)
+                    oParametros.Add("Plaza", oPlazaT_stro.Value)
+                    oParametros.Add("ABA", oAbaT_stro.Value)
+
                     bTieneDatosBancarios = False
 
                 End If
 
-                oSucursalT_stro.Value = "CIUDAD DE MEXICO"
-                oBeneficiarioT_stro.Value = IIf(oBeneficiarioT_stro.Value = String.Empty, Me.txtBeneficiario.Text.Trim, oBeneficiarioT_stro.Value)
+                'oSucursalT_stro.Value = "CIUDAD DE MEXICO"
+                'oBeneficiarioT_stro.Value = IIf(oBeneficiarioT_stro.Value = String.Empty, Me.txtBeneficiario.Text.Trim, oBeneficiarioT_stro.Value)
+                ''oBeneficiarioT_stro.Value = Me.txtBeneficiario.Text.Trim
 
-                oParametros.Add("Banco", oBancoT_stro.Value)
-                oParametros.Add("Sucursal", oSucursalT_stro.Value)
-                oParametros.Add("Beneficiario", oBeneficiarioT_stro.Value)
-                oParametros.Add("Moneda", oMonedaT_stro.Value)
-                oParametros.Add("TipoCuenta", oTipoCuentaT_stro.Value)
-                oParametros.Add("CuentaBancaria", oCuentaBancariaT_stro.Value)
-                oParametros.Add("Plaza", oPlazaT_stro.Value)
-                oParametros.Add("ABA", oAbaT_stro.Value)
+                'oParametros.Add("Banco", oBancoT_stro.Value)
+                'oParametros.Add("Sucursal", oSucursalT_stro.Value)
+                'oParametros.Add("Beneficiario", oBeneficiarioT_stro.Value)
+                'oParametros.Add("Moneda", cmbMonedaPago.SelectedValue)
+                ''oParametros.Add("Moneda", oMonedaT_stro.Value)
+                'oParametros.Add("TipoCuenta", oTipoCuentaT_stro.Value)
+                'oParametros.Add("CuentaBancaria", oCuentaBancariaT_stro.Value)
+                'oParametros.Add("Plaza", oPlazaT_stro.Value)
+                'oParametros.Add("ABA", oAbaT_stro.Value)
 
                 Master.MuestraTransferenciasBancariasSiniestros(IO.Path.GetFileName(Request.Url.AbsolutePath),
                                                                 oCatalogoBancosT, oCatalogoTiposCuentaT, oCatalogoMonedasT,
@@ -1128,7 +1246,7 @@ Partial Class Siniestros_OrdenPago
         End Try
 
     End Function
-    Private Function ObtenerRFC(ByVal sCodigoUsuario As String) As Boolean
+    Private Function ObtenerRFC(ByVal sCodigoUsuario As String, ByVal Accion As String, ByVal RFC As String) As Boolean
 
         Dim oParametros As New Dictionary(Of String, Object)
 
@@ -1143,15 +1261,16 @@ Partial Class Siniestros_OrdenPago
             oDatos = New DataSet
 
             oParametros.Add("CodigoUsuario", CInt(sCodigoUsuario))
+            oParametros.Add("Accion", CInt(Accion))
+            oParametros.Add("RFC", RFC)
 
             oDatos = Funciones.ObtenerDatos("usp_ObtenerRFC_stro", oParametros)
 
             If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
-
                 Me.txtRFC.Text = oDatos.Tables(0).Rows(0).Item("RFC").ToString.Trim
-
+                Me.txtCodigoBeneficiario_stro.Text = oDatos.Tables(0).Rows(0).Item("cod_tercero").ToString.Trim
+                Me.txtBeneficiario_stro.Text = oDatos.Tables(0).Rows(0).Item("Nom_Tercero").ToString.Trim
                 ObtenerRFC = IIf(Me.txtRFC.Text.Trim = String.Empty, False, True)
-
             Else
                 Me.txtRFC.Text = String.Empty
             End If
@@ -1445,15 +1564,12 @@ Partial Class Siniestros_OrdenPago
             End If
 
             For Each controlToSearch As Control In rootControl.Controls
-
                 Dim controlToReturn As Control = BuscarControlPorID(controlToSearch, controlID)
 
                 If controlToReturn IsNot Nothing Then
                     Return controlToReturn
                 End If
-
             Next
-
             Return Nothing
 
         Catch ex As Exception
@@ -1497,7 +1613,6 @@ Partial Class Siniestros_OrdenPago
             control = Nothing
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("BuscarControlPorClase error: {0}", ex.Message), TipoMsg.Falla)
         End Try
-
         Return control
 
     End Function
@@ -1508,13 +1623,19 @@ Partial Class Siniestros_OrdenPago
         Dim oParametros As New Dictionary(Of String, Object)
 
         Try
-
-
             oParametros = New Dictionary(Of String, Object)
+
+            Dim sDia As Int16
+            Dim sMes As Int16
+            Dim sAnio As Int16
+
+            sDia = DateTime.Now.Day
+            sMes = DateTime.Now.Month
+            sAnio = DateTime.Now.Year
 
             'oParametros.Add("TipoMoneda", Me.cmbMonedaPago.SelectedValue)
             oParametros.Add("TipoMoneda", 1)
-            oParametros.Add("Fecha", IIf(String.IsNullOrWhiteSpace(Me.txtFechaContable.Text.Trim()), String.Empty, Me.txtFechaContable.Text.Trim))
+            oParametros.Add("Fecha", sMes.ToString() + "/" + sDia.ToString() + "/" + sAnio.ToString())
 
             oDatos = New DataSet
 
@@ -1642,9 +1763,24 @@ Partial Class Siniestros_OrdenPago
             Me.txtConceptoOP.Text = String.Empty
             Me.txtSiniestro.Enabled = True
 
-            Me.txtFechaRegistro.Text = DateTime.Now.ToString("dd/MM/yyyy")
-            Me.txtFechaEstimadaPago.Text = Me.txtFechaRegistro.Text
+            Dim sDia As Int16
+            Dim sMes As Int16
+            Dim sAnio As Int16
+
+            sDia = DateTime.Now.Day
+            sMes = DateTime.Now.Month
+            sAnio = DateTime.Now.Year
+
+            'Me.txtFechaRegistro.Text = DateTime.Now.ToString("dd/MM/yyyy")
+
+            If (sDia <= 9) Then
+                sDia = "0" + sDia.ToString()
+            End If
+
+            Me.txtFechaRegistro.Text = (sDia.ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
+            Me.txtFechaEstimadaPago.Text = ((sDia + 2).ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
             Me.txtFechaContable.Text = Me.txtFechaRegistro.Text 'FFUENTES
+
             Me.txtNumeroComprobante.Text = String.Empty
             Me.txtFechaComprobante.Text = String.Empty
 
@@ -1722,6 +1858,8 @@ Partial Class Siniestros_OrdenPago
         Dim dTotalAutorizacionNacional As Double = 0   'Utilizado solo para impuestos
         Dim dTotalImpuestosNacional As Double = 0
 
+        Dim dcod_clase_pago As Int16 = 0
+        Dim dcod_cpto As Int16 = 0
         Try
 
             If txtMonedaPoliza.Text = "NACIONAL" Then
@@ -1736,6 +1874,8 @@ Partial Class Siniestros_OrdenPago
             For Each oFila In oGrdOrden.Rows
 
                 dPago = IIf(IsDBNull(oFila("Pago")), 0, oFila("Pago"))
+                dcod_clase_pago = IIf(IsDBNull(oFila("ClasePago")), 0, oFila("ClasePago"))
+                dcod_cpto = IIf(IsDBNull(oFila("ConceptoPago")), 0, oFila("ConceptoPago"))
 
                 If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
 
@@ -1753,7 +1893,8 @@ Partial Class Siniestros_OrdenPago
 
                         End If
 
-                        ObtenerImpuestos(CInt(Me.txtCodigoBeneficiario_stro.Text), CInt(oFila("ClasePago")), CInt(oFila("ConceptoPago")), CInt(oFila("IdSiniestro")), dPago, dImporteImpuesto, dImporteRetencion)
+                        'ObtenerImpuestos(CInt(Me.txtCodigoBeneficiario_stro.Text), CInt(oFila("ClasePago")), CInt(oFila("ConceptoPago")), CInt(oFila("IdSiniestro")), dPago, dImporteImpuesto, dImporteRetencion)
+                        ObtenerImpuestos(CInt(Me.txtCodigoBeneficiario_stro.Text), dcod_clase_pago, dcod_cpto, CInt(oFila("IdSiniestro")), dPago, dImporteImpuesto, dImporteRetencion)
 
                         If dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
                             Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
@@ -1827,20 +1968,20 @@ Partial Class Siniestros_OrdenPago
                 Case eTipoUsuario.Asegurado, eTipoUsuario.Tercero
 
                     'Cambiara segun si la moneda de pago son pesos o dolares
-                    Me.txtTotalAutorizacion.Text = String.Format("{0:0.##}", Math.Round(dTotalAutorizacion, 2))
+                    Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
 
                     'Si la moneda de la póliza es nacional se obtendran total de pago en pesos, si no los tomará del total de autorización
                     'que seran dolares
-                    Me.txtTotalAutorizacionNacional.Text = String.Format("{0:0.##}", Math.Round(IIf(Me.txtMonedaPoliza.Text = "NACIONAL", dTotalAutorizacion, dTotalAutorizacionNacional), 2))
+                    Me.txtTotalAutorizacionNacional.Text = String.Format("{0:0,0.00}", Math.Round(IIf(Me.txtMonedaPoliza.Text = "NACIONAL", dTotalAutorizacion, dTotalAutorizacionNacional), 2))
 
                     'Los impuestos y retenciones deben ser cero para asegurados y terceros
-                    Me.txtTotalImpuestos.Text = String.Format("{0:0.##}", Math.Round(dTotalImpuestos, 2))
-                    Me.txtTotalRetenciones.Text = String.Format("{0:0.##}", Math.Round(dTotalRetenciones, 2))
+                    Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                    Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
 
                     'El valor del total sera el total en la moneda la cual este registrada la póliza
-                    Me.txtTotal.Text = String.Format("{0:0.##}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
+                    Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
 
-                    Me.txtTotalNacional.Text = dTotalAutorizacionNacional
+                    Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
 
                 Case eTipoUsuario.Proveedor
                     Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
@@ -1915,7 +2056,7 @@ Partial Class Siniestros_OrdenPago
         End Try
 
     End Sub
-    Public Sub LimpiarOrdenPago() Handles btnLimpiar.Click
+    Public Sub Limpiartodo()
         Dim chkdelete As CheckBox
         For Each row In grd.Rows
             chkdelete = BuscarControlPorID(row, "eliminar")
@@ -1949,7 +2090,53 @@ Partial Class Siniestros_OrdenPago
         cmbOrigenOP.Items.Clear()
         txtBeneficiario.Text = ""
 
+        'Limpia las cajas de los impuestos de la factura
+        txtTotalAutorizacionNacionalFac.Text = ""
+        txtTotalAutorizacionFac.Text = ""
+        txtTotalImpuestosFac.Text = ""
+        txtTotalRetencionesFac.Text = ""
+        txtTotalFac.Text = ""
+        txtTotalNacionalFac.Text = ""
 
+        cmbTipoUsuario.Enabled = True
+        chkVariasFacturas.Checked = False
+    End Sub
+    Public Sub LimpiarOrdenPago() Handles btnLimpiar.Click
+        Limpiartodo()
+        'Dim chkdelete As CheckBox
+        'For Each row In grd.Rows
+        '    chkdelete = BuscarControlPorID(row, "eliminar")
+        '    chkdelete.Checked = True
+        'Next
+        'EliminarFila(1)
+
+        'txtOnBase.Text = ""
+        'txtSiniestro.Text = ""
+        'cmbSubsiniestro.Items.Clear()
+        'txtPoliza.Text = ""
+        'txtMonedaPoliza.Text = ""
+        'txtCodigoBeneficiario_stro.Text = ""
+        'txtBeneficiario_stro.Text = ""
+        'txtRFC.Text = ""
+        'txtTipoCambio.Text = ""
+
+        ''cmbTipoComprobante.Items.Clear()
+        'txtNumeroComprobante.Text = ""
+        'txtFechaComprobante.Text = ""
+
+        'txtTotalAutorizacionNacional.Text = ""
+        'txtTotalAutorizacion.Text = ""
+        'txtTotalImpuestos.Text = ""
+        'txtTotalRetenciones.Text = ""
+        'txtTotal.Text = ""
+        'txtTotalNacional.Text = ""
+
+        'txtBeneficiario.Text = ""
+        'txtConceptoOP.Text = ""
+        'cmbOrigenOP.Items.Clear()
+        'txtBeneficiario.Text = ""
+
+        'cmbTipoUsuario.Enabled = True
 
     End Sub
     Public Sub GenerarOrdenPago() Handles btnGrabarOP.Click
@@ -2122,11 +2309,11 @@ Partial Class Siniestros_OrdenPago
             End If
 
         Catch ex As Exception
-            Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("CargarConceptosPago error: {0}", ex.Message), TipoMsg.Falla)
+            Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("Clase de pago no habilitada: {0}", ex.Message), TipoMsg.Falla)
         End Try
 
     End Sub
-    Public Sub CargarConceptosPagodefault(ByVal oRegistro As Control, ByVal iFila As Integer, ByVal sValor As String)
+    Public Sub CargarConceptosPagodefault(ByVal oRegistro As Control, ByVal iFila As Integer, ByVal sValor As String, ByVal stro_OC As String)
 
         Dim oParametros As New Dictionary(Of String, Object)
 
@@ -2155,6 +2342,8 @@ Partial Class Siniestros_OrdenPago
                     oParametros.Add("Accion", 1)
                 End If
                 oParametros.Add("Cod_Pres", Me.txtCodigoBeneficiario_stro.Text)
+                oParametros.Add("Cod_cpto", "0")
+                oParametros.Add("stro_cerrado_abierto", stro_OC) 'CERO SI ESTA ABIERTO Y 1 SI ESTA CERRADO
 
                 oDatos = Funciones.ObtenerDatos("MIS_sp_op_stro_Consulta_Tradicional", oParametros)
 
@@ -2316,6 +2505,7 @@ Partial Class Siniestros_OrdenPago
             dt.Columns.Add("IdPersona", Type.GetType("System.Int32"))
             dt.Columns.Add("CodigoAsegurado", Type.GetType("System.Int32"))
             dt.Columns.Add("Siniestro", Type.GetType("System.String"))
+            dt.Columns.Add("RFC", Type.GetType("System.String"))
             dt.Columns.Add("Subsiniestro", Type.GetType("System.String"))
             dt.Columns.Add("CodigoTercero", Type.GetType("System.Int32"))
             dt.Columns.Add("Poliza", Type.GetType("System.String"))
@@ -2335,6 +2525,7 @@ Partial Class Siniestros_OrdenPago
             dt.Columns.Add("Retenciones", Type.GetType("System.Double"))
             dt.Columns.Add("PagoSinIva", Type.GetType("System.Double"))
             dt.Columns.Add("PagoConIva", Type.GetType("System.Double"))
+            dt.Columns.Add("Descuentos", Type.GetType("System.Double"))
             dt.Columns.Add("Deducible", Type.GetType("System.Double"))
             dt.Columns.Add("TipoPago", Type.GetType("System.String"))
             dt.Columns.Add("NumeroCorrelaEstim", Type.GetType("System.Int32"))

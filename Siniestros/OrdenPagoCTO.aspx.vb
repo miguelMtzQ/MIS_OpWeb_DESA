@@ -139,8 +139,7 @@ Partial Class Siniestros_OrdenPago
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("grd_RowDataBound error: {0}", ex.Message), TipoMsg.Falla)
         End Try
     End Sub
-    Public Sub btnQuitarFila_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnQuitarFila.Click
-
+    Public Sub EliminarFila(Elimi As Int16)
         Dim chkdelete As CheckBox
 
         Dim oDatos As DataTable
@@ -162,9 +161,9 @@ Partial Class Siniestros_OrdenPago
                 If chkdelete.Checked Then
 
                     grd.DeleteRow(row.RowIndex)
-
-                    oFilasEliminadas.Add(oDatos.Rows(row.RowIndex))
-
+                    If oDatos.Rows.Count > 0 Then
+                        oFilasEliminadas.Add(oDatos.Rows(row.RowIndex))
+                    End If
                 End If
 
             Next
@@ -178,34 +177,37 @@ Partial Class Siniestros_OrdenPago
             grd.DataSource = oDatos
             grd.DataBind()
 
-            CalcularTotales()
+            If Elimi = 0 Then 'esto es para limpiar y recarcular los impuestos 
+                CalcularTotales()
 
-            txtDescripcionOP.Text = String.Empty
+                ' txtConceptoOP.Text = String.Empty
 
-            If Not oDatos Is Nothing AndAlso oDatos.Rows.Count > 0 Then
+                If Not oDatos Is Nothing AndAlso oDatos.Rows.Count > 0 Then
 
-                For Each oFila In oDatos.Rows
+                    For Each oFila In oDatos.Rows
 
-                    If txtDescripcionOP.Text.Trim = String.Empty Then
-                        txtDescripcionOP.Text = String.Format("{0} {1}", txtDescripcionOP.Text.Trim, oFila("Siniestro"))
-                    Else
-                        txtDescripcionOP.Text = String.Format("{0}, {1}", txtDescripcionOP.Text.Trim, oFila("Siniestro"))
-                    End If
+                        'If txtConceptoOP.Text.Trim = String.Empty Then
+                        '    txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
+                        'Else
+                        '    txtConceptoOP.Text = String.Format("{0}, {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
+                        'End If
 
-                Next
+                    Next
 
-                txtDescripcionOP.Text = String.Format("{0} {1}", txtDescripcionOP.Text.Trim, oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oDatos.Rows(0)("ClasePago")))(0)("txt_desc"))
+                    'txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oDatos.Rows(0)("ClasePago")))(0)("txt_desc"))
 
-            Else
-                Me.cmbTipoUsuario.Enabled = True
-                Me.txtBeneficiario_stro.Enabled = True
+                Else
+                    Me.cmbTipoUsuario.Enabled = True
+                    Me.txtBeneficiario_stro.Enabled = True
+                End If
             End If
-
-
         Catch ex As Exception
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("Quitar fila error: {0}", ex.Message), TipoMsg.Falla)
         End Try
 
+    End Sub
+    Public Sub btnQuitarFila_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnQuitarFila.Click
+        EliminarFila(0)
     End Sub
     Public Sub grd_RowDeleting(ByVal sender As Object, ByVal e As GridViewDeleteEventArgs)
 
@@ -2375,8 +2377,51 @@ Partial Class Siniestros_OrdenPago
     Protected Sub txtimporte_TextChanged(sender As Object, e As EventArgs)
         txtBeneficiario.Text = txtBeneficiario_stro.Text
     End Sub
+    Public Sub LimpiarOrdenPago() Handles btnLimpiar.Click
+        Dim chkdelete As CheckBox
+        For Each row In grd.Rows
+            chkdelete = BuscarControlPorID(row, "eliminar")
+            chkdelete.Checked = True
+        Next
+        EliminarFila(1)
+
+        txtOnBase.Text = ""
+        txtSiniestro.Text = ""
+        txtPoliza.Text = ""
+        txtMonedaPoliza.Text = ""
+        txtCodigoBeneficiario_stro.Text = ""
+        txtBeneficiario_stro.Text = ""
+        txtRFC.Text = ""
+        txtTipoCambio.Text = ""
+
+        'cmbTipoComprobante.Items.Clear()
+        txtNumeroComprobante.Text = ""
+        txtFechaComprobante.Text = ""
+
+        txtTotalAutorizacionNacional.Text = ""
+        txtTotalAutorizacion.Text = ""
+        txtTotalImpuestos.Text = ""
+        txtTotalRetenciones.Text = ""
+        txtTotal.Text = ""
+        txtTotalNacional.Text = ""
+
+        txtBeneficiario.Text = ""
+        cmbOrigendePago.Items.Clear()
+        txtBeneficiario.Text = ""
+
+
+
+    End Sub
     Protected Sub txtOnBase_TextChanged(sender As Object, e As EventArgs)
         Try
+            '--Inicio Esto es para limpiar el grid
+            Dim chkdelete As CheckBox
+            For Each row In grd.Rows
+                chkdelete = BuscarControlPorID(row, "eliminar")
+                chkdelete.Checked = True
+            Next
+            EliminarFila(1)
+            '--FIN Esto es para limpiar el grid
             Dim oDatos As DataSet
             oDatos = New DataSet
             If txtOnBase.Text <> "" Then
