@@ -49,6 +49,17 @@ $("body").on('focusout', '[id*=txtBeneficiario_stro]', function (e) {
 
 });
 
+$("body").on('focusout', '[id*=txtRFC]', function (e) {
+
+    if ($("[id*=cmbTipoUsuario]").val() == "7" || $("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+    }
+    else {
+        CargarBeneficiarioRFC(e);
+    }
+
+});
+
 $("body").on('keydown', '[id*=txtBeneficiario_stro]', function (e) {
 
     if ($("[id*=cmbTipoUsuario]").val() == "7" || $("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
@@ -173,7 +184,32 @@ function fn_ImprimirOrden(Server, strOrden) {
         window.open(Server.replace('@nro_op', nro_op[i]));
     }
 }
+function CargarBeneficiarioRFC(e) {
 
+    if ($("[id*=txtCodigoBeneficiario_stro]").val() == '' && $("[id*=Catalogo]").is(":visible") == false) {
+
+        var beneficiario = $("input[id$='txtRFC']")[0].value;
+        if (beneficiario.trim().length > 0) {
+
+            $('#EsperaModal').modal('toggle');
+
+            switch ($("[id*=cmbTipoUsuario]").val()) {
+                case "8": //Tercero
+                    fn_CargaCatalogo("BenTerceroRFC_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro|txtRFC", "Terceros", "block");
+                    break;
+                case "10": //Proveedor
+                    fn_CargaCatalogo("BenProveedor_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro", "Proveedores");
+                    break;
+            }
+
+        }
+        else {
+            e.stopPropagation();
+        }
+
+    }
+
+}
 function CargarBeneficiario(e) {
 
     if ($("[id*=txtCodigoBeneficiario_stro]").val() == '' && $("[id*=Catalogo]").is(":visible") == false) {
@@ -185,7 +221,7 @@ function CargarBeneficiario(e) {
 
             switch ($("[id*=cmbTipoUsuario]").val()) {
                 case "8": //Tercero
-                    fn_CargaCatalogo("BenTercero_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro", "Terceros");
+                    fn_CargaCatalogo("BenTercero_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro|txtRFC", "Terceros","block");
                     break;
                 case "10": //Proveedor
                     fn_CargaCatalogo("BenProveedor_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro", "Proveedores");

@@ -189,8 +189,9 @@ function PageLoadMaster() {
             var Filas = $("[id*=gvd_Catalogo]")[0].rows;
 
             for (i = 0; i <= Filas.length - 2; i++) {
-                var Clave = Filas[i + 1].cells[1].innerText.toLowerCase()
+                var Clave =       Filas[i + 1].cells[1].innerText.toLowerCase()
                 var Descripcion = Filas[i + 1].cells[2].innerText.toLowerCase()
+                var nro_nit =     Filas[i + 1].cells[3].innerText.toLowerCase()
 
                 if (Clave.indexOf(searchKey) >= 0 || Descripcion.indexOf(searchKey) >= 0) {
                     $(Filas[i + 1]).show();
@@ -347,7 +348,8 @@ function fn_CargaCatalogo(Catalogo, Condicion, Seleccion, Tipo, Control, Titulo,
                 $("input[id$='hid_Prefijo']")[0].value = Catalogo;
                 fn_AbrirModal('#Catalogo');
 
-                if (display_adicional == undefined){
+                if (display_adicional == undefined)
+                {
                     display_adicional = 'none';
                 }
 
@@ -357,6 +359,7 @@ function fn_CargaCatalogo(Catalogo, Condicion, Seleccion, Tipo, Control, Titulo,
                                                         '<td><input type="checkbox" id="chk_Cat" class="Select" onclick="fn_CambioSeleccion(' + "'gvd_Catalogo'" + ',this,' + "'" + Tipo + "','chk_Cat'" + ')" /></td>' +
                                                         '<td><label id="lbl_ClaveCat" class="texto-catalogo" style="Width:75px;">' + response.d[i].Clave + '</label></td>' +
                                                         '<td><label id="lbl_DesCat" class="texto-catalogo" style="Width:205px;">' + response.d[i].Descripcion + '</label></td>' +
+                                                        
                                                         '<td><label id="lbl_Oculta1" class="texto-catalogo" style="display:' + display_adicional + ';Width:105px">' + response.d[i].OcultaCampo1 + '</label></td>' +
                                                         '<td><label id="lbl_Oculta2" class="texto-catalogo" style="display:' + display_adicional + ';Width:105px">' + response.d[i].OcultaCampo2 + '</label></td>' +
                                                         '<td><label id="lbl_Oculta3" class="texto-catalogo" style="display:' + display_adicional + ';Width:105px">' + response.d[i].OcultaCampo3 + '</label></td>' +

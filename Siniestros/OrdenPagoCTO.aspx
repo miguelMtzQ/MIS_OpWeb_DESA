@@ -2,7 +2,7 @@
 <%@ MasterType VirtualPath="~/Pages/SiteMaster.master" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cph_principal" runat="Server">
-    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|0" />
+    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|1|0" />
     <script src="../Scripts/Siniestros/OrdenPago.js"></script>
     <style>
         .table>tbody>tr>td{
@@ -85,30 +85,34 @@
                             <div  class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Concepto</asp:Label>
                                 <%--<asp:DropDownList ID="cmbSubsiniestro" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro"></asp:DropDownList>--%>
-                                <asp:TextBox ID="txtConcepto" AutoPostBack="True" runat="server" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txt_textChangedConcepto" placeholder="concepto"></asp:TextBox>
+                                <asp:DropDownList ID="cmbConcepto" AutoPostBack="True" runat="server" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txt_textChangedConcepto" placeholder="concepto"></asp:DropDownList>
                             </div>                        
                             <div class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Codigo de cuenta</asp:Label>
                                 <asp:TextBox ID="txtCodigoCuenta" runat="server" CssClass="estandar-control poliza Tablero Centro" ReadOnly="true" placeholder="Codigo de cuenta"></asp:TextBox>
                             </div>
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-4">
                                 <asp:Label runat="server" class="etiqueta-control">Descripcion de cuenta</asp:Label>
                                 <asp:TextBox ID="txtDescCuenta" runat="server" Text='<%# Eval("Moneda") %>' CssClass="estandar-control onbase Tablero Centro" ReadOnly="true" placeholder="Descripcion de cuenta"></asp:TextBox>
                             </div>
                         </div>
-                        <div id="divproveedor" runat="server">   
-                            <div class="form-group col-md-2">
+                        <%--<div id="divproveedor" runat="server"> --%>  
+                           <%-- <div class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Concepto de pago</asp:Label>
                                 <asp:DropDownList AutoPostBack="True" ID="cmbconceptoProveedor" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro">
                                 </asp:DropDownList>
-                            </div>
+                            </div>--%>
                             <div class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Código Proveedor</asp:Label>
                                 <asp:TextBox ID="txtcod_pres" runat="server" CssClass="estandar-control Tablero Centro" ReadOnly="true" placeholder="Código de tercero, proveedor o asegurado"></asp:TextBox>
                             </div>
-                        </div>
+                        <%--</div>--%>
                     </div>
-                    <div class="row">
+                    <div class="row">                        
+                        <div class="form-group col-md-2">
+                            <asp:Label runat="server" class="etiqueta-control">RFC</asp:Label>
+                            <asp:TextBox ID="txtRFC" runat="server" Text='<%# Eval("RFC") %>' CssClass="estandar-control Tablero Centro" placeholder="RFC"></asp:TextBox>
+                        </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Código</asp:Label>
                             <asp:TextBox ID="txtCodigoBeneficiario_stro" runat="server" CssClass="estandar-control Tablero Centro" ReadOnly="true" placeholder="Código de tercero, proveedor o asegurado"></asp:TextBox>
@@ -116,11 +120,7 @@
                         <div class="form-group col-md-4">
                             <asp:Label runat="server" class="etiqueta-control">Nombre / Razón social</asp:Label>
                             <asp:TextBox ID="txtBeneficiario_stro" runat="server" Text='<%# Eval("Nombre") %>' CssClass="estandar-control Tablero Centro" autocomplete="off" placeholder="Nombre o razón social"></asp:TextBox>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">RFC</asp:Label>
-                            <asp:TextBox ID="txtRFC" runat="server" Text='<%# Eval("RFC") %>' CssClass="estandar-control Tablero Centro" ReadOnly="true" placeholder="RFC"></asp:TextBox>
-                        </div>
+                        </div>                         
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Moneda de pago</asp:Label>
                             <asp:DropDownList AutoPostBack="True" ID="cmbMonedaPago" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro" OnSelectedIndexChanged="CalcularTotales">
@@ -146,26 +146,6 @@
                             <asp:Label runat="server" class="etiqueta-control">Fecha contable</asp:Label>
                             <%--<asp:TextBox ID="txtFechaContable" OnTextChanged="txt_TextChanged" runat="server" CssClass="estandar-control fechaContable Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>--%>
                             <asp:TextBox ID="txtFechaContable" runat="server" CssClass="estandar-control fechaContable Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Origen de pago</asp:Label>
-                            <asp:DropDownList ID="cmbOrigendePago" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero"></asp:DropDownList>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Total</asp:Label>
-                            <asp:TextBox ID="txtimporte" runat="server" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txtimporte_TextChanged" ReadOnly="false" placeholder="Importe"></asp:TextBox>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Sub total FAC</asp:Label>
-                            <asp:TextBox ID="txtsubtotal" runat="server" Enabled="false" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txtimporte_TextChanged" ReadOnly="false" placeholder="Sub total FAC"></asp:TextBox>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Imp impuestos FAC</asp:Label>
-                            <asp:TextBox ID="txtimpuestos" runat="server" Enabled="false" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txtimporte_TextChanged" ReadOnly="false" placeholder="Imp impuestos FAC"></asp:TextBox>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Retencion FAC</asp:Label>
-                            <asp:TextBox ID="txtretenciones" runat="server" Enabled="false" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txtimporte_TextChanged" ReadOnly="false" placeholder="Retencion FAC"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">D/C</asp:Label>
@@ -317,10 +297,9 @@
                         </div>
                     </div>
                     </div>
-                    <div class="row">
+                    <div class="row"><%--importes de la poliza --%> 
                         <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Total autorización (MXN)</asp:Label>
-                            <asp:TextBox ReadOnly="true" ID="txtTotalAutorizacionNacional" runat="server" Text='<%# Eval("TotalAutorizacionNacional") %>' CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            <asp:Label runat="server" class="etiqueta-control">Importes en Moneda de la Póliza</asp:Label>                            
                         </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Total autorización</asp:Label>
@@ -340,6 +319,69 @@
                             <asp:TextBox visible="false" ID="txtTotalNacional" runat="server" CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
                         </div>
                     </div>
+                          <%--importe del pago--%> 
+                <div class="row">   
+                        <div class="form-group col-md-2">
+                            <asp:Label runat="server" class="etiqueta-control">Importes en Moneda del Pago</asp:Label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <asp:TextBox ReadOnly="true" ID="iptxtTotalAutorizacion" runat="server"  CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <asp:TextBox ReadOnly="true" ID="iptxtTotalImpuestos" runat="server"  CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <asp:TextBox ReadOnly="true" ID="iptxtTotalRetenciones" runat="server"  CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <asp:TextBox ReadOnly="true" ID="iptxtTotal" runat="server"  CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            <asp:TextBox visible="false" ID="iptxtTotalNacional" runat="server" CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                        </div>                        
+                    </div>
+                     
+                    <%--importes de la Factura--%> 
+                    <div id="Facturas0" runat="server">
+                        <div  class="row">
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control">Importes de las Facturas Relacionadas</asp:Label>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control"> </asp:Label>
+                                <asp:TextBox ReadOnly="true" ID="txtTotalAutorizacionFac" runat="server" Text='<%# Eval("TotalAutorizacionFac") %>' CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control"></asp:Label>
+                                <asp:TextBox ReadOnly="true" ID="txtTotalImpuestosFac" runat="server" Text='<%# Eval("TotalImpuestosFac") %>' CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control"></asp:Label>
+                                <asp:TextBox ReadOnly="true" ID="txtTotalRetencionesFac" runat="server" Text='<%# Eval("TotalRetencionesFac") %>' CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control"></asp:Label>
+                                <asp:TextBox ReadOnly="true" ID="txtTotalFac" runat="server" Text='<%# Eval("TotalFac") %>' CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                                <asp:TextBox visible="false" ID="txtTotalNacionalFac" runat="server" CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+                     <div id="Facturas1" runat="server">
+                         <div  class="row">
+                             <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control"></asp:Label>                            
+                            </div>                         
+                              <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control">Descuentos</asp:Label>
+                                <asp:TextBox ReadOnly="true" ID="txtDescuentos" runat="server" Text='<%# Eval("TotalAutorizacionNacionalFac") %>' CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            </div>
+                             <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control">SubTotal</asp:Label>
+                                <asp:TextBox ReadOnly="true" ID="txtTotalAutorizacionNacionalFac" runat="server" Text='<%# Eval("TotalRetenciones") %>' CssClass="estandar-control Tablero" placeholder="0.00"></asp:TextBox>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <asp:Label ID="lbldescuento" runat="server" ForeColor="Red" class="etiqueta-control"></asp:Label>                            
+                            </div>
+                        </div>
+                     </div> 
                 </div>
                 <div class="cuadro-titulo panel-encabezado">
                     <input type="image" src="../Images/contraer_mini_inv.png" id="coVentana2" class="contraer" />
@@ -372,7 +414,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        
+                        <div class="form-group col-md-2">
+                            <asp:Label runat="server" class="etiqueta-control">Origen de pago</asp:Label>
+                            <asp:DropDownList ID="cmbOrigendePago" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero"></asp:DropDownList>
+                        </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Tipo de pago</asp:Label>
                             <asp:DropDownList Autopostback="true" ID="cmbTipoPagoOP" runat="server" ClientIDMode="Static" CssClass="estandar-control tipo_pago_OP Tablero" OnSelectedIndexChanged="cmb_SelectedIndexChanged">
@@ -398,6 +443,13 @@
                                     </span>
                                 </asp:LinkButton>
                             </div>
+                    <div style="width:100%; text-align: right">
+                                <asp:LinkButton ID="btnLimpiar" runat="server" class="btn btn-primary btn-sm" style="background-color: #006AA9;">
+                                    <span>
+                                        <img class="btn-limpiar"/> LIMPIAR
+                                    </span>
+                                </asp:LinkButton>
+                     </div>
                     
                 </div>
             </ContentTemplate>
