@@ -334,7 +334,7 @@ Partial Class Pages_SiteMaster
         Dim dummy As New DataTable()
         dummy.Columns.Add("Clave")
         dummy.Columns.Add("Descripcion")
-
+        dummy.Columns.Add("OcultaCampo1")
         dummy.Rows.Add()
         gvd_Catalogo.DataSource = dummy
         gvd_Catalogo.DataBind()
@@ -371,6 +371,7 @@ Partial Class Pages_SiteMaster
                     dt_Datos = New DataTable
                     dt_Datos.Columns.Add("Clave")
                     dt_Datos.Columns.Add("Descripcion")
+
                     dt_Datos.Columns.Add("OcultaCampo1")
                     dt_Datos.Columns.Add("OcultaCampo2")
                     dt_Datos.Columns.Add("OcultaCampo3")
@@ -520,6 +521,8 @@ Partial Class Pages_SiteMaster
                             Case 2
                                 Dim txt_Clave As TextBox = DirectCast(cph_principal.FindControl(Controles(0)), TextBox)
                                 Dim txt_Descripcion As TextBox = DirectCast(cph_principal.FindControl(Controles(1)), TextBox)
+                                Dim txt_RFC As TextBox = DirectCast(cph_principal.FindControl(Controles(2)), TextBox)
+
                                 If txt_Clave Is Nothing And txt_Descripcion Is Nothing Then
                                     txt_Clave = DirectCast(frmMaster.FindControl(Controles(0)), TextBox)
                                     txt_Descripcion = DirectCast(frmMaster.FindControl(Controles(1)), TextBox)
@@ -527,6 +530,8 @@ Partial Class Pages_SiteMaster
 
                                 txt_Clave.Text = Split(Datos(0), "~")(0)
                                 txt_Descripcion.Text = Split(Datos(0), "~")(1)
+                                txt_RFC.Text = Split(Datos(0), "~")(2)
+
 
                             Case 3
                                 If Left(Controles(0), 3) = "gvd" Then
@@ -538,18 +543,20 @@ Partial Class Pages_SiteMaster
                                 Else
                                     Dim txt_Clave As TextBox = DirectCast(cph_principal.FindControl(Controles(0)), TextBox)
                                     Dim txt_Descripcion As TextBox = DirectCast(cph_principal.FindControl(Controles(1)), TextBox)
-                                    Dim gvd_GridView As GridView = DirectCast(cph_principal.FindControl(Controles(2)), GridView)
+                                    Dim txt_RFC As TextBox = DirectCast(cph_principal.FindControl(Controles(2)), TextBox)
+                                    'Dim gvd_GridView As GridView = DirectCast(cph_principal.FindControl(Controles(2)), GridView)
 
-                                    If txt_Clave Is Nothing And txt_Descripcion Is Nothing And gvd_GridView Is Nothing Then
-                                        txt_Clave = DirectCast(frmMaster.FindControl(Controles(0)), TextBox)
-                                        txt_Descripcion = DirectCast(frmMaster.FindControl(Controles(1)), TextBox)
-                                        gvd_GridView = DirectCast(frmMaster.FindControl(Controles(2)), GridView)
-                                    End If
+                                    'If txt_Clave Is Nothing And txt_Descripcion Is Nothing And gvd_GridView Is Nothing Then
+                                    '    txt_Clave = DirectCast(frmMaster.FindControl(Controles(0)), TextBox)
+                                    '    txt_Descripcion = DirectCast(frmMaster.FindControl(Controles(1)), TextBox)
+                                    '    'gvd_GridView = DirectCast(frmMaster.FindControl(Controles(2)), GridView)
+                                    'End If
 
                                     txt_Clave.Text = Split(Datos(0), "~")(0)
                                     txt_Descripcion.Text = Split(Datos(0), "~")(1)
-                                    gvd_GridView.DataSource = Nothing
-                                    gvd_GridView.DataBind()
+                                    txt_RFC.Text = Split(Datos(0), "~")(2)
+                                    'gvd_GridView.DataSource = Nothing
+                                    'gvd_GridView.DataBind()
 
                                 End If
 
@@ -2032,72 +2039,78 @@ Partial Class Pages_SiteMaster
 
         Try
 
-            oParametros = New Dictionary(Of String, Object)
+            If txtCuentaBancariaT_stro.Text = txtCuentaBancariaT_stro_Confirmacion.Text Then
 
-            oParametros.Add("CodigoBanco", CInt(cmbBancoT_stro.SelectedValue))
-            oParametros.Add("CuentaClabe", CStr(txtCuentaBancariaT_stro.Text.Trim))
+                oParametros = New Dictionary(Of String, Object)
 
-            oDatos = New DataSet
-            oDatos = Funciones.ObtenerDatos("usp_ValidarCuentaClabe", oParametros)
+                oParametros.Add("CodigoBanco", CInt(cmbBancoT_stro.SelectedValue))
+                oParametros.Add("CuentaClabe", CStr(txtCuentaBancariaT_stro.Text.Trim))
 
-            If oDatos Is Nothing OrElse oDatos.Tables(0).Rows.Count = 0 Then
-                Mensaje.MuestraMensaje("Cuentas bancarias", "Error al validar la cuenta bancaria", TipoMsg.Falla)
-                Return
-            ElseIf Not IsNumeric(txtCuentaBancariaT_stro.Text.Trim) OrElse oDatos.Tables(0).Rows(0).Item("Valido") = "N" Then
-                Mensaje.MuestraMensaje("Cuentas bancarias", "La cuenta bancaria no es válida para el banco seleccionado, verifique que la cuenta conste de 18 dígitos.", TipoMsg.Advertencia)
-                Return
+                oDatos = New DataSet
+                oDatos = Funciones.ObtenerDatos("usp_ValidarCuentaClabe", oParametros)
+
+                If oDatos Is Nothing OrElse oDatos.Tables(0).Rows.Count = 0 Then
+                    Mensaje.MuestraMensaje("Cuentas bancarias", "Error al validar la cuenta bancaria", TipoMsg.Falla)
+                    Return
+                ElseIf Not IsNumeric(txtCuentaBancariaT_stro.Text.Trim) OrElse oDatos.Tables(0).Rows(0).Item("Valido") = "N" Then
+                    Mensaje.MuestraMensaje("Cuentas bancarias", "La cuenta bancaria no es válida para el banco seleccionado, verifique que la cuenta conste de 18 dígitos.", TipoMsg.Advertencia)
+                    Return
+                End If
+
+                'TextBox
+                oListaElementos = New List(Of String)
+
+                oListaElementos.Add("SucursalT_stro")
+                oListaElementos.Add("BeneficiarioT_stro")
+                oListaElementos.Add("CuentaBancariaT_stro")
+                oListaElementos.Add("PlazaT_stro")
+                oListaElementos.Add("AbaT_stro")
+
+                For Each oElemento In oListaElementos
+
+                    oCampoOculto = TryCast(cph_principal.FindControl(String.Format("o{0}", oElemento)), HiddenField)
+
+                    If Not oCampoOculto Is Nothing Then
+
+                        oTxt = TryCast(pnlDatosBanco_stro.FindControl(String.Format("txt{0}", oElemento)), TextBox)
+
+                        If Not oTxt Is Nothing Then
+                            oCampoOculto.Value = oTxt.Text.ToString.Trim
+                        End If
+
+                    End If
+
+                Next
+
+                'ComboBox
+                oListaElementos = New List(Of String)
+
+                oListaElementos.Add("BancoT_stro")
+                oListaElementos.Add("MonedaT_stro")
+                oListaElementos.Add("TipoCuentaT_stro")
+
+                For Each oElemento In oListaElementos
+
+                    oCampoOculto = TryCast(cph_principal.FindControl(String.Format("o{0}", oElemento)), HiddenField)
+
+                    If Not oCampoOculto Is Nothing Then
+
+                        oCmb = TryCast(pnlDatosBanco_stro.FindControl(String.Format("cmb{0}", oElemento)), DropDownList)
+
+                        If Not oCmb Is Nothing AndAlso oCmb.Items.Count > 0 Then
+                            oCampoOculto.Value = oCmb.SelectedValue.ToString
+                        End If
+
+                    End If
+
+                Next
+
+                Funciones.CerrarModal("#Transferencias_stro")
+            Else
+                Mensaje.MuestraMensaje("Cuentas bancarias", "Error al validar la confirmacion de la cuenta bancaria", TipoMsg.Falla)
+                txtCuentaBancariaT_stro_Confirmacion.Text = String.Empty
+                txtCuentaBancariaT_stro.Text = String.Empty
             End If
-
-            'TextBox
-            oListaElementos = New List(Of String)
-
-            oListaElementos.Add("SucursalT_stro")
-            oListaElementos.Add("BeneficiarioT_stro")
-            oListaElementos.Add("CuentaBancariaT_stro")
-            oListaElementos.Add("PlazaT_stro")
-            oListaElementos.Add("AbaT_stro")
-
-            For Each oElemento In oListaElementos
-
-                oCampoOculto = TryCast(cph_principal.FindControl(String.Format("o{0}", oElemento)), HiddenField)
-
-                If Not oCampoOculto Is Nothing Then
-
-                    oTxt = TryCast(pnlDatosBanco_stro.FindControl(String.Format("txt{0}", oElemento)), TextBox)
-
-                    If Not oTxt Is Nothing Then
-                        oCampoOculto.Value = oTxt.Text.ToString.Trim
-                    End If
-
-                End If
-
-            Next
-
-            'ComboBox
-            oListaElementos = New List(Of String)
-
-            oListaElementos.Add("BancoT_stro")
-            oListaElementos.Add("MonedaT_stro")
-            oListaElementos.Add("TipoCuentaT_stro")
-
-            For Each oElemento In oListaElementos
-
-                oCampoOculto = TryCast(cph_principal.FindControl(String.Format("o{0}", oElemento)), HiddenField)
-
-                If Not oCampoOculto Is Nothing Then
-
-                    oCmb = TryCast(pnlDatosBanco_stro.FindControl(String.Format("cmb{0}", oElemento)), DropDownList)
-
-                    If Not oCmb Is Nothing AndAlso oCmb.Items.Count > 0 Then
-                        oCampoOculto.Value = oCmb.SelectedValue.ToString
-                    End If
-
-                End If
-
-            Next
-
-            Funciones.CerrarModal("#Transferencias_stro")
-
         Catch ex As Exception
             Mensaje.MuestraMensaje("Master Page", String.Format("btnTransferenciasBancariasAceptar_stro_Click Error: {0}", ex.Message), TipoMsg.Falla)
         End Try
@@ -2231,9 +2244,11 @@ Partial Class Pages_SiteMaster
             cmbMonedaT_stro.DataValueField = "Codigo"
             cmbMonedaT_stro.DataBind()
 
+
             Me.txtSucursalT_stro.Text = String.Empty
             Me.txtBeneficiarioT_stro.Text = String.Empty
             Me.txtCuentaBancariaT_stro.Text = String.Empty
+            Me.txtCuentaBancariaT_stro_Confirmacion.Text = String.Empty
             Me.txtPlazaT_stro.Text = String.Empty
             Me.txtAbaT_stro.Text = String.Empty
 
@@ -2245,6 +2260,7 @@ Partial Class Pages_SiteMaster
                 Me.txtSucursalT_stro.Text = IIf(oValoresActuales("Sucursal").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Sucursal"))
                 Me.txtBeneficiarioT_stro.Text = IIf(oValoresActuales("Beneficiario").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Beneficiario"))
                 Me.txtCuentaBancariaT_stro.Text = IIf(oValoresActuales("CuentaBancaria").ToString.Trim = String.Empty, String.Empty, oValoresActuales("CuentaBancaria"))
+                Me.txtCuentaBancariaT_stro_Confirmacion.Text = IIf(oValoresActuales("CuentaBancaria").ToString.Trim = String.Empty, String.Empty, oValoresActuales("CuentaBancaria"))
                 Me.txtPlazaT_stro.Text = IIf(oValoresActuales("Plaza").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Plaza"))
                 Me.txtAbaT_stro.Text = IIf(oValoresActuales("ABA").ToString.Trim = String.Empty, String.Empty, oValoresActuales("ABA"))
 
@@ -2256,12 +2272,15 @@ Partial Class Pages_SiteMaster
                 cmbMonedaT_stro.Enabled = False
                 Me.txtBeneficiarioT_stro.Enabled = False
                 Me.txtCuentaBancariaT_stro.Enabled = False
+                txtCuentaBancariaT_stro_Confirmacion.Enabled = False
             Else
                 cmbBancoT_stro.Enabled = True
                 cmbTipoCuentaT_stro.Enabled = True
-                cmbMonedaT_stro.Enabled = True
+                cmbMonedaT_stro.Enabled = False
                 Me.txtBeneficiarioT_stro.Enabled = True
                 Me.txtCuentaBancariaT_stro.Enabled = True
+                txtCuentaBancariaT_stro_Confirmacion.Enabled = True
+                Me.txtCuentaBancariaT_stro.Text = String.Empty
             End If
 
             hid_Control.Value = Control
@@ -2276,6 +2295,5 @@ Partial Class Pages_SiteMaster
         End Try
 
     End Sub
-
 End Class
 

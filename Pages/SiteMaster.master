@@ -20,6 +20,13 @@
         <script src="../Scripts/wickedpicker.js"></script> 
         <script src="../Scripts/gridviewScroll.min.js"></script>
     </asp:ContentPlaceHolder>
+    <script language="javascript" type="text/javascript">
+            function nocopy()
+    {
+                alert("Copiar no esta disponible!");
+                return false;
+    }
+   </script>
 </head>
 
 <body>
@@ -284,7 +291,8 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField   DataField="Clave" HeaderText="Clave"  />
-                                <asp:BoundField   DataField="Descripcion" HeaderText="Descripcion"   />
+                                <asp:BoundField   DataField="Descripcion" HeaderText="Descripcion" />
+                                <asp:BoundField   DataField="OcultaCampo1" HeaderText="RFC"   />
                             </Columns>
                         </asp:GridView>
                     </asp:Panel>
@@ -369,7 +377,7 @@
                 <div><label id="lbl_Catalogo_stro">CUENTAS BANCARIAS</label></div>
             </div>
 
-            <div class="modal-body" style="height:450px">
+            <div class="modal-body" style="height:500px">
                 <asp:UpdatePanel runat="server" ID="UP_Transferencias_stro">
                     <ContentTemplate>
                         <asp:HiddenField runat="server" ID="HiddenField1" Value="" />
@@ -388,7 +396,7 @@
                                         </div>
                                         <%-- OnSelectedIndexChanged="cmb_SelectedIndexChanged" --%>
                                         <div class="col-md-7">
-                                            <asp:DropDownList Autopostback="true" ID="cmbBancoT_stro" runat="server" ClientIDMode="Static" CssClass="estandar-control tipo_pago_OP Tablero">
+                                            <asp:DropDownList Autopostback="true" ID="cmbBancoT_stro" ReadOnly="true" runat="server" ClientIDMode="Static" CssClass="estandar-control tipo_pago_OP Tablero">
                                                 <asp:ListItem Value="">Seleccione banco</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
@@ -440,7 +448,15 @@
                                             <asp:label runat="server" class="etiqueta-control">CUENTA BANCARIA</asp:label>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox runat="server" ID="txtCuentaBancariaT_stro" CssClass="estandar-control Tablero" placeholder="Cuenta bancaria"></asp:TextBox>
+                                            <asp:TextBox runat="server" ID="txtCuentaBancariaT_stro" oncopy="return nocopy()" CssClass="estandar-control Tablero" placeholder="Cuenta bancaria"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <asp:label runat="server" class="etiqueta-control">CONFIRMA CUENTA</asp:label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <asp:TextBox runat="server" onpaste="return false" TextMode="Number" ID="txtCuentaBancariaT_stro_Confirmacion"  CssClass="estandar-control Tablero" placeholder="Confirma Cuenta bancaria"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="row">
