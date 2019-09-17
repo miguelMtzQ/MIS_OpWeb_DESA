@@ -33,7 +33,7 @@
                             <asp:DropDownList runat="server" ID="cmbModuloOP" CssClass="col-md-1 estandar-control" Width="36%">
                                 <asp:ListItem Text="Seleccione módulo" Value="0"></asp:ListItem>
                                 <asp:ListItem Text="Ordenes de pago de siniestros" Value="1"></asp:ListItem>
-                                <asp:ListItem Text="Autorizaciones varias" Value="2"></asp:ListItem>
+                                <%--<asp:ListItem Text="Autorizaciones varias" Value="2"></asp:ListItem>--%>
                                 <asp:ListItem Text="Circuito de ordenes de pago" Value="3"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
@@ -532,7 +532,7 @@
                                   <asp:TemplateField HeaderText="" HeaderStyle-CssClass="Centro" ItemStyle-CssClass="Centrado" ItemStyle-Width="2%" ItemStyle-VerticalAlign="Top">
                                     <ItemTemplate>
                                         <div style="padding-top:10px;">
-                                            <asp:CheckBox runat="server"  ID="chkSeleccionOP" Checked="false" Visible='<%# CBool(Eval("Preautorizada")) %>' />
+                                            <asp:CheckBox runat="server"  ID="chkSeleccionOP" Checked="false" Visible="false" />
                                             <input type="image" src="../Images/contraer_mini.png" class="Ocultar" runat="server" id="inp_Ocultar" />
                                             <input type="image" src="../Images/expander_mini.png" class="Mostrar" runat="server" id="inp_Mostrar" />
                                             <asp:TextBox runat="server" ID="txt_Estado" Text='1' CssClass="NoDisplay Estado" ></asp:TextBox>
@@ -549,7 +549,7 @@
                                                 <%--Datos de encabezado de la orden de pago--%>
                                                 <table style="width:100%;">
                                                     <tr>
-                                                        <td style="width:2%;"><asp:CheckBox runat="server"  ID="chkImpresion" Checked='true'/></td>
+                                                        <td style="width:2%;"><asp:CheckBox runat="server"  ID="chkImpresion" Checked='false'/></td>
                                                         <td style="width:6%;"><asp:Label runat="server" ID="lblOrdenPago" Text='<%# Eval("nro_op")%>'  Width="100%"></asp:Label></td>
                                                         <td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# Eval("contratante") %>' Width="100%" ></asp:Label></td>
                                                         <td style="width:35%;"><asp:Label runat="server" ID="lblMoneda" Text='<%# Eval("txt_cheque_a_nom") %>' CssClass="Derecha" Width="100%"  ></asp:Label></td>
@@ -775,6 +775,32 @@
                                                             <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: center;">
                                                                 <asp:Label runat="server" Font-Bold="true">AUTORIZACIONES</asp:Label>
                                                             </div>
+                                                            <div style="width:100%;border-bottom:inset;border-width:1px;text-align:left;padding-left:30px;">
+                                                                   <div class="row">
+                                                                       <div class="col-md-2">
+                                                                            <asp:CheckBox runat="server" ID="chk_Rechazo" Checked='<%# Eval("Rechazada") %>' OnCheckedChanged="chk_Rechazo_CheckedChanged" AutoPostBack="true"/>
+                                                                            <asp:Label runat="server" Text="RECHAZAR" Font-Bold="true"></asp:Label>
+                                                                       </div>
+                                                                       <div class="col-md-4">
+             <%--                                                              <asp:LinkButton runat="server" ID="lnk_SelMotivo" Text="MOTIVO DE RECHAZO"  Width="100%"  OnClick="lnk_SelMotivo_Click"></asp:LinkButton>
+                                                                           <asp:TextBox runat="server" ID="txt_Motivo" TextMode="MultiLine" CssClass="NoDisplay" Text='<%# Eval("motivo_rechazo") %>'></asp:TextBox>--%>
+                                                                           <asp:label runat="server" ID="lnk_SelMotivo" Text="MOTIVO DE RECHAZO" visible="false"  Width="50%"></asp:label>
+                                                                           <asp:DropDownList runat="server" ID="txt_Motivo" Visible="false" width="80%">
+                                                                               <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                                                                              <asp:ListItem Value="1">Importe incorrecto</asp:ListItem>
+                                                                                <asp:ListItem Value="2">Error en la cuenta bancaria</asp:ListItem>
+                                                                               <asp:ListItem Value="3">Error en el concepto de pago</asp:ListItem>
+                                                                               <asp:ListItem Value="4">Error en la forma de pago</asp:ListItem>
+                                                                               <asp:ListItem Value="5">Error en la moneda de pago</asp:ListItem>
+                                                                               <asp:ListItem Value="6">Beneficiario incorrecto</asp:ListItem>
+                                                                               <asp:ListItem Value="7">Error en el tipo de pago</asp:ListItem>
+                                                                               <asp:ListItem Value="8">Error en el número del Siniestro o Subsiniestro</asp:ListItem>
+                                                                               <asp:ListItem Value="9">Siniestro improcedente de pago</asp:ListItem>
+                                                                               <asp:ListItem Value="10">Otros (especificar)</asp:ListItem>
+                                                                           </asp:DropDownList>
+                                                                       </div>
+                                                                   </div>
+                                                                </div>
                                                             <div class="row">
                                                                 <div class="col-md-4 Centro">
                                                                     <asp:CheckBox runat="server" ID="chkFirmaJefe" Checked='<%# CBool(Eval("FirmadoJefe")) %>' Enabled='<%# Eval("Jefe") = Master.cod_usuario  %>' AutoPostBack="true" Visible='<%# Eval("NivelAutorizacion") = 1  %>' OnCheckedChanged="chkFirmaJefe_CheckedChanged"  />
@@ -821,7 +847,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-4 Centro">
-                                                                    <asp:CheckBox runat="server" ID="chkFirmaSolicitante" Checked='<%# CBool(Eval("FirmadoSolicitante"))  %>' Enabled='<%# Eval("Solicitante") = Master.cod_usuario  %>' AutoPostBack="true" OnCheckedChanged="chkFirmaSolicitante_CheckedChanged" />
+                                                                    <asp:CheckBox runat="server" ID="chkFirmaSolicitante" Checked='<%# CBool(Eval("FirmadoSolicitante"))  %>' Enabled='<%# Eval("Solicitante") = Master.cod_usuario And String.IsNullOrWhiteSpace(Eval("FechaFirmaSolicitante").ToString) %>' AutoPostBack="true" OnCheckedChanged="chkFirmaSolicitante_CheckedChanged" />
                                                                     <%--<asp:Image runat="server" ID="img_BlankJefe" ImageUrl="~/Images/Firmas/BLANK.jpg" Visible='<%# String.IsNullOrWhiteSpace(Eval("NombreJefe")) %>' CssClass="img-firma" />--%>
                                                                     <asp:Image runat="server" ID="Image1" ImageUrl='<%# "data:image/png;base64," + Convert.ToBase64String(Eval("FirmaSolicitante"))  %>' Visible="true" CssClass="img-firma" />
                                                                     <%--<asp:Label runat="server" ID="lbl_Fechajefe" Text='<%# Eval("fec_firma_jefe") %>' Width="100%" Font-Bold="true" CssClass="Centro" ForeColor="#003A5D"></asp:Label>--%>
@@ -848,14 +874,15 @@
                                                                                        <asp:HiddenField runat="server" ID="hid_MailJefe" Value='<%# Eval("mail_jefe") %>' ></asp:HiddenField>--%>
                                                                 </div>
                                                                 <div class="col-md-4 Centro">
-                                                                    <asp:CheckBox runat="server" ID="chkFirmaSubdirector" Checked='<%# CBool(Eval("FirmadoSubdirector"))  %>' Enabled='<%# Eval("Subdirector") = Master.cod_usuario  %>' AutoPostBack="true" Visible='<%# Eval("NivelAutorizacion") >= 3 Or Eval("Transferencia") = 0 %>'  OnCheckedChanged="chkFirmaSubdirector_CheckedChanged" />
+                                                                    <%--<asp:CheckBox runat="server" ID="chkFirmaSubdirector" Checked='<%# CBool(Eval("FirmadoSubdirector"))  %>' Enabled='<%# Eval("Subdirector") = Master.cod_usuario  %>' AutoPostBack="true" Visible='<%# Eval("NivelAutorizacion") >= 3 Or Eval("Transferencia") = 0 %>'  OnCheckedChanged="chkFirmaSubdirector_CheckedChanged" />--%>
+                                                                    <asp:CheckBox runat="server" ID="chkFirmaSubdirector" Checked='<%# CBool(Eval("FirmadoSubdirector"))  %>' Enabled='<%# Eval("Subdirector") = Master.cod_usuario  %>' AutoPostBack="true" Visible='<%# Eval("NivelAutorizacion") >= 3 %>'  OnCheckedChanged="chkFirmaSubdirector_CheckedChanged" />
                                                                     <%--<asp:Image runat="server" ID="Image1" ImageUrl="~/Images/Firmas/BLANK.jpg" Visible='<%# String.IsNullOrWhiteSpace(Eval("NombreContabilidad")) %>' CssClass="img-firma" />--%>
-                                                                    <asp:Image runat="server" ID="Image3" ImageUrl='<%# "data:image/png;base64," + Convert.ToBase64String(Eval("FirmaSubdirector"))  %>' Visible='<%# Eval("NivelAutorizacion") >= 3 Or Eval("Transferencia") = 0  %>' CssClass="img-firma" />
+                                                                    <asp:Image runat="server" ID="Image3" ImageUrl='<%# "data:image/png;base64," + Convert.ToBase64String(Eval("FirmaSubdirector"))  %>' Visible='<%# Eval("NivelAutorizacion") >= 3 %>' CssClass="img-firma" />
                                                                     <%--<asp:Label runat="server" ID="lbl_Fechajefe" Text='<%# Eval("fec_firma_jefe") %>' Width="100%" Font-Bold="true" CssClass="Centro" ForeColor="#003A5D"></asp:Label>--%>
-                                                                    <div runat="server" style="width: 100%; border-style: inset; border-width: 1px;" visible='<%# Eval("NivelAutorizacion") >= 3 Or Eval("Transferencia") = 0   %>'></div>
-                                                                    <asp:LinkButton runat="server" ID="LinkButton3" Text='<%# Eval("NombreSubdirector") %>' Width="100%" OnClick="lnk_SelJefe_Click" Visible='<%# Eval("NivelAutorizacion") >= 3 Or Eval("Transferencia") = 0   %>'></asp:LinkButton>
-                                                                    <asp:Label runat="server" Text="SUBDIRECTOR" Font-Bold="true" Visible='<%# Eval("NivelAutorizacion") >= 3 Or Eval("Transferencia") = 0   %>'></asp:Label>
-                                                                    <asp:Label runat="server" ID="lblPendienteFirmaSubdirector" Text="¡Pendiente de Firma!" ForeColor="Red" Font-Bold="true" Visible='<%#  (Eval("NivelAutorizacion") >= 3 Or Eval("Transferencia") = 0) AndAlso Not CBool(Eval("FirmadoSubdirector"))  %>'></asp:Label>
+                                                                    <div runat="server" style="width: 100%; border-style: inset; border-width: 1px;" visible='<%# Eval("NivelAutorizacion") >= 3 %>'></div>
+                                                                    <asp:LinkButton runat="server" ID="LinkButton3" Text='<%# Eval("NombreSubdirector") %>' Width="100%" OnClick="lnk_SelJefe_Click" Visible='<%# Eval("NivelAutorizacion") >= 3 %>'></asp:LinkButton>
+                                                                    <asp:Label runat="server" Text="SUBDIRECTOR" Font-Bold="true" Visible='<%# Eval("NivelAutorizacion") >= 3 %>'></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblPendienteFirmaSubdirector" Text="¡Pendiente de Firma!" ForeColor="Red" Font-Bold="true" Visible='<%#  (Eval("NivelAutorizacion") >= 3) AndAlso Not CBool(Eval("FirmadoSubdirector"))  %>'></asp:Label>
                                                                     <asp:HiddenField runat="server" ID="hidSubdirector" Value='<%# Eval("Subdirector") %>' ></asp:HiddenField>
                                                                     <%--<asp:HiddenField runat="server" ID="hid_SelJefe" Value='<%# Eval("user_id_jefe") %>' ></asp:HiddenField>
                                                                                        
@@ -892,7 +919,7 @@
                                         </div>
 
                                     </ItemTemplate>
-                                </asp:TemplateField>                             
+                                    </asp:TemplateField>    
                              </Columns>
                              <PagerStyle CssClass="pager" />
                             <PagerSettings Mode="NumericFirstLast" FirstPageText="Primero" LastPageText="Ultimo" />
@@ -937,17 +964,17 @@
                     </div>
                     <div class="col-md-4">
                         <div style="width:100%; text-align:right;">
-                            <asp:LinkButton id="btn_Rechazar" runat="server" class="btn botones Autorizacion">
+                           <%-- <asp:LinkButton id="btn_Rechazar" runat="server" class="btn botones Autorizacion">
                                 <span>
                                     <img class="btn-cancelar"/>
                                     Rechazar
                                 </span>
-                            </asp:LinkButton>
+                            </asp:LinkButton>--%>
 
                             <asp:LinkButton id="btn_Firmar" runat="server" class="btn botones Autorizacion">
                                 <span>
-                                    <img class="btn-modificar"/>
-                                    Autorizar
+                                    <img class="btn-aceptar"/>
+                                    Aceptar
                                 </span>
                             </asp:LinkButton>
 
@@ -1031,15 +1058,131 @@
         </asp:UpdatePanel>
     </div>
 
-    <div id="Rechazo" style="width:30%" class="modal-catalogo" >
+<%--      <div id="Resumen" style="width:50%" class="modal-catalogo" >
+        <asp:UpdatePanel runat="server" ID="updResumen">
+            <ContentTemplate>
+                <div class="cuadro-titulo" style="height:30px">
+                    <button type="button" class="close"  data-dismiss="modal">&times;</button>
+                    <div class="titulo-modal">Resumen Operaciones</div>
+                </div>
+                
+                <div class="panel-contenido">  
+                    <asp:Label runat="server" Text="PARA AUTORIZAR" Font-Bold="true"></asp:Label>
+                    <asp:Panel runat="server" ID="Panel2" Width="100%" Height="200px" ScrollBars="Vertical">
+                        <asp:GridView runat="server"  ID="gvd_Autorizadas" AutoGenerateColumns="false"   DataKeyNames=""
+                                        GridLines="None"  ShowHeaderWhenEmpty="true" CssClass="grid-view"
+                                        HeaderStyle-CssClass="header" >
+                            <Columns>
+                                <asp:TemplateField HeaderText="No.Orden" HeaderStyle-CssClass="Centro">
+                                    <ItemTemplate>
+                                        <asp:textbox runat="server" ID="txtOP" CssClass="estandar-control Tablero" Enabled="false" Text='<%# Eval("noOP") %>' Width="100px"></asp:textbox>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+                    </asp:Panel>
+                    <asp:Label runat="server" Text="PARA CANCELAR" Font-Bold="true"></asp:Label>
+                    <asp:Panel runat="server" ID="Panel3" Width="100%" Height="200px" ScrollBars="Vertical">
+                        <asp:GridView runat="server"  ID="gvd_Canceladas" AutoGenerateColumns="false"   DataKeyNames=""
+                                        GridLines="None"  ShowHeaderWhenEmpty="true" CssClass="grid-view"
+                                        HeaderStyle-CssClass="header" >
+                            <Columns>
+                                <asp:TemplateField HeaderText="No.Orden" HeaderStyle-CssClass="Centro">
+                                    <ItemTemplate>
+                                        <asp:textbox runat="server" ID="txtNoOP" CssClass="estandar-control Tablero" Enabled="false" Text='<%# Eval("noOP") %>' Width="100px"></asp:textbox>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Justificación" HeaderStyle-CssClass="Izquierda">
+                                    <ItemTemplate>
+                                        <asp:textbox runat="server" ID="txtJustif" CssClass="estandar-control Tablero" Enabled="false" Text='<%# Eval("Justificacion") %>' Width="200px"></asp:textbox>
+                                    </ItemTemplate>
+                            </Columns>
+                                </asp:TemplateField>
+                        </asp:GridView>
+                    </asp:Panel>
+                </div>
+
+                <div style="width:100%;text-align:right; border-top-style:inset; border-width:1px; border-color:#003A5D">
+                    <asp:LinkButton id="lnkAceptarProc" runat="server" class="btn botones">
+                        <span>
+                            <img class="btn-aceptar"/>
+                            Aceptar
+                        </span>
+                    </asp:LinkButton>
+                    <asp:LinkButton id="lnkCancelaProc" runat="server" data-dismiss="modal" class="btn botones CierraFirma">
+                        <span>
+                            <img class="btn-cancelar"/>
+                            Cancelar
+                        </span>
+                    </asp:LinkButton>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>--%>
+
+    <div id="Resumen" style="width:30%" class="modal-catalogo" >
         <asp:UpdatePanel runat="server" ID="upRechazo">
             <ContentTemplate>
                 <div class="cuadro-titulo" style="height:30px">
                     <button type="button" class="close"  data-dismiss="modal">&times;</button>
-                    <div class="titulo-modal">Motivo de Rechazo</div>
+                    <div class="titulo-modal">Resumen de Autorizaciones y Rechazos de Ops</div>
                 </div>
 
-                <asp:HiddenField runat="server" ID="hid_IndexRechazo" Value="-1" />
+                <div class="panel-contenido">  
+                    <asp:Label runat="server" Text="PARA AUTORIZAR" Font-Bold="true"></asp:Label>
+                    <asp:Panel runat="server" ID="Panel2" Width="100%" Height="200px" ScrollBars="Vertical">
+                        <asp:GridView runat="server"  ID="gvd_Autorizadas" AutoGenerateColumns="false"   DataKeyNames=""
+                                        GridLines="None"  ShowHeaderWhenEmpty="true" CssClass="grid-view"
+                                        HeaderStyle-CssClass="header" >
+                            <Columns>
+                                <asp:TemplateField HeaderText="No.Orden" HeaderStyle-CssClass="Centro">
+                                    <ItemTemplate>
+                                        <asp:textbox runat="server" ID="txtOP" CssClass="estandar-control Tablero" Enabled="false" Text='<%# Eval("noOP") %>' Width="100px"></asp:textbox>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+                    </asp:Panel>
+                    <asp:Label runat="server" Text="PARA CANCELAR" Font-Bold="true"></asp:Label>
+                    <asp:Panel runat="server" ID="Panel3" Width="100%" Height="200px" ScrollBars="Vertical">
+                        <asp:GridView runat="server"  ID="gvd_Canceladas" AutoGenerateColumns="false"   DataKeyNames=""
+                                        GridLines="None"  ShowHeaderWhenEmpty="true" CssClass="grid-view"
+                                        HeaderStyle-CssClass="header" >
+                            <Columns>
+                                <asp:TemplateField HeaderText="No.Orden" HeaderStyle-CssClass="Centro">
+                                    <ItemTemplate>
+                                        <asp:textbox runat="server" ID="txtNoOP" CssClass="estandar-control Tablero" Enabled="false" Text='<%# Eval("noOP") %>' Width="100px"></asp:textbox>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Justificación" HeaderStyle-CssClass="Izquierda">
+                                    <ItemTemplate>
+                                        <asp:textbox runat="server" ID="txtJustif" CssClass="estandar-control Tablero" Enabled="false" Text='<%# Eval("Justificacion") %>' Width="200px"></asp:textbox>
+                                    </ItemTemplate>
+                                 </asp:TemplateField>
+                            </Columns>
+                               
+                        </asp:GridView>
+                    </asp:Panel>
+                </div>
+                    <asp:HiddenField runat="server" ID="hid_Token" Value="0" />
+                    <asp:Label runat="server" id="lblToken" CssClass="estandar-control Tablero Izquierda" Text="Capture número de token para autorizar" Font-Bold="true"></asp:Label>
+                     <asp:textbox runat="server" ID="txtToken" Width="100px" Height="20px"></asp:textbox>
+                 <div style="width:100%;text-align:right; border-top-style:inset; border-width:1px; border-color:#003A5D">
+                 
+                    <asp:LinkButton id="lnkAceptarProc" runat="server" class="btn botones">
+                        <span>
+                            <img class="btn-aceptar"/>
+                            Aceptar
+                        </span>
+                    </asp:LinkButton>
+                    <asp:LinkButton id="lnkCancelaProc" runat="server" data-dismiss="modal" class="btn botones CierraFirma">
+                        <span>
+                            <img class="btn-cancelar"/>
+                            Cancelar
+                        </span>
+                    </asp:LinkButton>
+                </div>
+                <%--<asp:HiddenField runat="server" ID="hid_IndexRechazo" Value="-1" />
                 <asp:TextBox ID="txt_MotivoRechazo" runat="server" CssClass="estandar-control" TextMode ="MultiLine"  Width="100%" Height="150px"></asp:TextBox>
 
                 <div style="width:100%; text-align:right;border-top-style:inset; border-width:1px; border-color:#003A5D">
@@ -1055,7 +1198,7 @@
                             Cancelar
                         </span>
                     </asp:LinkButton>
-                </div>
+                </div>--%>
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>
@@ -1093,7 +1236,7 @@
         </asp:UpdatePanel>
     </div>
 
-
+   
     
 
     
