@@ -301,6 +301,7 @@ Partial Class Siniestros_OrdenPago
                     Me.oTipoCuentaT_stro.Value = String.Empty
                     Me.oPlazaT_stro.Value = String.Empty
                     Me.oAbaT_stro.Value = String.Empty
+                    Me.txtDescuentos.Text = String.Empty 'txt de facturas
 
                     'If Me.cmbConcepto.Items.Count > 0 Then
                     '    Me.cmbConcepto.Items.Clear()
@@ -795,7 +796,28 @@ Partial Class Siniestros_OrdenPago
                     Else
                         oTxt.Text = IIf(IsDBNull(oGrdOrden.Rows(iIndiceFila)("Pago")), "", oGrdOrden.Rows(iIndiceFila)("Pago"))
                     End If
-
+                Case "Descuentos"
+                    If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                        If txtDescuentos.Text = "" Then
+                            txtDescuentos.Text = oTxt.Text
+                            oGrdOrden.Rows(iIndiceFila)("Descuentos") = oTxt.Text
+                            CalcularTotales()
+                        Else
+                            If Decimal.Parse(txtDescuentos.Text) >= 1 Then
+                                txtDescuentos.Text = Decimal.Parse(txtDescuentos.Text) + Decimal.Parse(oTxt.Text)
+                                oGrdOrden.Rows(iIndiceFila)("Descuentos") = oTxt.Text
+                                CalcularTotales()
+                            Else
+                                txtDescuentos.Text = oTxt.Text
+                                oGrdOrden.Rows(iIndiceFila)("Descuentos") = oTxt.Text
+                                CalcularTotales()
+                            End If
+                        End If
+                    Else 'esto es para la parte de terceros y asegurados que no se tiene contemplado los descuentos
+                        txtDescuentos.Text = 0.0
+                        oTxt.Text = txtDescuentos.Text
+                        oGrdOrden.Rows(iIndiceFila)("Descuentos") = oTxt.Text
+                    End If
                 Case "deducibles"
 
                     If IsNumeric(oTxt.Text.Trim) Then
@@ -921,7 +943,7 @@ Partial Class Siniestros_OrdenPago
                         oFila("Siniestro") = txtSiniestro.Text.Trim()
                         oFila("RFC") = txtRFC.Text.Trim()
                         oFila("Moneda") = cmbMonedaPago.SelectedItem.ToString()
-                        oFila("ClasePago") = "6"
+                        oFila("ClasePago") = "615"
                         oFila("ConceptoPago") = cmbConcepto.SelectedValue
                         oFila("OrigenPago") = cmbOrigendePago.SelectedValue
                         oFila("Poliza") = txtCodigoCuenta.Text.Trim()
@@ -1678,8 +1700,19 @@ Partial Class Siniestros_OrdenPago
             Me.txtTotalRetenciones.Text = String.Empty
             Me.txtTotal.Text = String.Empty
 
+            Me.iptxtTotalAutorizacion.Text = String.Empty 'importe de pago
+            Me.iptxtTotalImpuestos.Text = String.Empty
+            Me.iptxtTotal.Text = String.Empty 'importe de pago
+
+            Me.txtTotalAutorizacionFac.Text = String.Empty 'txt de facturas
+            Me.txtTotalImpuestosFac.Text = String.Empty
+            Me.txtTotalRetencionesFac.Text = String.Empty
+            Me.txtTotalFac.Text = String.Empty
+            Me.txtTotalAutorizacionNacionalFac.Text = String.Empty
+            Me.txtDescuentos.Text = String.Empty 'txt de facturas
+
             Me.txtBeneficiario.Text = String.Empty
-            'Me.txtBeneficiario_stro.Enabled = True   ' lo cambie para que se habilite la busqueda
+            Me.txtBeneficiario_stro.Enabled = True   ' lo cambie para que se habilite la busqueda
 
             If Me.cmbOrigendePago.Items.Count > 0 Then
                 Me.cmbOrigendePago.Items.Clear()
@@ -1765,10 +1798,13 @@ Partial Class Siniestros_OrdenPago
         Dim dTipoCambio As Double
         Dim dImporteImpuesto As Double = 0
         Dim dImporteRetencion As Double = 0
+        Dim dDescuentos As Double = 0
 
         Dim dTotalAutorizacionNacional As Double = 0   'Utilizado solo para impuestos
         Dim dTotalImpuestosNacional As Double = 0
 
+        Dim dcod_clase_pago As Int16 = 0
+        Dim dcod_cpto As Int16 = 0
         Try
 
             If txtDescCuenta.Text = "NACIONAL" Then
@@ -1784,9 +1820,14 @@ Partial Class Siniestros_OrdenPago
 
                 'dPago = IIf(IsDBNull(oFila("Pago")), 0, oFila("Pago"))
                 dPago = IIf(IsDBNull(oFila("Subtotal")), 0, oFila("Subtotal"))
+                dcod_clase_pago = IIf(IsDBNull(oFila("ClasePago")), 0, oFila("ClasePago"))
+                dcod_cpto = IIf(IsDBNull(oFila("ConceptoPago")), 0, oFila("ConceptoPago"))
+                dDescuentos = IIf(IsDBNull(oFila("Descuentos")), 0, oFila("Descuentos"))
 
                 If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
 
+                    dPago = dPago - dDescuentos
+                    txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(Decimal.Parse(txtTotalAutorizacionFac.Text) - dDescuentos), 2)
                     If dPago > 0 Then
 
                         'Si es un proveedor cuya factura haya sido registrada en pesos, se tomara la moneda de pago en pesos
@@ -1804,8 +1845,32 @@ Partial Class Siniestros_OrdenPago
                         ObtenerImpuestosFondos(CInt(Me.txtcod_pres.Text), CInt(oFila("ClasePago")), CInt(oFila("ConceptoPago")), CInt(oFila("IdSiniestro")), dPago, dImporteImpuesto, dImporteRetencion)
 
                         If dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
+                            'Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
+                            'dPago = 0
+                            'dImporteImpuesto = 0
+                            'dImporteRetencion = 0
                             Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
-                            dPago = 0
+                            txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                            txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                            txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                            txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                            txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                            txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                            If dcod_clase_pago = 26 AndAlso dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
+                                txtTotalAutorizacion.Text = dPago
+                                txtTotalImpuestos.Text = 0
+                                txtTotalRetenciones.Text = 0
+                                txtTotal.Text = dPago
+                                txtTotalNacional.Text = dPago
+
+                                txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                                txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                                txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                                txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+
+                            End If
                             dImporteImpuesto = 0
                             dImporteRetencion = 0
                         ElseIf (dImporteImpuesto = 0 AndAlso dImporteRetencion = 0) OrElse
@@ -1836,9 +1901,9 @@ Partial Class Siniestros_OrdenPago
                                 dTotalImpuestosNacional = 0
 
                             Case 1
-                                dTotalAutorizacion += (dPago / dTipoCambio)
-                                dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, (dImporteImpuesto / dTipoCambio), 0)
-                                dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, (dImporteRetencion / dTipoCambio), 0)
+                                dTotalAutorizacion += dPago
+                                dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, (dImporteImpuesto), 0)
+                                dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, (dImporteRetencion), 0)
 
                                 dTotalAutorizacionNacional += dPago
                                 dTotalImpuestosNacional += (dImporteImpuesto - dImporteRetencion)
@@ -1856,7 +1921,7 @@ Partial Class Siniestros_OrdenPago
                                 dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteRetencion, 0)
 
                                 'Como la póliza esta en dólares, se obtendra el valor en pesos para la autorización nacional.
-                                dTotalAutorizacionNacional += dPago * dTipoCambio
+                                dTotalAutorizacionNacional += dPago
 
                             Case Else
                                 dTotalAutorizacion = 0
@@ -1875,28 +1940,41 @@ Partial Class Siniestros_OrdenPago
                 Case eTipoUsuario.Asegurado, eTipoUsuario.Tercero
 
                     'Cambiara segun si la moneda de pago son pesos o dolares
-                    Me.txtTotalAutorizacion.Text = String.Format("{0:0.##}", Math.Round(dTotalAutorizacion, 2))
+                    Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
+                    Me.iptxtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
 
                     'Si la moneda de la póliza es nacional se obtendran total de pago en pesos, si no los tomará del total de autorización
                     'que seran dolares
-                    'Me.txtTotalAutorizacionNacional.Text = String.Format("{0:0.##}", Math.Round(IIf(Me.txtDescCuenta.Text = "NACIONAL", dTotalAutorizacion, dTotalAutorizacionNacional), 2))
+                    'Me.iptxtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(IIf(Me.txtMonedaPoliza.Text = "NACIONAL", dTotalAutorizacion, dTotalAutorizacionNacional), 2))
 
                     'Los impuestos y retenciones deben ser cero para asegurados y terceros
-                    Me.txtTotalImpuestos.Text = String.Format("{0:0.##}", Math.Round(dTotalImpuestos, 2))
-                    Me.txtTotalRetenciones.Text = String.Format("{0:0.##}", Math.Round(dTotalRetenciones, 2))
+                    Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                    Me.iptxtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                    Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
+                    Me.iptxtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
 
                     'El valor del total sera el total en la moneda la cual este registrada la póliza
-                    Me.txtTotal.Text = String.Format("{0:0.##}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
+                    Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
+                    Me.iptxtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
 
-                    Me.txtTotalNacional.Text = dTotalAutorizacionNacional
+                    Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
+                    Me.iptxtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
 
                 Case eTipoUsuario.Proveedor
                     Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
-                    'Me.txtTotalAutorizacionNacional.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion * dTipoCambio, 2))
                     Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
                     Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
                     Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
                     Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacionNacional + dTotalImpuestosNacional, 2))
+
+                    Me.iptxtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
+                    Me.iptxtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                    Me.iptxtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
+                    Me.iptxtTotal.Text = String.Format("{0:0,0.00}", Math.Round((dTotalAutorizacion) + (dTotalImpuestos) - (dTotalRetenciones), 2))
+                    Me.iptxtTotalNacional.Text = String.Format("{0:0,0.00}", Math.Round((dTotalAutorizacionNacional) + (dTotalImpuestosNacional), 2))
+                    'Me.iptxtTotalAutorizacionNacional.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion * dTipoCambio, 2))
+
+                    Me.txtDescuentos.Text = dDescuentos
             End Select
 
         Catch ex As Exception
@@ -1999,15 +2077,192 @@ Partial Class Siniestros_OrdenPago
             Throw ex
         End Try
     End Sub
+    Public Function ValidarImpuestosOPFac() As Boolean
+
+        Dim iTotalAutorizacion As Decimal
+        Dim iTotalImpuestosn As Decimal
+        Dim iTotalRetenciones As Decimal
+        Dim iSubTotal As Decimal
+
+        Try
+            If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                'Validar los impuestos y totales de la factura con el calculo del sii
+                If txtMonedaPoliza.Text = "NACIONAL" Then
+                    iTotalAutorizacion = (Decimal.Parse(iptxtTotalAutorizacion.Text) + txtDescuentos.Text) - Decimal.Parse(txtTotalAutorizacionFac.Text)
+                    iTotalImpuestosn = Decimal.Parse(iptxtTotalImpuestos.Text) - Decimal.Parse(txtTotalImpuestosFac.Text)
+                    iTotalRetenciones = Decimal.Parse(iptxtTotalRetenciones.Text) - Decimal.Parse(txtTotalRetencionesFac.Text)
+                    iSubTotal = Decimal.Parse(iptxtTotal.Text) - Decimal.Parse(txtTotalFac.Text)
+                Else
+                    iTotalAutorizacion = (Decimal.Parse(txtTotalAutorizacionFac.Text)) + (Decimal.Parse(txtDescuentos.Text)) - Decimal.Parse(txtTotalAutorizacion.Text)
+                    iTotalImpuestosn = (Decimal.Parse(txtTotalImpuestosFac.Text)) - Decimal.Parse(txtTotalImpuestos.Text)
+                    iTotalRetenciones = (Decimal.Parse(txtTotalRetencionesFac.Text)) - Decimal.Parse(txtTotalRetenciones.Text)
+                    iSubTotal = (Decimal.Parse(txtTotalFac.Text)) - Decimal.Parse(txtTotal.Text)
+                End If
+
+                '--Autorizacion
+                If Math.Abs(iTotalAutorizacion) > 0.5 Then
+                    ValidarImpuestosOPFac = False
+                    Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Diferencia de Autorizacion: " + iTotalAutorizacion.ToString(), TipoMsg.Falla)
+                Else
+                    '--impuestos
+                    If Math.Abs(iTotalImpuestosn) > 0.5 Then
+                        ValidarImpuestosOPFac = False
+                        Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Diferencia de iTotalImpuestosn: " + iTotalImpuestosn.ToString(), TipoMsg.Falla)
+                    Else
+                        '--retenciones
+                        If Math.Abs(iTotalRetenciones) > 0.5 Then
+                            ValidarImpuestosOPFac = False
+                            Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Diferencia de iTotalRetenciones: " + iTotalRetenciones.ToString(), TipoMsg.Falla)
+                        Else
+                            '--subtotal
+                            If Math.Abs(iSubTotal) > 0.5 Then
+                                ValidarImpuestosOPFac = False
+                                Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Diferencia de iSubTotal: " + iSubTotal.ToString(), TipoMsg.Falla)
+                            Else
+                                'Debe estar en true, esto significa que no ubo diferencias en los impuestos
+                                ValidarImpuestosOPFac = True
+                            End If
+                        End If
+                    End If
+                End If
+            Else
+                'para el caso de asegurado y terceros que no tienen descuentos
+                ValidarImpuestosOPFac = True
+            End If
+        Catch ex As Exception
+            ValidarImpuestosOPFac = False
+        End Try
+    End Function
     Public Sub GenerarOrdenPago() Handles btnGrabarOP.Click
         Dim oDatos As DataSet
         oDatos = New DataSet
         Dim oParametros As New Dictionary(Of String, Object)
         Try
-            'Validamos si es un multipago 
-            If oGrdOrden.Rows.Count = 0 Then 'cambiar a uno si queremos validar que este lleno el grid
-                'No es multipago
-                If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+            If ValidarImpuestosOPFac() = True Then
+                'Validamos si es un multipago 
+                If oGrdOrden.Rows.Count = 0 Then 'cambiar a uno si queremos validar que este lleno el grid
+                    'No es multipago
+                    If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                        'PROVEEDOR
+                        oParametros.Add("Pagar_A", "2")
+                        oParametros.Add("sn_transferencia", cmbTipoPagoOP.SelectedValue)
+                        oParametros.Add("cod_modulo", "4")
+                        oParametros.Add("nro_correlativo", "0")
+                        oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim)
+                        oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
+                        oParametros.Add("imp_mo", Me.txtTotalFac.Text)
+                        oParametros.Add("imp_eq", Me.txtTotalFac.Text)
+                        oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
+                        oParametros.Add("txt_desc", Me.txtDescripcionOP.Text)
+                        oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
+                        oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
+                        oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
+                        oParametros.Add("D_C", "D")
+                        oParametros.Add("cod_concepto_cble", CInt(cmbConcepto.SelectedValue))
+                        oParametros.Add("cod_sector", 5) 'estaba el 8
+                        oParametros.Add("id_persona", Me.txtCodigoBeneficiario_stro.Text.Trim)
+                        oParametros.Add("nombre_persona", Me.txtBeneficiario_stro.Text.Trim)
+                        'Trasferencia
+                        If cmbTipoPagoOP.SelectedValue = -1 Then
+                            oParametros.Add("id_cuenta_bancaria", oBancoT_stro.Value)
+                            oParametros.Add("nro_cuenta_transferencia", oCuentaBancariaT_stro.Value)
+                            oParametros.Add("cod_banco_transferencia", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
+                            'Datos Proveedor
+                            oParametros.Add("cod_tipo_doc", CInt(cmbTipoDocumento.SelectedValue))
+                            oParametros.Add("nro_doc", " ")
+                            oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
+                            oParametros.Add("nro_comprobante_proveedor", txtNumeroComprobante.Text)
+                        Else 'CHEKE
+                            oParametros.Add("id_cuenta_bancaria", 0)
+                            oParametros.Add("nro_cuenta_transferencia", " ")
+                            oParametros.Add("cod_banco_transferencia", 0)
+                            'Datos Proveedor
+                            oParametros.Add("cod_tipo_doc", 0)
+                            oParametros.Add("nro_doc", " ") ''
+                            oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
+                            oParametros.Add("nro_comprobante_proveedor", " ")
+                        End If
+                        oParametros.Add("Analista_Fondos", cmbAnalistaSolicitante.SelectedValue)
+                        oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_grabar_op_numero_siniestro", oParametros)
+                        If (oDatos.Tables(0).Rows(0).Item("Mensaje") = "1") Then
+                            'Impresión reporte
+                            Dim ws As New ws_Generales.GeneralesClient
+                            Dim server As String = ws.ObtieneParametro(3)
+                            server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
+                            server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
+                            server = Replace(server, "OrdenPago", "OrdenPago_stro")
+                            'Funciones.EjecutaFuncion("fn_ImprimirOrden('" & server & "','" & "234777" & "');")
+                            Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", server, CStr(oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op"))))
+
+                            Mensaje.MuestraMensaje("SINIESTROS", String.Format("Solicitud de pago: {0} Orden de pago: {1}",
+                                                                                    oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("SP"),
+                                                                                    oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op")), TipoMsg.Confirma)
+                        Else
+                            Mensaje.MuestraMensaje("Error: ", oDatos.Tables(0).Rows(0).Item("Mensaje").ToString(), TipoMsg.Falla)
+                        End If
+                    Else
+                        If ValidarDatos() Then
+                            'ASEGURADO, TERCERO
+                            oParametros.Add("Pagar_A", 1)
+                            oParametros.Add("sn_transferencia", CInt(cmbTipoPagoOP.SelectedValue))
+                            oParametros.Add("cod_modulo", 4)
+                            oParametros.Add("nro_correlativo", 0)
+                            oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim.ToString())
+                            oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
+                            oParametros.Add("imp_mo", CDbl(Me.txtTotalFac.Text))
+                            oParametros.Add("imp_eq", CDbl(Me.txtTotalFac.Text))
+                            oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
+                            oParametros.Add("txt_desc", Me.txtDescripcionOP.Text.ToString())
+                            oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
+                            oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
+                            oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
+                            oParametros.Add("D_C", cmbDebitoCredito.SelectedValue)
+                            oParametros.Add("cod_concepto_cble", CInt(Me.cmbConcepto.Text.Trim))
+                            oParametros.Add("cod_sector", 5) 'estaba el 8
+                            oParametros.Add("id_persona", CInt(Me.txtCodigoBeneficiario_stro.Text.Trim))
+                            oParametros.Add("nombre_persona", Me.txtBeneficiario_stro.Text.Trim.ToString())
+                            'Trasferencia
+                            If cmbTipoPagoOP.SelectedValue = -1 Then
+                                oParametros.Add("id_cuenta_bancaria", oBancoT_stro.Value)
+                                oParametros.Add("nro_cuenta_transferencia", oCuentaBancariaT_stro.Value)
+                                oParametros.Add("cod_banco_transferencia", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
+                                'Datos Proveedor
+                                oParametros.Add("cod_tipo_doc", CInt(cmbTipoDocumento.SelectedValue))
+                                oParametros.Add("nro_doc", "NULL")
+                                oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
+                                oParametros.Add("nro_comprobante_proveedor", CInt(txtNumeroComprobante.Text))
+                            Else 'CHEKE
+                                oParametros.Add("id_cuenta_bancaria", 0)
+                                oParametros.Add("nro_cuenta_transferencia", " ")
+                                oParametros.Add("cod_banco_transferencia", 0)
+                                'Datos Proveedor
+                                oParametros.Add("cod_tipo_doc", 0)
+                                oParametros.Add("nro_doc", " ") ''
+                                oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
+                                oParametros.Add("nro_comprobante_proveedor", " ")
+                            End If
+                            oParametros.Add("Analista_Fondos", cmbAnalistaSolicitante.SelectedValue)
+                            oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_grabar_op_numero_siniestro", oParametros)
+                            If (oDatos.Tables(0).Rows(0).Item("Mensaje") = "1") Then
+                                'Impresión reporte
+                                Dim ws As New ws_Generales.GeneralesClient
+                                Dim server As String = ws.ObtieneParametro(3)
+                                server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
+                                server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
+                                server = Replace(server, "OrdenPago", "OrdenPago_stro")
+                                'Funciones.EjecutaFuncion("fn_ImprimirOrden('" & server & "','" & "234777" & "');")
+                                Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", server, CStr(oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op"))))
+
+                                Mensaje.MuestraMensaje("SINIESTROS", String.Format("Orden de pago: {1}",
+                                                                                        oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("Mensaje"),
+                                                                                        oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op")), TipoMsg.Confirma)
+                            Else
+                                Mensaje.MuestraMensaje("Error: ", oDatos.Tables(0).Rows(0).Item("Mensaje").ToString(), TipoMsg.Falla)
+                            End If
+                        End If
+                    End If
+                Else
+                    'Multipago
                     'PROVEEDOR
                     oParametros.Add("Pagar_A", "2")
                     oParametros.Add("sn_transferencia", cmbTipoPagoOP.SelectedValue)
@@ -2015,8 +2270,11 @@ Partial Class Siniestros_OrdenPago
                     oParametros.Add("nro_correlativo", "0")
                     oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim)
                     oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                    oParametros.Add("imp_mo", Me.txtTotalFac.Text)
-                    oParametros.Add("imp_eq", Me.txtTotalFac.Text)
+                    oParametros.Add("imp_mo", Me.txtTotal.Text)     'impuestos + subtotal + retencion
+                    oParametros.Add("imp_eq", Me.txtTotal.Text)     'impuestos + subtotal + retencion
+                    'oParametros.Add("imp_eq", Me.txtTotalImpuestos.Text)            'impuestos
+                    'oParametros.Add("imp_eq", Me.txtTotalAutorizacionNacional.Text) 'subtotal
+                    'oParametros.Add("imp_eq", Me.txtTotalRetenciones.Text)          'retencion
                     oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
                     oParametros.Add("txt_desc", Me.txtDescripcionOP.Text)
                     oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
@@ -2065,131 +2323,8 @@ Partial Class Siniestros_OrdenPago
                     Else
                         Mensaje.MuestraMensaje("Error: ", oDatos.Tables(0).Rows(0).Item("Mensaje").ToString(), TipoMsg.Falla)
                     End If
-                Else
-                    If ValidarDatos() Then
-                        'ASEGURADO, TERCERO
-                        oParametros.Add("Pagar_A", 1)
-                        oParametros.Add("sn_transferencia", CInt(cmbTipoPagoOP.SelectedValue))
-                        oParametros.Add("cod_modulo", 4)
-                        oParametros.Add("nro_correlativo", 0)
-                        oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim.ToString())
-                        oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                        oParametros.Add("imp_mo", CDbl(Me.txtTotalFac.Text))
-                        oParametros.Add("imp_eq", CDbl(Me.txtTotalFac.Text))
-                        oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
-                        oParametros.Add("txt_desc", Me.txtDescripcionOP.Text.ToString())
-                        oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
-                        oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
-                        oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
-                        oParametros.Add("D_C", cmbDebitoCredito.SelectedValue)
-                        oParametros.Add("cod_concepto_cble", CInt(Me.cmbConcepto.Text.Trim))
-                        oParametros.Add("cod_sector", 5) 'estaba el 8
-                        oParametros.Add("id_persona", CInt(Me.txtCodigoBeneficiario_stro.Text.Trim))
-                        oParametros.Add("nombre_persona", Me.txtBeneficiario_stro.Text.Trim.ToString())
-                        'Trasferencia
-                        If cmbTipoPagoOP.SelectedValue = -1 Then
-                            oParametros.Add("id_cuenta_bancaria", oBancoT_stro.Value)
-                            oParametros.Add("nro_cuenta_transferencia", oCuentaBancariaT_stro.Value)
-                            oParametros.Add("cod_banco_transferencia", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
-                            'Datos Proveedor
-                            oParametros.Add("cod_tipo_doc", CInt(cmbTipoDocumento.SelectedValue))
-                            oParametros.Add("nro_doc", "NULL")
-                            oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
-                            oParametros.Add("nro_comprobante_proveedor", CInt(txtNumeroComprobante.Text))
-                        Else 'CHEKE
-                            oParametros.Add("id_cuenta_bancaria", 0)
-                            oParametros.Add("nro_cuenta_transferencia", " ")
-                            oParametros.Add("cod_banco_transferencia", 0)
-                            'Datos Proveedor
-                            oParametros.Add("cod_tipo_doc", 0)
-                            oParametros.Add("nro_doc", " ") ''
-                            oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
-                            oParametros.Add("nro_comprobante_proveedor", " ")
-                        End If
-                        oParametros.Add("Analista_Fondos", cmbAnalistaSolicitante.SelectedValue)
-                        oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_grabar_op_numero_siniestro", oParametros)
-                        If (oDatos.Tables(0).Rows(0).Item("Mensaje") = "1") Then
-                            'Impresión reporte
-                            Dim ws As New ws_Generales.GeneralesClient
-                            Dim server As String = ws.ObtieneParametro(3)
-                            server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-                            server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
-                            server = Replace(server, "OrdenPago", "OrdenPago_stro")
-                            'Funciones.EjecutaFuncion("fn_ImprimirOrden('" & server & "','" & "234777" & "');")
-                            Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", server, CStr(oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op"))))
-
-                            Mensaje.MuestraMensaje("SINIESTROS", String.Format("Orden de pago: {1}",
-                                                                                    oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("Mensaje"),
-                                                                                    oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op")), TipoMsg.Confirma)
-                        Else
-                            Mensaje.MuestraMensaje("Error: ", oDatos.Tables(0).Rows(0).Item("Mensaje").ToString(), TipoMsg.Falla)
-                        End If
-                    End If
-                End If
-            Else
-                'Multipago
-                'PROVEEDOR
-                oParametros.Add("Pagar_A", "2")
-                oParametros.Add("sn_transferencia", cmbTipoPagoOP.SelectedValue)
-                oParametros.Add("cod_modulo", "4")
-                oParametros.Add("nro_correlativo", "0")
-                oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim)
-                oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                oParametros.Add("imp_mo", Me.txtTotal.Text)     'impuestos + subtotal + retencion
-                oParametros.Add("imp_eq", Me.txtTotal.Text)     'impuestos + subtotal + retencion
-                'oParametros.Add("imp_eq", Me.txtTotalImpuestos.Text)            'impuestos
-                'oParametros.Add("imp_eq", Me.txtTotalAutorizacionNacional.Text) 'subtotal
-                'oParametros.Add("imp_eq", Me.txtTotalRetenciones.Text)          'retencion
-                oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
-                oParametros.Add("txt_desc", Me.txtDescripcionOP.Text)
-                oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
-                oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
-                oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
-                oParametros.Add("D_C", "D")
-                oParametros.Add("cod_concepto_cble", CInt(cmbConcepto.SelectedValue))
-                oParametros.Add("cod_sector", 5) 'estaba el 8
-                oParametros.Add("id_persona", Me.txtCodigoBeneficiario_stro.Text.Trim)
-                oParametros.Add("nombre_persona", Me.txtBeneficiario_stro.Text.Trim)
-                'Trasferencia
-                If cmbTipoPagoOP.SelectedValue = -1 Then
-                    oParametros.Add("id_cuenta_bancaria", oBancoT_stro.Value)
-                    oParametros.Add("nro_cuenta_transferencia", oCuentaBancariaT_stro.Value)
-                    oParametros.Add("cod_banco_transferencia", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
-                    'Datos Proveedor
-                    oParametros.Add("cod_tipo_doc", CInt(cmbTipoDocumento.SelectedValue))
-                    oParametros.Add("nro_doc", " ")
-                    oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
-                    oParametros.Add("nro_comprobante_proveedor", txtNumeroComprobante.Text)
-                Else 'CHEKE
-                    oParametros.Add("id_cuenta_bancaria", 0)
-                    oParametros.Add("nro_cuenta_transferencia", " ")
-                    oParametros.Add("cod_banco_transferencia", 0)
-                    'Datos Proveedor
-                    oParametros.Add("cod_tipo_doc", 0)
-                    oParametros.Add("nro_doc", " ") ''
-                    oParametros.Add("cod_origen_pago", CInt(cmbOrigendePago.SelectedValue))
-                    oParametros.Add("nro_comprobante_proveedor", " ")
-                End If
-                oParametros.Add("Analista_Fondos", cmbAnalistaSolicitante.SelectedValue)
-                oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_grabar_op_numero_siniestro", oParametros)
-                If (oDatos.Tables(0).Rows(0).Item("Mensaje") = "1") Then
-                    'Impresión reporte
-                    Dim ws As New ws_Generales.GeneralesClient
-                    Dim server As String = ws.ObtieneParametro(3)
-                    server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-                    server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
-                    server = Replace(server, "OrdenPago", "OrdenPago_stro")
-                    'Funciones.EjecutaFuncion("fn_ImprimirOrden('" & server & "','" & "234777" & "');")
-                    Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", server, CStr(oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op"))))
-
-                    Mensaje.MuestraMensaje("SINIESTROS", String.Format("Solicitud de pago: {0} Orden de pago: {1}",
-                                                                            oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("SP"),
-                                                                            oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("nro_op")), TipoMsg.Confirma)
-                Else
-                    Mensaje.MuestraMensaje("Error: ", oDatos.Tables(0).Rows(0).Item("Mensaje").ToString(), TipoMsg.Falla)
                 End If
             End If
-
         Catch ex As Exception
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("GenerarOrdenPago error: {0}", ex.Message), TipoMsg.Falla)
         End Try
@@ -2369,6 +2504,7 @@ Partial Class Siniestros_OrdenPago
             dt.Columns.Add("Retenciones", Type.GetType("System.Double"))
             dt.Columns.Add("PagoSinIva", Type.GetType("System.Double"))
             dt.Columns.Add("PagoConIva", Type.GetType("System.Double"))
+            dt.Columns.Add("Descuentos", Type.GetType("System.Double"))
             dt.Columns.Add("Deducible", Type.GetType("System.Double"))
             dt.Columns.Add("TipoPago", Type.GetType("System.String"))
             dt.Columns.Add("NumeroCorrelaEstim", Type.GetType("System.Int32"))

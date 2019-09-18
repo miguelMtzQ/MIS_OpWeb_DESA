@@ -276,11 +276,16 @@
                                                     <asp:TextBox AutoPostBack="True" OnTextChanged="grid_TextChanged" runat="server" Text='<%# Eval("Pago") %>' CssClass="estandar-control pago" autocomplete="off" placeholder="0.00"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Deducibles">
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Descuentos">
+                                                <ItemTemplate>
+                                                    <asp:TextBox AutoPostBack="True" OnTextChanged="grid_TextChanged" runat="server" Text='<%# Eval("Descuentos") %>' CssClass="estandar-control Descuentos" autocomplete="off" placeholder="0.00"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <%--<asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Deducibles">
                                                 <ItemTemplate>
                                                     <asp:TextBox AutoPostBack="True" OnTextChanged="grid_TextChanged" runat="server" Text='<%# Eval("Deducible") %>' CssClass="estandar-control deducibles" autocomplete="off"></asp:TextBox>
                                                 </ItemTemplate>
-                                            </asp:TemplateField>
+                                            </asp:TemplateField>--%>
                                             <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Sub Total">
                                                 <ItemTemplate>
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("SubTotal") %>' CssClass="estandar-control"></asp:TextBox>
