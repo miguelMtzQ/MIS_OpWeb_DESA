@@ -104,6 +104,7 @@ Partial Class Siniestros_OrdenPago
             Facturas1.Style("display") = ""
             txtBeneficiario_stro.Enabled = False
             txtRFC.Enabled = False
+            txtimporteTerAseg.Visible = False
             divauto_nes_varias.Style("display") = ""
             lblTitulo.Text = " Autorizaciones Varias "
         Else
@@ -112,6 +113,7 @@ Partial Class Siniestros_OrdenPago
             Facturas1.Style("display") = "none"
             txtBeneficiario_stro.Enabled = True
             txtRFC.Enabled = True
+            txtimporteTerAseg.Visible = True
             divauto_nes_varias.Style("display") = "none"
             lblTitulo.Text = " Fondos "
             cargatodoslosconceptos(2)
@@ -2150,10 +2152,10 @@ Partial Class Siniestros_OrdenPago
                         oParametros.Add("nro_correlativo", "0")
                         oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim)
                         oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                        oParametros.Add("imp_mo", Me.txtTotalFac.Text)
-                        oParametros.Add("imp_eq", Me.txtTotalFac.Text)
+                        oParametros.Add("imp_mo", Me.iptxtTotalAutorizacion.Text)
+                        oParametros.Add("imp_eq", Me.iptxtTotalAutorizacion.Text)
                         oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
-                        oParametros.Add("txt_desc", Me.txtDescripcionOP.Text)
+                        oParametros.Add("txt_desc", Me.txtDescripcionOP.Text + " " + txtcpto2.Text)
                         oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
                         oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
                         oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
@@ -2216,7 +2218,7 @@ Partial Class Siniestros_OrdenPago
                             oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
                             oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
                             oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
-                            oParametros.Add("D_C", cmbDebitoCredito.SelectedValue)
+                            oParametros.Add("D_C", "D")
                             oParametros.Add("cod_concepto_cble", CInt(Me.cmbConcepto.Text.Trim))
                             oParametros.Add("cod_sector", 5) 'estaba el 8
                             oParametros.Add("id_persona", CInt(Me.txtCodigoBeneficiario_stro.Text.Trim))
@@ -2270,8 +2272,8 @@ Partial Class Siniestros_OrdenPago
                     oParametros.Add("nro_correlativo", "0")
                     oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim)
                     oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                    oParametros.Add("imp_mo", Me.txtTotal.Text)     'impuestos + subtotal + retencion
-                    oParametros.Add("imp_eq", Me.txtTotal.Text)     'impuestos + subtotal + retencion
+                    oParametros.Add("imp_mo", CDbl(Me.txtTotal.Text))     'impuestos + subtotal + retencion
+                    oParametros.Add("imp_eq", CDbl(Me.txtTotal.Text))     'impuestos + subtotal + retencion
                     'oParametros.Add("imp_eq", Me.txtTotalImpuestos.Text)            'impuestos
                     'oParametros.Add("imp_eq", Me.txtTotalAutorizacionNacional.Text) 'subtotal
                     'oParametros.Add("imp_eq", Me.txtTotalRetenciones.Text)          'retencion
@@ -2558,12 +2560,41 @@ Partial Class Siniestros_OrdenPago
         txtNumeroComprobante.Text = ""
         txtFechaComprobante.Text = ""
 
-        'txtTotalAutorizacionNacional.Text = ""
-        txtTotalAutorizacion.Text = ""
-        txtTotalImpuestos.Text = ""
-        txtTotalRetenciones.Text = ""
-        txtTotal.Text = ""
-        txtTotalNacional.Text = ""
+        Me.txtTotalAutorizacion.Text = "" 'importe de la poliza
+        Me.txtTotalImpuestos.Text = ""
+        Me.txtTotalRetenciones.Text = ""
+        Me.txtTotal.Text = ""  'importe de la poliza
+
+        Me.iptxtTotalAutorizacion.Text = "" 'importe de pago
+        Me.iptxtTotalImpuestos.Text = ""
+        Me.iptxtTotal.Text = ""
+        'Me.iptxtTotalAutorizacionNacional.Text = ""  'importe de pago
+
+        Me.txtcod_pres.Text = ""
+
+        Me.txtDescripcionOP.Text = ""
+        Me.txtTotalAutorizacionFac.Text = "" 'txt de facturas
+        Me.txtTotalImpuestosFac.Text = ""
+        Me.txtTotalRetencionesFac.Text = ""
+        Me.txtTotalFac.Text = ""
+        Me.txtTotalAutorizacionNacionalFac.Text = ""
+        Me.txtDescuentos.Text = "" 'txt de facturas
+
+        Me.lbldescuento.Text = ""
+
+        Me.txtidfactura.Text = ""
+
+        Me.txtCodigoCuenta.Text = ""
+        Me.txtDescCuenta.Text = ""
+
+        Me.oSucursalT_stro.Value = String.Empty
+        Me.oBancoT_stro.Value = String.Empty
+        Me.oBeneficiarioT_stro.Value = String.Empty
+        Me.oCuentaBancariaT_stro.Value = String.Empty
+        Me.oMonedaT_stro.Value = String.Empty
+        Me.oTipoCuentaT_stro.Value = String.Empty
+        Me.oPlazaT_stro.Value = String.Empty
+        Me.oAbaT_stro.Value = String.Empty
 
         txtBeneficiario.Text = ""
         cmbOrigendePago.Items.Clear()
@@ -2571,6 +2602,18 @@ Partial Class Siniestros_OrdenPago
         cmbTipoUsuario.Enabled = True
 
 
+    End Sub
+    Public Sub txtOnImporteTerAseg(sender As Object, e As EventArgs)
+        Me.txtTotalAutorizacion.Text = txtimporteTerAseg.Text 'importe de la poliza
+        Me.txtTotalImpuestos.Text = 0
+        Me.txtTotalRetenciones.Text = 0
+        Me.txtTotal.Text = txtimporteTerAseg.Text  'importe de la poliza
+
+        Me.iptxtTotalAutorizacion.Text = txtimporteTerAseg.Text 'importe de pago
+        Me.iptxtTotalImpuestos.Text = 0
+        Me.iptxtTotalRetenciones.Text = 0
+        Me.iptxtTotal.Text = txtimporteTerAseg.Text
+        Me.iptxtTotalNacional.Text = txtimporteTerAseg.Text
     End Sub
     Protected Sub txtOnBase_TextChanged(sender As Object, e As EventArgs)
         Try
@@ -2607,6 +2650,7 @@ Partial Class Siniestros_OrdenPago
                             Me.txtRFC.Text = .Item("RFC_proveedor")
                             Me.txtTotalFac.Text = .Item("imp_total")
                             Me.txtTotalAutorizacionFac.Text = .Item("imp_subtotal")
+                            Me.txtTotalAutorizacionNacionalFac.Text = .Item("imp_subtotal")
                             Me.txtTotalImpuestosFac.Text = .Item("imp_impuestos")
                             Me.txtTotalRetencionesFac.Text = .Item("imp_retencion")
                             Me.txtBeneficiario.Text = .Item("NOMBRE_PROVEEDOR")
