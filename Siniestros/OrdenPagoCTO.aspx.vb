@@ -396,8 +396,6 @@ Partial Class Siniestros_OrdenPago
 
             End Select
 
-
-
         Catch ex As Exception
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("cmb_SelectedIndexChanged error: {0}", ex.Message), TipoMsg.Falla)
         End Try
