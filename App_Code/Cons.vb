@@ -4,7 +4,8 @@ Public Class Cons
 
     'Valores Reportes (cREP_Reportes)
     Public Const ModuloRea As Integer = 16
-    Public Const ModuloStros As Integer = 7
+    Public Const ModuloStrosAdmon As Integer = 7
+    Public Const ModuloStrosTec As Integer = 71
 
     Public Const SubModRecSin As Integer = 41
     Public Const RptFac As Integer = 3
