@@ -75,15 +75,18 @@ Partial Class Pages_Login
                     Funciones.fn_InsertaBitacora(Cons.ModuloRea, 0, dtUsuario.Rows(0)("cod_usuario"), "Accceso a SIR")
 
                     Session.Timeout = 360
-                    Session.Add("Menu", ArmaMenu(Funciones.Lista_A_Datatable(ws.ObtieneMenu(dtUsuario.Rows(0)("cod_usuario"), Cons.ModuloStros).ToList)))
-
+                    If dtUsuario.Rows(0)("cod_usuario") = "CLOPEZ" Or dtUsuario.Rows(0)("cod_usuario") = "AMEZA" Or dtUsuario.Rows(0)("cod_usuario") = "CREYES" Or dtUsuario.Rows(0)("cod_usuario") = "FFUENTES" Then
+                        Session.Add("Menu", ArmaMenu(Funciones.Lista_A_Datatable(ws.ObtieneMenu(dtUsuario.Rows(0)("cod_usuario"), Cons.ModuloStrosAdmon).ToList)))
+                    Else
+                        Session.Add("Menu", ArmaMenu(Funciones.Lista_A_Datatable(ws.ObtieneMenu(dtUsuario.Rows(0)("cod_usuario"), Cons.ModuloStrosTec).ToList)))
+                    End If
                     Dim password As String = Eramake.eCryptography.Encrypt(txt_contraseña.Text)
 
                     Dim authTicket As FormsAuthenticationTicket
                     authTicket = New FormsAuthenticationTicket(dtUsuario.Rows(0)("cod_usuario") & "|" & dtUsuario.Rows(0)("usuario") & "|" &
-                                                               dtUsuario.Rows(0)("cod_suc") & "|" & dtUsuario.Rows(0)("sucursal") & "|" &
-                                                               dtUsuario.Rows(0)("cod_sector") & "|" & dtUsuario.Rows(0)("sector") & "|" &
-                                                               dtUsuario.Rows(0)("mail") & "|" & txt_usuario.Text & "|" & password, True, 360)
+                                                                   dtUsuario.Rows(0)("cod_suc") & "|" & dtUsuario.Rows(0)("sucursal") & "|" &
+                                                                   dtUsuario.Rows(0)("cod_sector") & "|" & dtUsuario.Rows(0)("sector") & "|" &
+                                                                   dtUsuario.Rows(0)("mail") & "|" & txt_usuario.Text & "|" & password, True, 360)
 
                     Dim encryptedTicket As String = FormsAuthentication.Encrypt(authTicket)
                     Dim authCookie As HttpCookie

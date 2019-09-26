@@ -796,7 +796,8 @@
                                                                                <asp:ListItem Value="7">Error en el tipo de pago</asp:ListItem>
                                                                                <asp:ListItem Value="8">Error en el número del Siniestro o Subsiniestro</asp:ListItem>
                                                                                <asp:ListItem Value="9">Siniestro improcedente de pago</asp:ListItem>
-                                                                               <asp:ListItem Value="10">Otros (especificar)</asp:ListItem>
+                                                                                <asp:ListItem Value="10">No autorizada en tiempo (vencida)</asp:ListItem>
+                                                                               <asp:ListItem Value="11">Otros (especificar)</asp:ListItem>
                                                                            </asp:DropDownList>
                                                                        </div>
                                                                    </div>
