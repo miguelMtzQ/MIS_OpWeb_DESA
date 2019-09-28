@@ -2,8 +2,8 @@
 <%@ MasterType VirtualPath="~/Pages/SiteMaster.master" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cph_principal" runat="Server">
-    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|1|0" />
-    <script src="../Scripts/Siniestros/OrdenPago.js"></script>
+    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|0" />
+    <script src="../Scripts/Siniestros/OrdenPagoFondos.js"></script>
     <style>
         .table>tbody>tr>td{
             padding: 0px;
@@ -85,7 +85,7 @@
                             <div  class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Concepto</asp:Label>
                                 <%--<asp:DropDownList ID="cmbSubsiniestro" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro"></asp:DropDownList>--%>
-                                <asp:DropDownList ID="cmbConcepto" AutoPostBack="True" runat="server" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txt_textChangedConcepto" placeholder="concepto"></asp:DropDownList>
+                                <asp:DropDownList ID="cmbConcepto" AutoPostBack="True" runat="server" CssClass="estandar-control concepto Tablero Centro" OnTextChanged="txt_TextChanged" placeholder="concepto"></asp:DropDownList>
                             </div>                        
                             <div class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Codigo de cuenta</asp:Label>
@@ -147,19 +147,23 @@
                             <%--<asp:TextBox ID="txtFechaContable" OnTextChanged="txt_TextChanged" runat="server" CssClass="estandar-control fechaContable Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>--%>
                             <asp:TextBox ID="txtFechaContable" runat="server" CssClass="estandar-control fechaContable Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>
                         </div>
-                        <div class="form-group col-md-2">
+                       <%-- <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">D/C</asp:Label>
                             <asp:DropDownList ID="cmbDebitoCredito" runat="server" Enabled="false" ClientIDMode="Static" CssClass="estandar-control Tablero">
                                 <asp:ListItem Value="D">Debito</asp:ListItem>
                                 <asp:ListItem Value="C">Credito</asp:ListItem>
                             </asp:DropDownList>
-                        </div>
+                        </div>--%>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Analista Solicitante</asp:Label>
                             <asp:DropDownList ID="cmbAnalistaSolicitante" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero">
                                 <asp:ListItem Value="AARROYO">ANDREA ARROYO URIOSTEGUI</asp:ListItem>
                                 <asp:ListItem Value="RMARTINEZ">ADRIÁN ROGELIO MARTINEZ PELAEZ</asp:ListItem>
                             </asp:DropDownList>
+                        </div>
+                        <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control">Importe</asp:Label>
+                                <asp:TextBox ID="txtimporteTerAseg" runat="server" Text='<%# Eval("txtimporteTerAseg") %>' CssClass="estandar-control importe Tablero Centro"  OnTextChanged="txt_TextChanged" AutoPostBack="True"  placeholder="0.00"></asp:TextBox>
                         </div>
                     </div>
                     <div id="pnlProveedor" class="row" runat="server">
@@ -439,7 +443,10 @@
                                 </asp:LinkButton>
                             </div>
                         </div>        
-                                        
+                        <div class="form-group col-md-6">
+                                <asp:Label runat="server" class="etiqueta-control">Concepto 2</asp:Label>
+                                <asp:TextBox ID="txtcpto2" runat="server" CssClass="estandar-control Tablero" placeholder="Concepto"></asp:TextBox>
+                           </div>              
                     </div>
                     <div style="width:100%; text-align: left">
                                 <asp:LinkButton ID="btnGrabarOP" runat="server" class="btn btn-primary btn-sm" style="background-color: #006AA9;">

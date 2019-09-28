@@ -2037,9 +2037,21 @@ Partial Class Pages_SiteMaster
 
         Dim oDatos As DataSet
 
+        Dim numBanco As String
+
         Try
 
             If txtCuentaBancariaT_stro.Text = txtCuentaBancariaT_stro_Confirmacion.Text Then
+
+                numBanco = txtCuentaBancariaT_stro.Text
+                numBanco = numBanco.Substring(0, 3)
+
+                If numBanco < 100 Then
+                    numBanco = numBanco.Substring(numBanco.Length - 1)
+                    cmbBancoT_stro.SelectedValue = numBanco
+                Else
+                    cmbBancoT_stro.SelectedValue = numBanco
+                End If
 
                 oParametros = New Dictionary(Of String, Object)
 
@@ -2112,7 +2124,7 @@ Partial Class Pages_SiteMaster
                 txtCuentaBancariaT_stro.Text = String.Empty
             End If
         Catch ex As Exception
-            Mensaje.MuestraMensaje("Master Page", String.Format("btnTransferenciasBancariasAceptar_stro_Click Error: {0}", ex.Message), TipoMsg.Falla)
+            Mensaje.MuestraMensaje("Master Page", String.Format("btnTransferenciasBancariasAceptar_stro_Click Error: {0}" + " Cuenta bancaria sin banco asosiado " + txtCuentaBancariaT_stro.Text, ex.Message), TipoMsg.Falla)
         End Try
 
     End Sub
@@ -2279,8 +2291,9 @@ Partial Class Pages_SiteMaster
                 cmbMonedaT_stro.Enabled = False
                 Me.txtBeneficiarioT_stro.Enabled = True
                 Me.txtCuentaBancariaT_stro.Enabled = True
-                txtCuentaBancariaT_stro_Confirmacion.Enabled = True
+                Me.txtCuentaBancariaT_stro_Confirmacion.Enabled = True
                 Me.txtCuentaBancariaT_stro.Text = String.Empty
+                Me.txtCuentaBancariaT_stro_Confirmacion.Text = String.Empty
             End If
 
             hid_Control.Value = Control
