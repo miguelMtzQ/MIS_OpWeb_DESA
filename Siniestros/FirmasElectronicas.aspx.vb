@@ -124,7 +124,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            Master.cod_usuario = "AARROYO"
+            'Master.cod_usuario = "AARROYO"
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
         End Try
@@ -529,8 +529,8 @@ Partial Class Siniestros_FirmasElectronicas
 
     Private Sub btn_BuscaOP_Click(sender As Object, e As EventArgs) Handles btn_BuscaOP.Click
         Try
-            'If cmbModuloOP.SelectedValue > 0 Then
-            Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+            If cmbModuloOP.SelectedValue > 0 Then
+                Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
 
                 If grdOrdenPago.Rows.Count > 0 Then
                     grdOrdenPago.PageIndex = 0
@@ -540,9 +540,9 @@ Partial Class Siniestros_FirmasElectronicas
                 Else
                     Mensaje.MuestraMensaje(Master.Titulo, "La Consulta no devolvió resultados", TipoMsg.Advertencia)
                 End If
-            'Else
-            '    MuestraMensaje("Validación", "Debe elegir el tipo de módulo", TipoMsg.Advertencia)
-            'End If
+            Else
+                MuestraMensaje("Validación", "Debe elegir el tipo de módulo", TipoMsg.Advertencia)
+            End If
 
         Catch ex As Exception
             Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
