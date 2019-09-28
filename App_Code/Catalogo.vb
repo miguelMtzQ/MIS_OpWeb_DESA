@@ -23,7 +23,6 @@ Public Class Catalogo
             _Clave = value
         End Set
     End Property
-
     Public Property Descripcion() As String
         Get
             Return _Descripcion
