@@ -85,9 +85,9 @@ Partial Class Pages_Login
 
                     Dim authTicket As FormsAuthenticationTicket
                     authTicket = New FormsAuthenticationTicket(dtUsuario.Rows(0)("cod_usuario") & "|" & dtUsuario.Rows(0)("usuario") & "|" &
-                                                               dtUsuario.Rows(0)("cod_suc") & "|" & dtUsuario.Rows(0)("sucursal") & "|" &
-                                                               dtUsuario.Rows(0)("cod_sector") & "|" & dtUsuario.Rows(0)("sector") & "|" &
-                                                               dtUsuario.Rows(0)("mail") & "|" & txt_usuario.Text & "|" & password, True, 360)
+                                                                   dtUsuario.Rows(0)("cod_suc") & "|" & dtUsuario.Rows(0)("sucursal") & "|" &
+                                                                   dtUsuario.Rows(0)("cod_sector") & "|" & dtUsuario.Rows(0)("sector") & "|" &
+                                                                   dtUsuario.Rows(0)("mail") & "|" & txt_usuario.Text & "|" & password, True, 360)
 
                     Dim encryptedTicket As String = FormsAuthentication.Encrypt(authTicket)
                     Dim authCookie As HttpCookie
