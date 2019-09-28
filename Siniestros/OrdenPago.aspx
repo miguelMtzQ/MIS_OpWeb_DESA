@@ -119,13 +119,27 @@
                             <asp:TextBox ID="txtFechaRegistro" runat="server" CssClass="estandar-control Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-2">
-                            <asp:Label runat="server" class="etiqueta-control">Fecha estimada de pago</asp:Label>
+                            <asp:Label runat="server" class="etiqueta-control">Fec estim de pago</asp:Label>
                             <asp:TextBox ID="txtFechaEstimadaPago" AutoPostBack="True" OnTextChanged="txt_TextChanged" runat="server" CssClass="estandar-control fechadepago Tablero Fecha Centro" autocomplete="off" placeholder="DD/MM/YYYY"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Fecha contable</asp:Label>
                             <asp:TextBox ID="txtFechaContable" OnTextChanged="txt_TextChanged" runat="server" CssClass="estandar-control fechaContable Tablero Centro" placeholder="DD/MM/YYYY" autocomplete="off" ReadOnly="true"></asp:TextBox>
                         </div>
+                        <div id="Comprobantes">
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control">Tipo comprobante</asp:Label>
+                                <asp:DropDownList ID="cmbTipoComprobante" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro" readonly="true"></asp:DropDownList>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control">Núm comprobante</asp:Label>
+                                <asp:TextBox ID="txtNumeroComprobante" runat="server" Text='<%# Eval("NumeroComprobante") %>' CssClass="estandar-control Tablero Centro" ></asp:TextBox>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <asp:Label runat="server" class="etiqueta-control">Fecha comprobante</asp:Label>
+                                <asp:TextBox ID="txtFechaComprobante" runat="server" Text='<%# Eval("FechaComprobante") %>' CssClass="estandar-control Tablero Fecha Centro" autocomplete="off" ></asp:TextBox>
+                            </div>
+                        </div> 
                     </div>
                     <div id="pnlProveedor" class="row" runat="server">
                         <div class="form-group col-md-2">
@@ -133,21 +147,12 @@
                                 <asp:CheckBox runat="server" ID="chkVariasFacturas" Text="Varias facturas" CssClass="etiqueta-control" />
                             </div>
                         </div>
-                        <div id="Comprobantes">
-                            <div class="form-group col-md-2">
-                                <asp:Label runat="server" class="etiqueta-control">Tipo comprobante</asp:Label>
-                                <asp:DropDownList ID="cmbTipoComprobante" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro" readonly="true" Enabled="false"></asp:DropDownList>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <asp:Label runat="server" class="etiqueta-control">Número comprobante</asp:Label>
-                                <asp:TextBox ID="txtNumeroComprobante" runat="server" Text='<%# Eval("NumeroComprobante") %>' CssClass="estandar-control Tablero Centro" readonly="true"></asp:TextBox>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <asp:Label runat="server" class="etiqueta-control">Fecha comprobante</asp:Label>
-                                <asp:TextBox ID="txtFechaComprobante" runat="server" Text='<%# Eval("FechaComprobante") %>' CssClass="estandar-control Tablero Fecha Centro" autocomplete="off" readonly="true"></asp:TextBox>
+                        <div class="form-group col-md-2">
+                            <div class="form-check Centrado">
+                                <asp:CheckBox runat="server" ID="chkVariosConceptos" Text="Varios conceptos" CssClass="etiqueta-control" />
                             </div>
                         </div>
-                    </div>
+                    </div>                                           
                     <div style="width: 100%; text-align: left">
                         <asp:LinkButton ID="btnAgregarFila" runat="server" class="btn btn-primary btn-xs" style="background-color: #003A5D;" OnClientClick="return ValidarBeneficiario();">
                             <span>
@@ -208,7 +213,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Clase de pago">
                                                 <ItemTemplate>
-                                                    <asp:DropDownList AutoPostBack="True" runat="server" ClientIDMode="Static" CssClass="estandar-control clase_pago">
+                                                    <asp:DropDownList AutoPostBack="True" runat="server" ClientIDMode="Static" Enabled="false" CssClass="estandar-control clase_pago">
                                                     </asp:DropDownList>
                                                 </ItemTemplate>
                                             </asp:TemplateField>                                                                                                                                    

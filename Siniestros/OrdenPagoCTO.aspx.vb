@@ -104,17 +104,21 @@ Partial Class Siniestros_OrdenPago
             Facturas1.Style("display") = ""
             txtBeneficiario_stro.Enabled = False
             txtRFC.Enabled = False
+            txtimporteTerAseg.Visible = False
             divauto_nes_varias.Style("display") = ""
             lblTitulo.Text = " Autorizaciones Varias "
+            cmbConcepto.Items.Clear()
         Else
             pnlProveedor.Style("display") = "none"
             Facturas0.Style("display") = "none"
             Facturas1.Style("display") = "none"
             txtBeneficiario_stro.Enabled = True
             txtRFC.Enabled = True
+            txtimporteTerAseg.Visible = True
             divauto_nes_varias.Style("display") = "none"
             lblTitulo.Text = " Fondos "
             cargatodoslosconceptos(2)
+            CargaConceptocuenta()
         End If
 
     End Sub
@@ -394,8 +398,6 @@ Partial Class Siniestros_OrdenPago
 
             End Select
 
-
-
         Catch ex As Exception
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("cmb_SelectedIndexChanged error: {0}", ex.Message), TipoMsg.Falla)
         End Try
@@ -481,6 +483,7 @@ Partial Class Siniestros_OrdenPago
             oParametros.Add("Accion", Accion)
             oParametros.Add("cpto", 0)
             oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_Consulta_Fondos", oParametros)
+            cmbConcepto.Items.Clear()
             If (oDatos.Tables(0).Rows(0).Item("Mensaje") = "1") Then
                 For Each fila In oDatos.Tables(0).Rows
                     Me.cmbConcepto.Items.Add(New ListItem(String.Format(fila.Item("cod_cpto")).ToUpper + " || " + fila.Item("txt_desc") + " || " + fila.Item("txt_denomin"), fila.Item("cod_cpto")))
@@ -516,238 +519,70 @@ Partial Class Siniestros_OrdenPago
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("grd_RowDataBound error: {0}", ex.Message), TipoMsg.Falla)
         End Try
     End Sub
-    'Public Sub txt_TextChanged(sender As Object, e As EventArgs)
+    Public Sub txt_TextChanged(sender As Object, e As EventArgs)
 
-    '    Dim oTxt As TextBox
+        Dim oTxt As TextBox
 
-    '    Dim sElemento As String = String.Empty
+        Dim sElemento As String = String.Empty
 
-    '    Dim oDatos As DataSet
+        Dim oDatos As DataSet
 
-    '    Dim oDataTable As DataTable
+        Dim oDataTable As DataTable
 
-    '    Dim oParametros As New Dictionary(Of String, Object)
+        Dim oParametros As New Dictionary(Of String, Object)
 
-    '    Dim oListaElementos As List(Of String)
+        Dim oListaElementos As List(Of String)
 
-    '    Try
+        Try
 
-    '        If Not String.IsNullOrWhiteSpace(Me.txtFechaContable.Text.Trim) AndAlso IsDate(Me.txtFechaContable.Text.Trim) Then
-    '            ObtenerTipoCambio()
-    '        Else
-    '            Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Ingrese una fecha válida", TipoMsg.Advertencia)
-    '            Return
-    '        End If
+            'If Not String.IsNullOrWhiteSpace(Me.txtFechaContable.Text.Trim) AndAlso IsDate(Me.txtFechaContable.Text.Trim) Then
+            '    ObtenerTipoCambio()
+            'Else
+            '    Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Ingrese una fecha válida", TipoMsg.Advertencia)
+            '    Return
+            'End If
 
-    '        oDatos = New DataSet
-    '        oDataTable = New DataTable
+            oDatos = New DataSet
+            oDataTable = New DataTable
 
-    '        oTxt = New TextBox
+            oTxt = New TextBox
 
-    '        oTxt = sender
+            oTxt = sender
 
-    '        sElemento = oTxt.CssClass.Substring(oTxt.CssClass.IndexOf(" "c) + 1)
-    '        sElemento = sElemento.Substring(0, sElemento.IndexOf(" "c))
+            sElemento = oTxt.CssClass.Substring(oTxt.CssClass.IndexOf(" "c) + 1)
+            sElemento = sElemento.Substring(0, sElemento.IndexOf(" "c))
 
-    '        Select Case sElemento
+            Select Case sElemento
 
-    '            Case "onbase"
+                Case "onbase"
+                Case "siniestro"
+                Case "fechaContable"
+                Case "importe"
+                    If txtBeneficiario_stro.Text = "" Then
+                        txtimporteTerAseg.Text = 0
+                        Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("txt_TextChanged error: {0}", "Ingrese un tercero o asegurado"), TipoMsg.Falla)
 
-    '                Select Case Me.cmbTipoUsuario.SelectedValue
+                    Else
+                        Me.txtTotalAutorizacion.Text = txtimporteTerAseg.Text 'importe de la poliza
+                        Me.txtTotalImpuestos.Text = 0
+                        Me.txtTotalRetenciones.Text = 0
+                        Me.txtTotal.Text = txtimporteTerAseg.Text  'importe de la poliza
 
-    '                    Case eTipoUsuario.Proveedor
+                        Me.iptxtTotalAutorizacion.Text = txtimporteTerAseg.Text 'importe de pago
+                        Me.iptxtTotalImpuestos.Text = 0
+                        Me.iptxtTotalRetenciones.Text = 0
+                        Me.iptxtTotal.Text = txtimporteTerAseg.Text
+                        Me.iptxtTotalNacional.Text = txtimporteTerAseg.Text
+                        Me.txtBeneficiario.Text = txtBeneficiario_stro.Text
+                    End If
+            End Select
 
-    '                        oParametros.Add("Folio_OnBase", Me.txtOnBase.Text.Trim)
 
-    '                        oDatos = Funciones.ObtenerDatos("sp_op_stro_consulta_folio_OnBase", oParametros)
+        Catch ex As Exception
+            Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("txt_TextChanged error: {0}", ex.Message), TipoMsg.Falla)
+        End Try
 
-    '                        If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
-
-    '                            oSeleccionActual = oDatos.Tables(0)
-
-    '                            With oDatos.Tables(0).Rows(0)
-    '                                Me.txtOnBase.Text = .Item("num_folio")
-    '                                Me.txtSiniestro.Text = .Item("num_siniestro")
-    '                                Me.txtRFC.Text = .Item("RFC")
-    '                                Me.txtPoliza.Text = .Item("poliza")
-    '                                Me.txtMonedaPoliza.Text = .Item("txt_desc")
-    '                                Me.txtNumeroComprobante.Text = .Item("folio_GMX")
-    '                                Me.txtFechaComprobante.Text = .Item("fecha_emision_gmx")
-
-    '                                Me.txtBeneficiario.Text = .Item("Proveedor")
-    '                                Me.txtBeneficiario_stro.Text = .Item("Proveedor")
-    '                                Me.txtCodigoBeneficiario_stro.Text = .Item("cod_pres")
-
-    '                                Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", IIf(.Item("cod_moneda") = 0, "1.00", ObtenerTipoCambio.ToString()))
-
-    '                                'Si la moneda de la factura es nacional y la de la póliza es extranjera
-    '                                'se asignara el tipo de cambio como nacional, por lo tanto solo se podrá pagar en 
-    '                                'moneda nacional.
-    '                                If .Item("cod_moneda") = 0 And Not Me.txtMonedaPoliza.Text = "NACIONAL" Then
-    '                                    'Mensaje.MuestraMensaje("Calculo de totales", "Factura capturada en pesos, se utilizará tipo de cambio nacional.", TipoMsg.Advertencia)
-    '                                    'Me.txtTipoCambio.Text = "1.00"
-    '                                    Me.cmbMonedaPago.SelectedValue = 0
-    '                                End If
-
-    '                            End With
-
-    '                            oClavesPago = IIf(oDatos.Tables(1) Is Nothing OrElse oDatos.Tables(1).Rows.Count = 0, Nothing, oDatos.Tables(1))
-
-    '                            If Not oDatos.Tables(2) Is Nothing AndAlso oDatos.Tables(2).Rows.Count > 0 Then
-
-    '                                oOrigenesPago = IIf(oOrigenesPago Is Nothing OrElse oOrigenesPago.Rows.Count = 0, oDatos.Tables(2), oOrigenesPago)
-
-    '                                For Each fila In oDatos.Tables(2).Rows
-    '                                    Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
-    '                                Next
-
-    '                            End If
-
-    '                            For Each fila In oDatos.Tables(0).Rows
-    '                                Me.cmbSubsiniestro.Items.Add(New ListItem(String.Format("Subsiniestro {0}", fila.Item("id_substro")).ToUpper, fila.Item("id_substro")))
-    '                            Next
-
-    '                            Me.lblObBase.Visible = True
-    '                            Me.txtOnBase.Visible = True
-
-    '                            If cmbTipoComprobante.Items.Count = 0 Then
-
-    '                                cmbTipoComprobante.DataSource = oDatos.Tables(3)
-    '                                cmbTipoComprobante.DataTextField = "Descripcion"
-    '                                cmbTipoComprobante.DataValueField = "CodigoComprobante"
-    '                                cmbTipoComprobante.DataBind()
-
-    '                            End If
-
-    '                            Onbase.Style("display") = ""
-    '                            pnlProveedor.Style("display") = ""
-
-    '                        Else
-
-    '                            oSeleccionActual = Nothing
-
-    '                            Me.txtOnBase.Text = String.Empty
-    '                            Me.txtSiniestro.Text = String.Empty
-    '                            Me.txtRFC.Text = String.Empty
-    '                            Me.txtPoliza.Text = String.Empty
-    '                            Me.txtMonedaPoliza.Text = String.Empty
-
-    '                        End If
-
-    '                    Case Else
-
-    '                End Select
-
-    '            Case "siniestro"
-
-    '                Select Case Me.cmbTipoUsuario.SelectedValue
-    '                    Case eTipoUsuario.Asegurado, eTipoUsuario.Tercero
-
-    '                        oParametros.Add("Numero_Siniestro", Me.txtSiniestro.Text.Trim)
-
-    '                        oDatos = Funciones.ObtenerDatos("sp_op_stro_consulta_numero_siniestro", oParametros)
-
-    '                        Me.cmbSubsiniestro.Items.Clear()
-    '                        Me.cmbOrigenOP.Items.Clear()
-
-    '                        If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
-
-    '                            oSeleccionActual = oDatos.Tables(0)
-
-    '                            With oDatos.Tables(0).Rows(0)
-    '                                Me.txtSiniestro.Text = .Item("nro_stro")
-    '                                Me.txtRFC.Text = IIf(Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado, .Item("RFC"), String.Empty)
-    '                                Me.txtPoliza.Text = .Item("poliza")
-    '                                Me.txtMonedaPoliza.Text = .Item("txt_desc")
-    '                                Me.txtBeneficiario.Text = String.Format("{0} {1} {2}", .Item("txt_nombre"), .Item("txt_apellido1"), .Item("txt_apellido2")).ToUpper
-
-    '                                If Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado Then
-    '                                    Me.txtBeneficiario_stro.Text = Me.txtBeneficiario.Text.Trim
-    '                                    Me.txtCodigoBeneficiario_stro.Text = .Item("cod_aseg")
-    '                                Else
-    '                                    Me.txtBeneficiario_stro.Text = String.Empty
-    '                                    Me.txtCodigoBeneficiario_stro.Text = String.Empty
-    '                                    Me.txtBeneficiario.Text = String.Empty
-    '                                End If
-
-    '                            End With
-
-    '                            oClavesPago = IIf(oDatos.Tables(1) Is Nothing OrElse oDatos.Tables(1).Rows.Count = 0, Nothing, oDatos.Tables(1))
-
-    '                            If Not oDatos.Tables(2) Is Nothing AndAlso oDatos.Tables(2).Rows.Count > 0 Then
-
-    '                                oOrigenesPago = IIf(oOrigenesPago Is Nothing OrElse oOrigenesPago.Rows.Count = 0, oDatos.Tables(2), oOrigenesPago)
-
-    '                                If Me.cmbOrigenOP.Items.Count > 0 Then
-    '                                    Me.cmbOrigenOP.Items.Clear()
-    '                                End If
-
-    '                                For Each fila In oDatos.Tables(2).Rows
-    '                                    Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
-    '                                Next
-
-    '                            End If
-
-    '                            For Each fila In oDatos.Tables(0).Rows
-    '                                Me.cmbSubsiniestro.Items.Add(New ListItem(String.Format("Subsiniestro {0}", fila.Item("id_substro")).ToUpper, fila.Item("id_substro")))
-    '                            Next
-
-    '                            If cmbTipoComprobante.Items.Count = 0 Then
-
-    '                                cmbTipoComprobante.DataSource = oDatos.Tables(3)
-    '                                cmbTipoComprobante.DataTextField = "CodigoComprobante"
-    '                                cmbTipoComprobante.DataValueField = "Descripcion"
-    '                                cmbTipoComprobante.DataBind()
-
-    '                            End If
-
-    '                            Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", ObtenerTipoCambio.ToString())
-
-    '                        Else
-
-    '                            oSeleccionActual = Nothing
-
-    '                            Me.txtOnBase.Text = String.Empty
-    '                            Me.txtSiniestro.Text = String.Empty
-    '                            Me.txtRFC.Text = String.Empty
-    '                            Me.txtPoliza.Text = String.Empty
-    '                            Me.txtMonedaPoliza.Text = String.Empty
-    '                        End If
-
-    '                        Onbase.Style("display") = "none"
-    '                        pnlProveedor.Style("display") = "none"
-
-    '                    Case Else
-
-    '                End Select
-
-    '            Case "fechaContable"
-    '                If Not String.IsNullOrWhiteSpace(Me.txtFechaContable.Text.Trim) AndAlso IsDate(Me.txtFechaContable.Text.Trim) Then
-    '                    ObtenerTipoCambio()
-    '                Else
-    '                    Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Ingrese una fecha válida", TipoMsg.Advertencia)
-    '                End If
-
-    '        End Select
-
-
-    '    Catch ex As Exception
-    '        Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("txt_TextChanged error: {0}", ex.Message), TipoMsg.Falla)
-
-    '        oSeleccionActual = Nothing
-
-    '        Me.txtOnBase.Text = String.Empty
-    '        Me.txtSiniestro.Text = String.Empty
-    '        Me.txtRFC.Text = String.Empty
-    '        Me.txtPoliza.Text = String.Empty
-    '        Me.txtMonedaPoliza.Text = String.Empty
-
-    '        Me.lblObBase.Visible = False
-    '        Me.txtOnBase.Visible = False
-
-    '    End Try
-
-    'End Sub
+    End Sub
     Public Sub grid_TextChanged(sender As Object, e As EventArgs)
 
         Dim oTxt As TextBox
@@ -1440,7 +1275,7 @@ Partial Class Siniestros_OrdenPago
             If Me.txtCodigoBeneficiario_stro.Text.Trim = String.Empty OrElse Me.txtBeneficiario_stro.Text = String.Empty Then
                 Throw New Exception("Nombre o razón social no definido")
             End If
-            If Me.txtTotalFac.Text.Trim = String.Empty OrElse String.IsNullOrWhiteSpace(cmbConcepto.Text) Then
+            If Me.iptxtTotal.Text.Trim = String.Empty OrElse String.IsNullOrWhiteSpace(cmbConcepto.Text) Then
                 Throw New Exception("Importe no definido")
             End If
             'If oGrdOrden Is Nothing OrElse oGrdOrden.Rows.Count = 0 Then
@@ -2150,10 +1985,10 @@ Partial Class Siniestros_OrdenPago
                         oParametros.Add("nro_correlativo", "0")
                         oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim)
                         oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                        oParametros.Add("imp_mo", Me.txtTotalFac.Text)
-                        oParametros.Add("imp_eq", Me.txtTotalFac.Text)
+                        oParametros.Add("imp_mo", Me.iptxtTotal.Text)
+                        oParametros.Add("imp_eq", Me.iptxtTotal.Text)
                         oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
-                        oParametros.Add("txt_desc", Me.txtDescripcionOP.Text)
+                        oParametros.Add("txt_desc", Me.txtDescripcionOP.Text + " " + txtcpto2.Text)
                         oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
                         oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
                         oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
@@ -2209,14 +2044,14 @@ Partial Class Siniestros_OrdenPago
                             oParametros.Add("nro_correlativo", 0)
                             oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim.ToString())
                             oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                            oParametros.Add("imp_mo", CDbl(Me.txtTotalFac.Text))
-                            oParametros.Add("imp_eq", CDbl(Me.txtTotalFac.Text))
+                            oParametros.Add("imp_mo", CDbl(Me.iptxtTotal.Text))
+                            oParametros.Add("imp_eq", CDbl(Me.iptxtTotal.Text))
                             oParametros.Add("imp_cambio", CDbl(txtTipoCambio.Text))
                             oParametros.Add("txt_desc", Me.txtDescripcionOP.Text.ToString())
                             oParametros.Add("cod_suc", CInt(cmbSucursal.SelectedValue))
                             oParametros.Add("cod_usuario", IIf(Master.cod_usuario = String.Empty, "SISE", Master.cod_usuario))
                             oParametros.Add("fec_estim_pago", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
-                            oParametros.Add("D_C", cmbDebitoCredito.SelectedValue)
+                            oParametros.Add("D_C", "D")
                             oParametros.Add("cod_concepto_cble", CInt(Me.cmbConcepto.Text.Trim))
                             oParametros.Add("cod_sector", 5) 'estaba el 8
                             oParametros.Add("id_persona", CInt(Me.txtCodigoBeneficiario_stro.Text.Trim))
@@ -2270,8 +2105,8 @@ Partial Class Siniestros_OrdenPago
                     oParametros.Add("nro_correlativo", "0")
                     oParametros.Add("txt_clave", Me.txtCodigoCuenta.Text.Trim)
                     oParametros.Add("cod_moneda", CInt(cmbMonedaPago.SelectedValue))
-                    oParametros.Add("imp_mo", Me.txtTotal.Text)     'impuestos + subtotal + retencion
-                    oParametros.Add("imp_eq", Me.txtTotal.Text)     'impuestos + subtotal + retencion
+                    oParametros.Add("imp_mo", CDbl(Me.iptxtTotal.Text))     'impuestos + subtotal + retencion
+                    oParametros.Add("imp_eq", CDbl(Me.iptxtTotal.Text))     'impuestos + subtotal + retencion
                     'oParametros.Add("imp_eq", Me.txtTotalImpuestos.Text)            'impuestos
                     'oParametros.Add("imp_eq", Me.txtTotalAutorizacionNacional.Text) 'subtotal
                     'oParametros.Add("imp_eq", Me.txtTotalRetenciones.Text)          'retencion
@@ -2558,19 +2393,60 @@ Partial Class Siniestros_OrdenPago
         txtNumeroComprobante.Text = ""
         txtFechaComprobante.Text = ""
 
-        'txtTotalAutorizacionNacional.Text = ""
-        txtTotalAutorizacion.Text = ""
-        txtTotalImpuestos.Text = ""
-        txtTotalRetenciones.Text = ""
-        txtTotal.Text = ""
-        txtTotalNacional.Text = ""
+        Me.txtTotalAutorizacion.Text = "" 'importe de la poliza
+        Me.txtTotalImpuestos.Text = ""
+        Me.txtTotalRetenciones.Text = ""
+        Me.txtTotal.Text = ""  'importe de la poliza
+
+        Me.iptxtTotalAutorizacion.Text = "" 'importe de pago
+        Me.iptxtTotalImpuestos.Text = ""
+        Me.iptxtTotal.Text = ""
+        'Me.iptxtTotalAutorizacionNacional.Text = ""  'importe de pago
+
+        Me.txtcod_pres.Text = ""
+
+        Me.txtDescripcionOP.Text = ""
+        Me.txtTotalAutorizacionFac.Text = "" 'txt de facturas
+        Me.txtTotalImpuestosFac.Text = ""
+        Me.txtTotalRetencionesFac.Text = ""
+        Me.txtTotalFac.Text = ""
+        Me.txtTotalAutorizacionNacionalFac.Text = ""
+        Me.txtDescuentos.Text = "" 'txt de facturas
+
+        Me.lbldescuento.Text = ""
+
+        Me.txtidfactura.Text = ""
+
+        Me.txtCodigoCuenta.Text = ""
+        Me.txtDescCuenta.Text = ""
+
+        Me.oSucursalT_stro.Value = String.Empty
+        Me.oBancoT_stro.Value = String.Empty
+        Me.oBeneficiarioT_stro.Value = String.Empty
+        Me.oCuentaBancariaT_stro.Value = String.Empty
+        Me.oMonedaT_stro.Value = String.Empty
+        Me.oTipoCuentaT_stro.Value = String.Empty
+        Me.oPlazaT_stro.Value = String.Empty
+        Me.oAbaT_stro.Value = String.Empty
 
         txtBeneficiario.Text = ""
-        cmbOrigendePago.Items.Clear()
+        'cmbOrigendePago.Items.Clear()
         txtBeneficiario.Text = ""
         cmbTipoUsuario.Enabled = True
 
 
+    End Sub
+    Public Sub txtOnImporteTerAseg(sender As Object, e As EventArgs)
+        Me.txtTotalAutorizacion.Text = txtimporteTerAseg.Text 'importe de la poliza
+        Me.txtTotalImpuestos.Text = 0
+        Me.txtTotalRetenciones.Text = 0
+        Me.txtTotal.Text = txtimporteTerAseg.Text  'importe de la poliza
+
+        Me.iptxtTotalAutorizacion.Text = txtimporteTerAseg.Text 'importe de pago
+        Me.iptxtTotalImpuestos.Text = 0
+        Me.iptxtTotalRetenciones.Text = 0
+        Me.iptxtTotal.Text = txtimporteTerAseg.Text
+        Me.iptxtTotalNacional.Text = txtimporteTerAseg.Text
     End Sub
     Protected Sub txtOnBase_TextChanged(sender As Object, e As EventArgs)
         Try
@@ -2607,6 +2483,7 @@ Partial Class Siniestros_OrdenPago
                             Me.txtRFC.Text = .Item("RFC_proveedor")
                             Me.txtTotalFac.Text = .Item("imp_total")
                             Me.txtTotalAutorizacionFac.Text = .Item("imp_subtotal")
+                            Me.txtTotalAutorizacionNacionalFac.Text = .Item("imp_subtotal")
                             Me.txtTotalImpuestosFac.Text = .Item("imp_impuestos")
                             Me.txtTotalRetencionesFac.Text = .Item("imp_retencion")
                             Me.txtBeneficiario.Text = .Item("NOMBRE_PROVEEDOR")
