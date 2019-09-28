@@ -102,6 +102,10 @@ Partial Class Siniestros_OrdenPago
             cmbOrigenOP.Enabled = False
             cmbTipoPagoOP.Enabled = False
             txtRFC.Enabled = False
+            cmbTipoComprobante.Enabled = False
+            txtNumeroComprobante.Enabled = False
+            txtFechaComprobante.Enabled = False
+            cmbTipoComprobante.Items.Clear()
         Else
             Onbase.Style("display") = "" 'FFUENTES
             pnlProveedor.Style("display") = "none"
@@ -110,6 +114,9 @@ Partial Class Siniestros_OrdenPago
             cmbOrigenOP.Enabled = False
             cmbTipoPagoOP.Enabled = True
             txtRFC.Enabled = False
+            cmbTipoComprobante.Enabled = True
+            txtNumeroComprobante.Enabled = True
+            txtFechaComprobante.Enabled = True
             If cmbTipoUsuario.SelectedValue = eTipoUsuario.Tercero Then
                 txtRFC.Enabled = True
                 txtBeneficiario_stro.Enabled = True
@@ -664,6 +671,7 @@ Partial Class Siniestros_OrdenPago
                                 Me.lblObBase.Visible = True
                                 Me.txtOnBase.Visible = True
 
+                                cmbTipoComprobante.Items.Clear()
                                 If cmbTipoComprobante.Items.Count = 0 Then
 
                                     cmbTipoComprobante.DataSource = oDatos.Tables(3)
@@ -732,7 +740,7 @@ Partial Class Siniestros_OrdenPago
                                     Me.txtRFC.Text = IIf(Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado, .Item("RFC"), String.Empty)
                                     Me.txtPoliza.Text = .Item("poliza")
                                     Me.txtMonedaPoliza.Text = .Item("txt_desc")
-                                    Me.txtBeneficiario.Text = String.Format("{0} {1} {2}", .Item("txt_nombre"), .Item("txt_apellido1"), .Item("txt_apellido2")).ToUpper
+                                    Me.txtBeneficiario.Text = String.Format("{0} {1} {2}", .Item("txt_apellido1"), .Item("txt_apellido2"), .Item("txt_nombre")).ToUpper
 
                                     If Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado Then
                                         Me.txtBeneficiario_stro.Text = Me.txtBeneficiario.Text.Trim
@@ -764,12 +772,13 @@ Partial Class Siniestros_OrdenPago
                                 For Each fila In oDatos.Tables(0).Rows
                                     Me.cmbSubsiniestro.Items.Add(New ListItem(String.Format("Subsiniestro {0}", fila.Item("id_substro")).ToUpper, fila.Item("id_substro")))
                                 Next
-
+                                'CARGO LOS TIPOS DE CODUMENTOS PARA ASEGURADOS Y TERCEROS
+                                cmbTipoComprobante.Items.Clear()
                                 If cmbTipoComprobante.Items.Count = 0 Then
 
-                                    cmbTipoComprobante.DataSource = oDatos.Tables(3)
-                                    cmbTipoComprobante.DataTextField = "CodigoComprobante"
-                                    cmbTipoComprobante.DataValueField = "Descripcion"
+                                    cmbTipoComprobante.DataSource = oDatos.Tables(4)
+                                    cmbTipoComprobante.DataTextField = "Descripcion_Doc"
+                                    cmbTipoComprobante.DataValueField = "Id_Tipo_Doc"
                                     cmbTipoComprobante.DataBind()
 
                                 End If
@@ -858,7 +867,13 @@ Partial Class Siniestros_OrdenPago
 
                 Case "pago"
 
+
                     If IsNumeric(oTxt.Text.Trim) Then
+                        'SE AGREGO PARA VARIOS CONCEPTOS Y PARA QUE PUEDA HACER EL CALCULO
+                        If chkVariosConceptos.Checked = True Then
+                            oGrdOrden.Columns("Pago").ReadOnly = False
+                            oGrdOrden.Rows(iIndiceFila)("Pago") = CDbl(oTxt.Text.Trim)
+                        End If
                         pagoenmonedanacional = oTxt.Text
                         If txtMonedaPoliza.Text = "DOLAR AMERICANO" Then
                             If cmbMonedaPago.SelectedValue = "0" Then
@@ -987,8 +1002,9 @@ Partial Class Siniestros_OrdenPago
                             Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Folio onbase vacío", TipoMsg.Falla)
                             Return
                         End If
-
-                        oRegistro = oGrdOrden.AsEnumerable().[Select](Function(x) New With {
+                        'SE AGREGA LA VALIDACION PARA LOS VARIOS CONCEPTOS
+                        If chkVariosConceptos.Checked = False Then
+                            oRegistro = oGrdOrden.AsEnumerable().[Select](Function(x) New With {
                                     Key .Siniestro = x.Field(Of String)("Siniestro"),
                                     Key .RFC = x.Field(Of String)("RFC"),
                                     Key .Subsiniestro = x.Field(Of String)("Subsiniestro"),
@@ -999,6 +1015,8 @@ Partial Class Siniestros_OrdenPago
                                                s.Subsiniestro = cmbSubsiniestro.SelectedValue.ToString() AndAlso
                                                s.Factura = txtNumeroComprobante.Text.Trim()
                         ).FirstOrDefault()
+                        End If
+
 
                 End Select
 
@@ -1088,7 +1106,12 @@ Partial Class Siniestros_OrdenPago
                                 oFila("FechaOficioCondusef") = ""
                                 oFila("NumeroCorrelaEstim") = 0
                                 'Importes e impuestos
-                                oFila("Pago") = Math.Round(IIf(cmbMonedaPago.SelectedValue = 0, CDbl(oFilaSeleccion(0).Item("imp_subtotal")), CDbl(oFilaSeleccion(0).Item("imp_subtotal"))), 2)
+                                'SE AGREGA LA VALIDACION PARA LOS VARIOS CONCEPTOS
+                                If chkVariosConceptos.Checked = False Then
+                                    oFila("Pago") = Math.Round(IIf(cmbMonedaPago.SelectedValue = 0, CDbl(oFilaSeleccion(0).Item("imp_subtotal")), CDbl(oFilaSeleccion(0).Item("imp_subtotal"))), 2)
+                                Else
+                                    oFila("Pago") = 0
+                                End If
                                 'Verificar si se queda
                                 oFila("Impuestos") = CDbl(oFilaSeleccion(0).Item("imp_impuestos"))
                                 oFila("Retenciones") = CDbl(oFilaSeleccion(0).Item("imp_retencion"))
@@ -1388,20 +1411,21 @@ Partial Class Siniestros_OrdenPago
                 Select Case cmbTipoUsuario.SelectedValue
                     Case eTipoUsuario.Asegurado    'Asegurado
                         oSolicitudPago.AppendFormat("<TipoUsuario>{0}</TipoUsuario>", 7)
-                        oSolicitudPago.AppendFormat("<FolioOnbase>{0}</FolioOnbase>", 0)
-                        oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", String.Empty)
-                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", String.Empty)
-                        oSolicitudPago.AppendFormat("<FechaComprobante>{0}</FechaComprobante>", String.Empty)
+                        oSolicitudPago.AppendFormat("<FolioOnbase>{0}</FolioOnbase>", Me.txtOnBase.Text)
+                        oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", cmbTipoComprobante.SelectedValue)
+                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", txtNumeroComprobante.Text)
+                        oSolicitudPago.AppendFormat("<FechaComprobante>{0}</FechaComprobante>", Convert.ToDateTime(txtFechaComprobante.Text).ToString("yyyyMMdd"))
                     Case eTipoUsuario.Tercero   'Tercero
                         oSolicitudPago.AppendFormat("<TipoUsuario>{0}</TipoUsuario>", 8)
-                        oSolicitudPago.AppendFormat("<FolioOnbase>{0}</FolioOnbase>", 0)
-                        oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", String.Empty)
-                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", String.Empty)
-                        oSolicitudPago.AppendFormat("<FechaComprobante>{0}</FechaComprobante>", String.Empty)
+                        oSolicitudPago.AppendFormat("<FolioOnbase>{0}</FolioOnbase>", Me.txtOnBase.Text)
+                        oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", cmbTipoComprobante.SelectedValue)
+                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", txtNumeroComprobante.Text)
+                        oSolicitudPago.AppendFormat("<FechaComprobante>{0}</FechaComprobante>", Convert.ToDateTime(txtFechaComprobante.Text).ToString("yyyyMMdd"))
                     Case eTipoUsuario.Proveedor    'Proveedor
                         oSolicitudPago.AppendFormat("<TipoUsuario>{0}</TipoUsuario>", 10)
                         oSolicitudPago.AppendFormat("<FolioOnbase>{0}</FolioOnbase>", Me.txtOnBase.Text)
-                        oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", cmbTipoComprobante.SelectedValue)
+                        'oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", cmbTipoComprobante.SelectedValue)
+                        oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", 10)
                         oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", oGrdOrden.Rows(0).Item("NumeroComprobante")) 'FFUENTES
                         oSolicitudPago.AppendFormat("<FechaComprobante>{0}</FechaComprobante>", Convert.ToDateTime(oGrdOrden.Rows(0).Item("FechaCOmprobante")).ToString("yyyyMMdd"))
                 End Select
@@ -1428,7 +1452,7 @@ Partial Class Siniestros_OrdenPago
                 oSolicitudPago.AppendFormat("<TipoCambio>{0}</TipoCambio>", CDbl(txtTipoCambio.Text))
                 oSolicitudPago.AppendFormat("<RFC>{0}</RFC>", txtRFC.Text.Trim)
                 oSolicitudPago.AppendFormat("<CodigoOrigenPago>{0}</CodigoOrigenPago>", CInt(cmbOrigenOP.SelectedValue))
-                oSolicitudPago.AppendFormat("<Observaciones>{0}</Observaciones>", Me.txtConceptoOP.Text.Trim + " " + Me.txtcpto2.Text)
+                oSolicitudPago.AppendFormat("<Observaciones>{0}</Observaciones>", Me.txtConceptoOP.Text.Trim + " - " + Me.txtcpto2.Text)
                 oSolicitudPago.AppendFormat("<FechaIngreso>{0}</FechaIngreso>", Convert.ToDateTime(txtFechaContable.Text.Trim).ToString("yyyyMMdd"))
                 oSolicitudPago.AppendFormat("<FechaEstimadoPago>{0}</FechaEstimadoPago>", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
 
@@ -2010,30 +2034,32 @@ Partial Class Siniestros_OrdenPago
                         ObtenerImpuestos(CInt(Me.txtCodigoBeneficiario_stro.Text), dcod_clase_pago, dcod_cpto, CInt(oFila("IdSiniestro")), dPago, dImporteImpuesto, dImporteRetencion)
 
                         If dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
-                            Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
-                            txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                            txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                            txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                            txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                            txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                            txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                            If dcod_clase_pago = 26 AndAlso dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
-                                txtTotalAutorizacion.Text = dPago
-                                txtTotalImpuestos.Text = 0
-                                txtTotalRetenciones.Text = 0
-                                txtTotal.Text = dPago
-                                txtTotalNacional.Text = dPago
-
-                                txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
-                                txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                            If chkVariosConceptos.Checked = False Then
+                                Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
+                                txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
                                 txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
                                 txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                                txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
-                                txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                                txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                If dcod_clase_pago = 26 AndAlso dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
+                                    txtTotalAutorizacion.Text = dPago
+                                    txtTotalImpuestos.Text = 0
+                                    txtTotalRetenciones.Text = 0
+                                    txtTotal.Text = dPago
+                                    txtTotalNacional.Text = dPago
 
+                                    txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                                    txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                                    txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                    txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                    txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+                                    txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(dPago, 2))
+
+                                End If
+                                dImporteImpuesto = 0
+                                dImporteRetencion = 0
                             End If
-                            dImporteImpuesto = 0
-                            dImporteRetencion = 0
                         ElseIf (dImporteImpuesto = 0 AndAlso dImporteRetencion = 0) OrElse
                             (dImporteImpuesto = -1 OrElse dImporteRetencion = -1) Then
                             Mensaje.MuestraMensaje("Calculo de totales", "Cálculo incompleto de impuestos", TipoMsg.Falla)
@@ -2269,12 +2295,14 @@ Partial Class Siniestros_OrdenPago
         txtConceptoOP.Text = ""
         txtcpto2.Text = ""
         cmbOrigenOP.Items.Clear()
+        cmbTipoComprobante.Items.Clear()
         txtBeneficiario.Text = ""
 
 
 
         cmbTipoUsuario.Enabled = True
         chkVariasFacturas.Checked = False
+        chkVariosConceptos.Checked = False
     End Sub
     Public Sub LimpiarOrdenPago() Handles btnLimpiar.Click
         Limpiartodo()

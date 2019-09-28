@@ -2,7 +2,7 @@
 <%@ MasterType VirtualPath="~/Pages/SiteMaster.master" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cph_principal" runat="Server">
-    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|1|0" />
+    <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|0" />
     <script src="../Scripts/Siniestros/OrdenPagoFondos.js"></script>
     <style>
         .table>tbody>tr>td{
@@ -85,7 +85,7 @@
                             <div  class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Concepto</asp:Label>
                                 <%--<asp:DropDownList ID="cmbSubsiniestro" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro"></asp:DropDownList>--%>
-                                <asp:DropDownList ID="cmbConcepto" AutoPostBack="True" runat="server" CssClass="estandar-control poliza Tablero Centro" OnTextChanged="txt_textChangedConcepto" placeholder="concepto"></asp:DropDownList>
+                                <asp:DropDownList ID="cmbConcepto" AutoPostBack="True" runat="server" CssClass="estandar-control concepto Tablero Centro" OnTextChanged="txt_TextChanged" placeholder="concepto"></asp:DropDownList>
                             </div>                        
                             <div class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Codigo de cuenta</asp:Label>
@@ -163,7 +163,7 @@
                         </div>
                         <div class="form-group col-md-2">
                                 <asp:Label runat="server" class="etiqueta-control">Importe</asp:Label>
-                                <asp:TextBox ID="txtimporteTerAseg" runat="server" Text='<%# Eval("txtimporteTerAseg") %>' CssClass="estandar-control Tablero"  OnTextChanged="txtOnImporteTerAseg" placeholder="0.00"></asp:TextBox>
+                                <asp:TextBox ID="txtimporteTerAseg" runat="server" Text='<%# Eval("txtimporteTerAseg") %>' CssClass="estandar-control importe Tablero Centro"  OnTextChanged="txt_TextChanged" AutoPostBack="True"  placeholder="0.00"></asp:TextBox>
                         </div>
                     </div>
                     <div id="pnlProveedor" class="row" runat="server">
