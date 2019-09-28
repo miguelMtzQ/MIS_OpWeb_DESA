@@ -80,7 +80,6 @@ Partial Class Pages_Login
                     Else
                         Session.Add("Menu", ArmaMenu(Funciones.Lista_A_Datatable(ws.ObtieneMenu(dtUsuario.Rows(0)("cod_usuario"), Cons.ModuloStrosTec).ToList)))
                     End If
-                    'Session.Add("Menu", ArmaMenu(Funciones.Lista_A_Datatable(ws.ObtieneMenu(dtUsuario.Rows(0)("cod_usuario"), Cons.ModuloStros).ToList)))
 
                     Dim password As String = Eramake.eCryptography.Encrypt(txt_contraseña.Text)
 
