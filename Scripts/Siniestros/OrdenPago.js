@@ -40,7 +40,7 @@ $("body").on("change", "[id*=cmbTipoUsuario]", function () {
 
 $("body").on('focusout', '[id*=txtBeneficiario_stro]', function (e) {
 
-    if ($("[id*=cmbTipoUsuario]").val() == "7" || $("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
+    if ($("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
     }
     else {
@@ -51,7 +51,7 @@ $("body").on('focusout', '[id*=txtBeneficiario_stro]', function (e) {
 
 $("body").on('focusout', '[id*=txtRFC]', function (e) {
 
-    if ($("[id*=cmbTipoUsuario]").val() == "7" || $("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
+    if ($("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
     }
     else {
@@ -62,7 +62,7 @@ $("body").on('focusout', '[id*=txtRFC]', function (e) {
 
 $("body").on('keydown', '[id*=txtBeneficiario_stro]', function (e) {
 
-    if ($("[id*=cmbTipoUsuario]").val() == "7" || $("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
+    if ($("[id*=cmbTipoUsuario]").val() == "10") { //Asegurado o Proveedor
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
     }
     else {
@@ -85,7 +85,7 @@ $("body").on('keydown', '[id*=txtBeneficiario_stro]', function (e) {
 
                 switch ($("[id*=cmbTipoUsuario]").val()) {
                     case "7": //Asegurado
-                        fn_CargaCatalogo("Ben_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro", "Asegurados");
+                        fn_CargaCatalogo("BenTercero_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro", "Asegurados");
                         break;
                     case "8": //Tercero
                         fn_CargaCatalogo("BenTercero_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro", "Terceros");
@@ -194,6 +194,8 @@ function CargarBeneficiarioRFC(e) {
             $('#EsperaModal').modal('toggle');
 
             switch ($("[id*=cmbTipoUsuario]").val()) {
+                case "7": //Asegurado
+                    fn_CargaCatalogo("BenTerceroRFC_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro|txtRFC", "Terceros", "block");
                 case "8": //Tercero
                     fn_CargaCatalogo("BenTerceroRFC_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro|txtRFC", "Terceros", "block");
                     break;
@@ -220,6 +222,9 @@ function CargarBeneficiario(e) {
             $('#EsperaModal').modal('toggle');
 
             switch ($("[id*=cmbTipoUsuario]").val()) {
+                case "7": //Asegurado
+                    fn_CargaCatalogo("BenTercero_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro|txtRFC", "Terceros", "block");
+                    break;
                 case "8": //Tercero
                     fn_CargaCatalogo("BenTercero_stro", beneficiario.trim(), "", "Unica", "txtCodigoBeneficiario_stro|txtBeneficiario_stro|txtRFC", "Terceros","block");
                     break;

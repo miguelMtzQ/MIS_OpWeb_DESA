@@ -61,7 +61,7 @@
                                 <asp:ListItem Value="10">PROVEEDOR</asp:ListItem> <%--P--%>
                             </asp:DropDownList>
                         </div>
-                        <div id="Onbase" runat="server">
+                        <div runat="server">
                             <div class="form-group col-md-2">
                                 <asp:Label ID="lblObBase" runat="server" class="etiqueta-control">Folio Onbase</asp:Label>
                                 <asp:TextBox AutoPostBack="True" OnBlur="__doPostBack(this.id, '');"  ID="txtOnBase" runat="server" Text='<%# Eval("Onbase") %>' OnTextChanged="txt_TextChanged" CssClass="estandar-control onbase Tablero Centro" placeholder="Folio Onbase"></asp:TextBox>
@@ -99,7 +99,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <asp:Label runat="server" class="etiqueta-control">Nombre / Razón social</asp:Label>
-                            <asp:TextBox ID="txtBeneficiario_stro" runat="server" Text='<%# Eval("Nombre") %>' CssClass="estandar-control Tablero Centro" autocomplete="off" placeholder="Nombre o razón social"></asp:TextBox>
+                            <asp:TextBox AutoPostBack="True" ID="txtBeneficiario_stro" runat="server" Text='<%# Eval("Nombre") %>' CssClass="estandar-control Tablero Centro" autocomplete="off" placeholder="Nombre o razón social"></asp:TextBox>
                         </div>                                                
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Moneda de pago</asp:Label>
