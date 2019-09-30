@@ -105,6 +105,8 @@ Partial Class Siniestros_FirmasElectronicas
                 Master.InformacionGeneral()
                 Master.EvaluaPermisosModulo()
 
+
+
                 EdoControl(Operacion.Ninguna)
                 dtOrdenPago = Nothing
                 Funciones.LlenaCatDDL(cmbMoneda, "Mon")
@@ -124,10 +126,20 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            'Master.cod_usuario = "AARROYO"
+            ' Master.cod_usuario = "AARROYO"
+            ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
         End Try
+    End Sub
+    Private Sub ValidaUsrFiltros()
+        If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Or Master.cod_usuario = "MMQUINTERO" Then
+            chk_Todas.Visible = True
+            chk_PorRevisar.Visible = True
+        Else
+            chk_Todas.Visible = False
+            chk_PorRevisar.Visible = False
+        End If
     End Sub
 
     Private Sub EstadoDetalleOrden()
@@ -255,7 +267,7 @@ Partial Class Siniestros_FirmasElectronicas
         Dim sFiltroFechaGeneracion As String = String.Empty
         Dim sFiltroFechaPago As String = String.Empty
         Dim sFiltroMonto As String = String.Empty
-        Dim iPendienteFirma As Integer = -1
+        Dim iStatusFirma As Integer = -1
 
 
         Dim FiltroBrokerCia As String = ""
@@ -315,11 +327,18 @@ Partial Class Siniestros_FirmasElectronicas
                     sFiltroMonto = String.Format("{0} AND mop.imp_total <= {1}", sFiltroMonto, txtMontoHasta.Text.Trim)
                 End If
 
-                If chk_Pendiente.Checked Then
-                    iPendienteFirma = 0
+                If chk_Todas.Checked Then
+                    iStatusFirma = Cons.TipoFiltro.Todas
+                ElseIf chk_PorRevisar.Checked Then
+                    iStatusFirma = Cons.TipoFiltro.PorRevisar
+                ElseIf chk_Pendiente.Checked Then
+                    iStatusFirma = Cons.TipoFiltro.Pendientes
                 ElseIf chk_Autorizada.Checked Then
-                    iPendienteFirma = 1
+                    iStatusFirma = Cons.TipoFiltro.Firmadas
+                ElseIf chk_Rechazadas.Checked Then
+                    iStatusFirma = Cons.TipoFiltro.Rechazadas
                 End If
+
 
                 Dim ValorRol As Integer = 0
                 ValorRol = ddlRolFilter.SelectedValue
@@ -334,7 +353,7 @@ Partial Class Siniestros_FirmasElectronicas
                                               sFiltroPoliza,
                                               sFiltroUsuario,
                                               Master.cod_usuario,
-                                              iPendienteFirma,
+                                              iStatusFirma,
                                               ValorRol),
                                 dtOrdenPago)
 
@@ -788,6 +807,7 @@ Partial Class Siniestros_FirmasElectronicas
         dtAutorizaciones.Columns.Add("FirmadoDirector")
         dtAutorizaciones.Columns.Add("FirmadoDirectorGeneral")
         dtAutorizaciones.Columns.Add("FirmadoSubgerente")
+        dtAutorizaciones.Columns.Add("NombreModifica")
 
 
         For Each row In dtOrdenPago.Rows
@@ -808,7 +828,8 @@ Partial Class Siniestros_FirmasElectronicas
                                         row("FirmadoSubdirector"),
                                         row("FirmadoDirector"),
                                         row("FirmadoDirectorGeneral"),
-                                        row("FirmadoSubgerente"))
+                                        row("FirmadoSubgerente"),
+                                        row("NombreModifica"))
             codRol = IIf(IsDBNull(row("RoleUsuario")) = vbTrue, "C", row("RoleUsuario"))
         Next
 
@@ -984,11 +1005,14 @@ Partial Class Siniestros_FirmasElectronicas
                         End If
 
                         Dim codMotivoRechazo As Integer
+                        Dim strMotivoRechazo As String
                         codMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Value
+                        strMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
 
-                        fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "'")
+                        fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','" & strMotivoRechazo & "'")
                         fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
                         fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
+                        fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
                     Else
                         dtCancela.Rows.Add(strOP, txtJustif)
                     End If
@@ -2619,10 +2643,52 @@ Partial Class Siniestros_FirmasElectronicas
 
 
     Protected Sub chk_Pendiente_CheckedChanged(sender As Object, e As EventArgs)
-        If chk_Pendiente.Checked Then chk_Autorizada.Checked = False
+        VerificaRadios(Cons.TipoFiltro.Pendientes)
     End Sub
     Protected Sub chk_Autorizada_CheckedChanged(sender As Object, e As EventArgs)
-        If chk_Autorizada.Checked Then chk_Pendiente.Checked = False
+        VerificaRadios(Cons.TipoFiltro.Firmadas)
+    End Sub
+
+    Private Sub VerificaRadios(tipo As Integer)
+
+        Select Case tipo
+            Case 0
+                If chk_Todas.Checked Then
+                    chk_Rechazadas.Checked = False
+                    chk_PorRevisar.Checked = False
+                    chk_Pendiente.Checked = False
+                    chk_Autorizada.Checked = False
+                End If
+            Case 1
+                If chk_PorRevisar.Checked Then
+                    chk_Rechazadas.Checked = False
+                    chk_Pendiente.Checked = False
+                    chk_Todas.Checked = False
+                    chk_Autorizada.Checked = False
+                End If
+            Case 2
+                If chk_Pendiente.Checked Then
+                    chk_Todas.Checked = False
+                    chk_PorRevisar.Checked = False
+                    chk_Autorizada.Checked = False
+                    chk_Rechazadas.Checked = False
+                End If
+            Case 3
+                If chk_Autorizada.Checked Then
+                    chk_Todas.Checked = False
+                    chk_PorRevisar.Checked = False
+                    chk_Pendiente.Checked = False
+                    chk_Rechazadas.Checked = False
+                End If
+            Case 4
+                If chk_Rechazadas.Checked Then
+                    chk_Todas.Checked = False
+                    chk_PorRevisar.Checked = False
+                    chk_Pendiente.Checked = False
+                    chk_Autorizada.Checked = False
+                End If
+        End Select
+
     End Sub
 
     Private Sub lnkAceptarProc_Click(sender As Object, e As EventArgs) Handles lnkAceptarProc.Click
@@ -2648,5 +2714,15 @@ Partial Class Siniestros_FirmasElectronicas
             Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_Firmar_Click: " & ex.Message)
         End Try
+    End Sub
+
+    Protected Sub chk_Todas_CheckedChanged(sender As Object, e As EventArgs)
+        VerificaRadios(Cons.TipoFiltro.Todas)
+    End Sub
+    Protected Sub chk_PorRevisar_CheckedChanged(sender As Object, e As EventArgs)
+        VerificaRadios(Cons.TipoFiltro.PorRevisar)
+    End Sub
+    Protected Sub chk_Rechazadas_CheckedChanged(sender As Object, e As EventArgs)
+        VerificaRadios(Cons.TipoFiltro.Rechazadas)
     End Sub
 End Class
