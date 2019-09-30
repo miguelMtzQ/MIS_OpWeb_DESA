@@ -434,8 +434,11 @@
                                 <table style="width:50%">
                                     <tr>
                                         <td><asp:label runat="server" class="etiqueta-control">Firmas Electrónicas:</asp:label></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes de Firma" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Todas" Text="Todas" CssClass="etiqueta-control" OnCheckedChanged="chk_Todas_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_PorRevisar" Text="Por Revisar" CssClass="etiqueta-control" OnCheckedChanged="chk_PorRevisar_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Autorizada"  Text="Firmada por" CssClass="etiqueta-control" OnCheckedChanged="chk_Autorizada_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Rechazadas" Text="Rechazadas" CssClass="etiqueta-control" OnCheckedChanged="chk_Rechazadas_CheckedChanged" AutoPostBack="true" /></td>
                                     </tr>
                                 </table>
                                 
@@ -507,9 +510,10 @@
                         <tr>
                             <td style="width:4%;"></td>
                             <td style="width:6%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NRO</td>
-                            <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">ASEGURADO(S)</td>
+                            <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NOMBRE / RAZÓN SOCIAL</td>
                             <td style="width:35%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">PAGAR A</td>
                             <td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MONTO</td>
+                            <%--<td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MOTIVO RECH</td>--%>
                         </tr>
                      </table>
 
@@ -554,6 +558,7 @@
                                                         <td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# Eval("contratante") %>' Width="100%" ></asp:Label></td>
                                                         <td style="width:35%;"><asp:Label runat="server" ID="lblMoneda" Text='<%# Eval("txt_cheque_a_nom") %>' CssClass="Derecha" Width="100%"  ></asp:Label></td>
                                                         <td style="width:11%;"> <asp:Label runat="server" ID="lblMonto" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%" CssClass="Monto"></asp:Label></td>
+                                                        <%--<td style="width:11%;"> <asp:Label runat="server" ID="Label1" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%"></asp:Label></td>--%>
                                                     </tr>
                                                 </table>
 

@@ -56,6 +56,15 @@ Public Class Cons
     Public Const SubModBitacora As Integer = 563
     Public Const SubModBitacoraFirma As Integer = 564
 
+    'Tipo de Filtro Firmas
+    Public Enum TipoFiltro
+        Todas = 0
+        PorRevisar = 1
+        Pendientes = 2
+        Firmadas = 3
+        Rechazadas = 4
+    End Enum
+
 
     'Tipo Consulta
     Public Enum TipoMov
