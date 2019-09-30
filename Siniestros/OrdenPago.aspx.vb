@@ -95,35 +95,38 @@ Partial Class Siniestros_OrdenPago
         End If
 
         If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
-            Onbase.Style("display") = ""
+            'Onbase.Style("display") = ""
             pnlProveedor.Style("display") = ""
             Facturas0.Style("display") = ""
             Facturas1.Style("display") = ""
             cmbOrigenOP.Enabled = False
             cmbTipoPagoOP.Enabled = False
             txtRFC.Enabled = False
+            txtBeneficiario_stro.Enabled = False
             cmbTipoComprobante.Enabled = False
             txtNumeroComprobante.Enabled = False
             txtFechaComprobante.Enabled = False
-            cmbTipoComprobante.Items.Clear()
+            'cmbTipoComprobante.Items.Clear()
         Else
-            Onbase.Style("display") = "" 'FFUENTES
+            'Onbase.Style("display") = "" 'FFUENTES
             pnlProveedor.Style("display") = "none"
             Facturas0.Style("display") = "none"
             Facturas1.Style("display") = "none"
             cmbOrigenOP.Enabled = False
             cmbTipoPagoOP.Enabled = True
-            txtRFC.Enabled = False
             cmbTipoComprobante.Enabled = True
             txtNumeroComprobante.Enabled = True
             txtFechaComprobante.Enabled = True
-            If cmbTipoUsuario.SelectedValue = eTipoUsuario.Tercero Then
-                txtRFC.Enabled = True
-                txtBeneficiario_stro.Enabled = True
-            Else
-                txtRFC.Enabled = False
-                txtBeneficiario_stro.Enabled = False
-            End If
+            txtRFC.Enabled = True
+            txtBeneficiario_stro.Enabled = True
+            'SE COMENTA POR EL TEMA DE VARIOS ASEGURADOS DE UNA POLIZA
+            'If cmbTipoUsuario.SelectedValue = eTipoUsuario.Tercero Then
+            '    txtRFC.Enabled = True
+            '    txtBeneficiario_stro.Enabled = True
+            'Else
+            '    txtRFC.Enabled = False
+            '    txtBeneficiario_stro.Enabled = False
+            'End If
         End If
 
 
@@ -681,7 +684,7 @@ Partial Class Siniestros_OrdenPago
 
                                 End If
 
-                                Onbase.Style("display") = ""
+                                'Onbase.Style("display") = ""
                                 pnlProveedor.Style("display") = ""
 
                             Else
@@ -796,7 +799,7 @@ Partial Class Siniestros_OrdenPago
                                 Me.txtMonedaPoliza.Text = String.Empty
                             End If
 
-                            Onbase.Style("display") = "none" 'FFUENTES none
+                            'Onbase.Style("display") = "none" 'FFUENTES none
                             pnlProveedor.Style("display") = "none"
 
                         Case Else
@@ -2014,7 +2017,7 @@ Partial Class Siniestros_OrdenPago
                 If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
 
                     dPago = dPago - dDescuentos
-                    txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(Decimal.Parse(txtTotalAutorizacionFac.Text) - dDescuentos), 2)
+                    txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Decimal.Parse(txtTotalAutorizacionFac.Text) - dDescuentos, 2)
 
                     If dPago > 0 Then
 
@@ -2034,6 +2037,7 @@ Partial Class Siniestros_OrdenPago
                         ObtenerImpuestos(CInt(Me.txtCodigoBeneficiario_stro.Text), dcod_clase_pago, dcod_cpto, CInt(oFila("IdSiniestro")), dPago, dImporteImpuesto, dImporteRetencion)
 
                         If dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
+                            'se agrego este filtro para varios conceptos
                             If chkVariosConceptos.Checked = False Then
                                 Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
                                 txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
@@ -2059,6 +2063,21 @@ Partial Class Siniestros_OrdenPago
                                 End If
                                 dImporteImpuesto = 0
                                 dImporteRetencion = 0
+                            Else
+                                'varios conceptos
+                                txtTotalAutorizacion.Text = dPago + txtTotalAutorizacion.Text
+                                txtTotalImpuestos.Text = dImporteImpuesto + txtTotalImpuestos.Text
+                                txtTotalRetenciones.Text = dImporteRetencion + txtTotalRetenciones.Text
+                                txtTotal.Text = dPago + txtTotal.Text
+                                txtTotalNacional.Text = dPago + txtTotalNacional.Text
+
+                                'varios conceptos
+                                iptxtTotalAutorizacion.Text = dPago + iptxtTotalAutorizacion.Text
+                                iptxtTotalImpuestos.Text = dImporteImpuesto + iptxtTotalImpuestos.Text
+                                iptxtTotalRetenciones.Text = dImporteImpuesto + iptxtTotalRetenciones.Text
+                                iptxtTotal.Text = dPago + iptxtTotal.Text
+                                iptxtTotalNacional.Text = dPago + iptxtTotalNacional.Text
+
                             End If
                         ElseIf (dImporteImpuesto = 0 AndAlso dImporteRetencion = 0) OrElse
                             (dImporteImpuesto = -1 OrElse dImporteRetencion = -1) Then
@@ -2080,13 +2099,27 @@ Partial Class Siniestros_OrdenPago
 
                         Select Case oFila("TipoMoneda")
                             Case 0
-                                dTotalAutorizacion += dPago
-                                dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteImpuesto, 0)
-                                dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteRetencion, 0)
+                                'se agrego este filtro para varios conceptos
+                                If chkVariosConceptos.Checked = False Then
+                                    dTotalAutorizacion += dPago
+                                    dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteImpuesto, 0)
+                                    dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteRetencion, 0)
 
-                                dTotalAutorizacionNacional += dPago
-                                dTotalImpuestosNacional = 0
-
+                                    dTotalAutorizacionNacional += dPago
+                                    dTotalImpuestosNacional = 0
+                                Else
+                                    dTotalAutorizacion += dPago
+                                    dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteImpuesto, 0)
+                                    dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteRetencion, 0)
+                                    If dTotalImpuestos = -1 Then
+                                        dTotalImpuestos = 0
+                                    End If
+                                    If dTotalRetenciones = -1 Then
+                                        dTotalRetenciones = 0
+                                    End If
+                                    dTotalAutorizacionNacional += dPago
+                                    dTotalImpuestosNacional = 0
+                                End If
                             Case 1
                                 'dTotalAutorizacion += (dPago / dTipoCambio)
                                 'dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, (dImporteImpuesto / dTipoCambio), 0)
