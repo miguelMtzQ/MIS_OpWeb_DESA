@@ -549,15 +549,19 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub btn_BuscaOP_Click(sender As Object, e As EventArgs) Handles btn_BuscaOP.Click
         Try
             If cmbModuloOP.SelectedValue > 0 Then
-                Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+                If ValidaRadios() Then
+                    Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
 
-                If grdOrdenPago.Rows.Count > 0 Then
-                    grdOrdenPago.PageIndex = 0
+                    If grdOrdenPago.Rows.Count > 0 Then
+                        grdOrdenPago.PageIndex = 0
 
-                    EdoControl(Operacion.Consulta)
-                    Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago',true);")
+                        EdoControl(Operacion.Consulta)
+                        Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago',true);")
+                    Else
+                        Mensaje.MuestraMensaje(Master.Titulo, "La Consulta no devolvió resultados", TipoMsg.Advertencia)
+                    End If
                 Else
-                    Mensaje.MuestraMensaje(Master.Titulo, "La Consulta no devolvió resultados", TipoMsg.Advertencia)
+                    MuestraMensaje("Validación", "Debe elegir un filtro de Estatus de Firma", TipoMsg.Advertencia)
                 End If
             Else
                 MuestraMensaje("Validación", "Debe elegir el tipo de módulo", TipoMsg.Advertencia)
@@ -568,6 +572,22 @@ Partial Class Siniestros_FirmasElectronicas
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_BuscaOP_Click: " & ex.Message)
         End Try
     End Sub
+    Private Function ValidaRadios() As Boolean
+        ValidaRadios = True
+        If chk_Todas.Checked = False Then
+            If chk_PorRevisar.Checked = False Then
+                If chk_Pendiente.Checked = False Then
+                    If chk_Autorizada.Checked = False Then
+                        If chk_Rechazadas.Checked = False Then
+                            ValidaRadios = False
+
+                        End If
+                    End If
+                End If
+            End If
+        End If
+
+    End Function
 
     Private Sub btn_Limpiar_Click(sender As Object, e As EventArgs) Handles btn_Limpiar.Click
         Try
