@@ -433,7 +433,7 @@
 
                                 <table style="width:50%">
                                     <tr>
-                                        <td><asp:label runat="server" class="etiqueta-control">Firmas Electrónicas:</asp:label></td>
+                                        <td><asp:label runat="server" class="etiqueta-control">Estatus Firma Electrónica:</asp:label></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Todas" Text="Todas" CssClass="etiqueta-control" OnCheckedChanged="chk_Todas_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_PorRevisar" Text="Por Revisar" CssClass="etiqueta-control" OnCheckedChanged="chk_PorRevisar_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
