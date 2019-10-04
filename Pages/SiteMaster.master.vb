@@ -2046,11 +2046,16 @@ Partial Class Pages_SiteMaster
                 numBanco = txtCuentaBancariaT_stro.Text
                 numBanco = numBanco.Substring(0, 3)
 
-                If numBanco < 100 Then
-                    numBanco = numBanco.Substring(numBanco.Length - 1)
+                If numBanco < 100 And numBanco > 10 Then
+                    numBanco = numBanco.Substring(numBanco.Length - 2)
                     cmbBancoT_stro.SelectedValue = numBanco
                 Else
-                    cmbBancoT_stro.SelectedValue = numBanco
+                    If numBanco < 10 Then
+                        numBanco = numBanco.Substring(numBanco.Length - 1)
+                        cmbBancoT_stro.SelectedValue = numBanco
+                    Else
+                        cmbBancoT_stro.SelectedValue = numBanco
+                    End If
                 End If
 
                 oParametros = New Dictionary(Of String, Object)
