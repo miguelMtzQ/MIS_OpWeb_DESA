@@ -195,6 +195,21 @@
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Subsiniestro") %>' CssClass="estandar-control"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Estimacion" Visible="false">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Estimacion") %>' CssClass="estandar-control Estimacion"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Reserva" Visible="True">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Reserva") %>' CssClass="estandar-control Reserva"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="ImportePagos" Visible="false">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("ImportePagos") %>' CssClass="estandar-control ImportePagos"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Póliza" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Poliza") %>' CssClass="estandar-control poliza"></asp:TextBox>
