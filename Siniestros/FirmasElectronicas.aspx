@@ -433,9 +433,12 @@
 
                                 <table style="width:50%">
                                     <tr>
-                                        <td><asp:label runat="server" class="etiqueta-control">Firmas Electrónicas:</asp:label></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes de Firma" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:label runat="server" class="etiqueta-control">Estatus Firma Electrónica:</asp:label></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Todas" Text="Todas" CssClass="etiqueta-control" OnCheckedChanged="chk_Todas_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_PorRevisar" Text="Por Revisar" CssClass="etiqueta-control" OnCheckedChanged="chk_PorRevisar_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Autorizada"  Text="Firmada por" CssClass="etiqueta-control" OnCheckedChanged="chk_Autorizada_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Rechazadas" Text="Rechazadas" CssClass="etiqueta-control" OnCheckedChanged="chk_Rechazadas_CheckedChanged" AutoPostBack="true" /></td>
                                     </tr>
                                 </table>
                                 
@@ -507,9 +510,10 @@
                         <tr>
                             <td style="width:4%;"></td>
                             <td style="width:6%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NRO</td>
-                            <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">ASEGURADO(S)</td>
+                            <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NOMBRE / RAZÓN SOCIAL</td>
                             <td style="width:35%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">PAGAR A</td>
                             <td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MONTO</td>
+                            <%--<td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MOTIVO RECH</td>--%>
                         </tr>
                      </table>
 
@@ -554,6 +558,7 @@
                                                         <td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# Eval("contratante") %>' Width="100%" ></asp:Label></td>
                                                         <td style="width:35%;"><asp:Label runat="server" ID="lblMoneda" Text='<%# Eval("txt_cheque_a_nom") %>' CssClass="Derecha" Width="100%"  ></asp:Label></td>
                                                         <td style="width:11%;"> <asp:Label runat="server" ID="lblMonto" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%" CssClass="Monto"></asp:Label></td>
+                                                        <%--<td style="width:11%;"> <asp:Label runat="server" ID="Label1" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%"></asp:Label></td>--%>
                                                     </tr>
                                                 </table>
 
@@ -641,6 +646,10 @@
                                                                     <asp:Label runat="server" class="col-md-4" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>'></asp:Label>
                                                                     <asp:Label runat="server" class="col-md-4" Text='<%# Eval("txt_moneda") %>'></asp:Label>
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <asp:Label runat="server" class="col-md-4" Text="SWIFT:" Font-Bold="true"></asp:Label>
+                                                                    <asp:Label runat="server" class="col-md-4" Text="ABA:" Font-Bold="true"></asp:Label>
+                                                                </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="clear padding10"></div>
@@ -648,19 +657,27 @@
                                                                     <asp:Label runat="server" class="col-md-4" Text="Solicitud de:" Font-Bold="true"></asp:Label>
                                                                     <asp:Label runat="server" class="col-md-4" Text='<%# Eval("TipoTransferencia") %>'></asp:Label>
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <asp:Label runat="server" class="col-md-4" Text='<%# Eval("Swift") %>'></asp:Label>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# Eval("Aba") %>'></asp:Label>
+                                                                </div>
+
                                                             </div>
                                                             <div class="row">
                                                                 <div class="clear padding10"></div>
                                                                 <div class="col-md-6">
                                                                     <asp:Label runat="server" class="col-md-4" Text="Clave bancaria:" Font-Bold="true"></asp:Label>
-                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("{0} {1}", Eval("NumeroCuenta"), Eval("NombreBanco")) %>'></asp:Label>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# Eval("NumeroCuenta") %>'></asp:Label>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <asp:Label runat="server" class="col-md-4" Text='<%# Eval("NombreBanco") %>'></asp:Label>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="clear padding10"></div>
                                                                 <div class="col-md-6">
                                                                     <asp:Label runat="server" class="col-md-4" Text="Nombre/Dirección:" Font-Bold="true"></asp:Label>
-                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Calle:  {0}", Eval("Calle")) %>'></asp:Label>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Calle:  {0}", Eval("Calle"),) %>'></asp:Label>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -690,8 +707,8 @@
                                                     <td style="width: 5%;"></td>
                                                     <td style="width: 90%; text-align: left; font-size: 10px;" colspan="3">
                                                         <div class="row" style="border-style: inset; border-width: 1px;">
-                                                            <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: center;">
-                                                                <asp:Label runat="server" Font-Bold="true">DETALLE DE LA FACTURA</asp:Label>
+                                                            <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: left;">
+                                                                <asp:Label runat="server" Font-Bold="true">DETALLE DEL DOCUMENTO</asp:Label>
                                                             </div>
                                                             <asp:Panel runat="server" ID="pnlDetalleFactura" Width="100%" ScrollBars="None">
                                                                 <asp:GridView runat="server" ID="grdDetalleFactura" AutoGenerateColumns="false"
@@ -726,7 +743,7 @@
                                                     <td style="width: 5%;"></td>
                                                     <td style="width: 90%; text-align: left; font-size: 10px;" colspan="3">
                                                         <div class="row" style="border-style: inset; border-width: 1px;">
-                                                            <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: center;">
+                                                            <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: left;">
                                                                 <asp:Label runat="server" Font-Bold="true">CONTABILIDAD EN TRANSITO</asp:Label>
                                                             </div>
                                                             <asp:Panel runat="server" ID="Panel1" Width="100%" ScrollBars="None">
@@ -756,7 +773,7 @@
                                                                             </ItemTemplate>
                                                                         </asp:TemplateField>
 
-                                                                        <asp:TemplateField HeaderText="monto" HeaderStyle-CssClass="Centrado etiqueta-subseccion-grid" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="aspNetDisabled etiqueta-vacia-grid Centro">
+                                                                        <asp:TemplateField HeaderText="Monto" HeaderStyle-CssClass="Centrado etiqueta-subseccion-grid" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="aspNetDisabled etiqueta-vacia-grid Centro">
                                                                             <ItemTemplate>
                                                                                 <%# String.Format("{0:#,#0.00}", Eval("imp_mo")) %>
                                                                             </ItemTemplate>
