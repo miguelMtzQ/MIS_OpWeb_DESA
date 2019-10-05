@@ -677,17 +677,45 @@
                                                                 <div class="clear padding10"></div>
                                                                 <div class="col-md-6">
                                                                     <asp:Label runat="server" class="col-md-4" Text="Nombre/Dirección:" Font-Bold="true"></asp:Label>
-                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Calle:  {0}", Eval("Calle"),) %>'></asp:Label>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Calle:  {0} {1}", Eval("Calle"), Eval("NumeroExterior")) %>'></asp:Label>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="clear padding10"></div>
-                                                                <div class="col-md-12">
-                                                                    <asp:Label runat="server" class="col-md-2" Text="" Font-Bold="true"></asp:Label>
-                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Colonia:  {0}  C.P. {1}  Municipio: {2}", Eval("Colonia"), Eval("CodigoPostal"), Eval("Municipio")) %>'></asp:Label>
+                                                                <div class="col-md-6">
+                                                                    <asp:Label runat="server" class="col-md-4" Text="" Font-Bold="true"></asp:Label>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Colonia:  {0}", Eval("Colonia")) %>'></asp:Label>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <%--<asp:Label runat="server" class="col-md-4" Text="" Font-Bold="true"></asp:Label>--%>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("C.P. {0}  Municipio: {1}", Eval("CodigoPostal"), Eval("Municipio")) %>'></asp:Label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="clear padding10"></div>
+                                                                <div class="col-md-6">
+                                                                    <asp:Label runat="server" class="col-md-4" Text="" Font-Bold="true"></asp:Label>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Estado:  {0}", Eval("Departamento")) %>'></asp:Label>
+                                                                </div>
+                                                                  <div class="col-md-6">
+                                                                    <%--<asp:Label runat="server" class="col-md-4" Text="" Font-Bold="true"></asp:Label>--%>
+                                                                    <asp:Label runat="server" class="col-md-8" Text='<%# String.Format("Ciudad: {0}", Eval("Ciudad")) %>'></asp:Label>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </td>
+                                                    <td style="width: 5%;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 5%;"></td>
+                                                    <td style="width: 90%; text-align: left; font-size: 10px;" colspan="3">
+                                                        <div class="row" style="border-style: inset; border-width: 1px;">
+                                                                <div class="col-md-6">
+                                                                    <asp:Label runat="server" class="col-md-4" Text="Concepto:" Font-Bold="true"></asp:Label>
+                                                                     <asp:Label runat="server" class="col-md-8" ID="lblConcepto" Text='<%# Eval("Concepto") %>'></asp:Label>
+                                                                </div>
+                                                        </div>
+                                 
                                                     </td>
                                                     <td style="width: 5%;"></td>
                                                 </tr>
@@ -709,6 +737,10 @@
                                                         <div class="row" style="border-style: inset; border-width: 1px;">
                                                             <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: left;">
                                                                 <asp:Label runat="server" Font-Bold="true">DETALLE DEL DOCUMENTO</asp:Label>
+                                                            </div>
+                                                            <div class="col-md-8"  text-align: right >
+                                                                <asp:Label runat="server" Font-Bold="true">FolioOnBase:</asp:Label>
+                                                                 <asp:Label runat="server" ID="lblFolioOnBase" Text='<%# Eval("FolioOnbase") %>'></asp:Label>
                                                             </div>
                                                             <asp:Panel runat="server" ID="pnlDetalleFactura" Width="100%" ScrollBars="None">
                                                                 <asp:GridView runat="server" ID="grdDetalleFactura" AutoGenerateColumns="false"
@@ -816,8 +848,8 @@
                                                                                 <asp:ListItem Value="10">No autorizada en tiempo (vencida)</asp:ListItem>
                                                                                <asp:ListItem Value="11">Otros (especificar)</asp:ListItem>
                                                                            </asp:DropDownList>
-                                                                       </div>
                                                                    </div>
+                                                                       </div>
                                                                 </div>
                                                             <div class="row">
                                                                 <div class="col-md-4 Centro">
