@@ -1112,6 +1112,8 @@ Partial Class Siniestros_OrdenPago
                                 oFila("NumeroOficioCondusef") = ""
                                 oFila("FechaOficioCondusef") = ""
                                 oFila("NumeroCorrelaEstim") = 0
+                                oFila("Estimacion") = oFilaSeleccion(0).Item("Estimacion")
+                                oFila("Reserva") = oFilaSeleccion(0).Item("Reserva")
                                 'Importes e impuestos
                                 'SE AGREGA LA VALIDACION PARA LOS VARIOS CONCEPTOS
                                 If chkVariosConceptos.Checked = False Then
