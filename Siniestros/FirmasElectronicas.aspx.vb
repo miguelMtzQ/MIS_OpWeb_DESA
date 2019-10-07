@@ -549,8 +549,8 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub btn_BuscaOP_Click(sender As Object, e As EventArgs) Handles btn_BuscaOP.Click
         Try
             If cmbModuloOP.SelectedValue > 0 Then
-                If ValidaRadios() Then
-                    Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+                'If ValidaRadios() Then
+                Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
 
                     If grdOrdenPago.Rows.Count > 0 Then
                         grdOrdenPago.PageIndex = 0
@@ -560,9 +560,9 @@ Partial Class Siniestros_FirmasElectronicas
                     Else
                         Mensaje.MuestraMensaje(Master.Titulo, "La Consulta no devolvió resultados", TipoMsg.Advertencia)
                     End If
-                Else
-                    MuestraMensaje("Validación", "Debe elegir un filtro de Estatus de Firma", TipoMsg.Advertencia)
-                End If
+                'Else
+                '    MuestraMensaje("Validación", "Debe elegir un filtro de Estatus de Firma", TipoMsg.Advertencia)
+                'End If
             Else
                 MuestraMensaje("Validación", "Debe elegir el tipo de módulo", TipoMsg.Advertencia)
             End If
@@ -961,8 +961,26 @@ Partial Class Siniestros_FirmasElectronicas
                     dtAutoriza.Rows.Add(strOP)
 
                 Else 'rechazo
+                    Dim codMotivoRechazo As Integer
+                    Dim strMotivoRechazo As String
+                    Dim intFolioOnBase As Integer
+                    codMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Value
+                    strMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
+                    intFolioOnBase = DirectCast(grdOrdenPago.Rows(contador).FindControl("lblFolioOnBase"), Label).Text
+
+                    If strMotivoRechazo = "--Seleccione--" Then
+                        Mensaje.MuestraMensaje("Validación Motivo de Rechazo", "No se ha seleccionado ningun motivo de rechazo de para la OP: " & strOP, TipoMsg.Advertencia)
+                        Exit Function
+                    End If
+
+                    Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & strOP)
+                    If Rechazada = 1 Then
+                        Mensaje.MuestraMensaje("Validación Rechazos", "la Orden de Pago: " & strOP & " ya se encuentra rechazada, por favor deseleccionarla", TipoMsg.Advertencia)
+                        Exit Function
+                    End If
 
                     If sn_proceso = True Then
+
 
                         If row("NivelAutorizacion") = 1 Then
 
@@ -970,7 +988,7 @@ Partial Class Siniestros_FirmasElectronicas
                                 UsuarioFirma = row("Jefe")
                                 fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
 
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                    ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
                                 UsuarioFirma = row("Solicitante")
                                 fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
                             End If
@@ -1025,20 +1043,13 @@ Partial Class Siniestros_FirmasElectronicas
 
                         End If
 
-                        Dim codMotivoRechazo As Integer
-                        Dim strMotivoRechazo As String
-                        Dim intFolioOnBase As Integer
-                        codMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Value
-                        strMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
-                        intFolioOnBase = DirectCast(grdOrdenPago.Rows(contador).FindControl("lblFolioOnBase"), Label).Text
-
                         fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','" & strMotivoRechazo & "'")
                         fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
                         fn_Ejecuta("Update MIS_Expediente_OP set Nro_OP = " & strOP & ", id_Estatus_Registro = 3 where Folio_Onbase_Siniestro = " & intFolioOnBase & " And Id_etiqueta_Pago = 0", True)
                         fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
-                            fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
-                        Else
-                            dtCancela.Rows.Add(strOP, txtJustif)
+                        fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
+                    Else
+                        dtCancela.Rows.Add(strOP, txtJustif)
                     End If
 
                 End If
@@ -1067,12 +1078,12 @@ Partial Class Siniestros_FirmasElectronicas
 
                     Funciones.fn_Consulta("mis_ObtieneOpEnvioFirma 0,''," & cmbModuloOP.SelectedValue, dtEnvios)
 
-                    For Each item In dtEnvios.Rows
-                        'fn_Ejecuta("mis_EmailsOPStros '" & item("Ops") & "','" & item("tipomodulo") & "','" & item("cod_usuario") & "','" & Master.usuario & "','" & codRol & "'")
+                            For Each item In dtEnvios.Rows
+                        fn_Ejecuta("mis_EmailsOPStros '" & item("Ops") & "','" & item("tipomodulo") & "','" & item("cod_usuario") & "','" & Master.usuario & "','" & codRol & "'")
                         fn_Ejecuta("mis_ActualizaStsOpsEnv '" & item("Ops") & "','" & item("cod_usuario") & "'," & cmbModuloOP.SelectedValue & ",1")
                     Next
-                    ' fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
-                    ' Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron y enviaron la OPs para las firmas correspondientes", Mensaje.TipoMsg.Confirma)
+                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                    Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron y enviaron la OPs para las firmas correspondientes", Mensaje.TipoMsg.Confirma)
 
                 End If
             End If
