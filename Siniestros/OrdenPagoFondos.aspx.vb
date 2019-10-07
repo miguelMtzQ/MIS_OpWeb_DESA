@@ -568,12 +568,12 @@ Partial Class Siniestros_OrdenPago
                     Select Case Me.cmbTipoUsuario.SelectedValue
 
                         Case eTipoUsuario.Proveedor
-
+                            oParametros.Add("Accion", 2)
                             oParametros.Add("Folio_OnBase", Me.txtOnBase.Text.Trim)
 
-                        oDatos = Funciones.ObtenerDatos("sp_op_stro_consulta_folio_OnBase", oParametros)
+                            oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_Catalogos_Fondos", oParametros)
 
-                        If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
+                            If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
 
                             oSeleccionActual = oDatos.Tables(0)
 
@@ -612,20 +612,20 @@ Partial Class Siniestros_OrdenPago
                                         Else
                                             lbldescuento.Text = ""
                                         End If
+                                            'se comenta por que es fondos 
+                                            'If .Item("Moneda_poliza") = 0 Then
+                                            '    If .Item("cod_moneda") = 1 Then
+                                            '        Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la poliza esta en pesos: ", TipoMsg.Falla)
+                                            '        Limpiartodo()
+                                            '    Else
+                                            '        cmbMonedaPago.SelectedValue = 0
+                                            '    End If
+                                            'Else
+                                            '    cmbMonedaPago.SelectedValue = 1
+                                            'End If
+                                            'se limpian las cajas de impuestos 
 
-                                        If .Item("Moneda_poliza") = 0 Then
-                                            If .Item("cod_moneda") = 1 Then
-                                                Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la poliza esta en pesos: ", TipoMsg.Falla)
-                                                Limpiartodo()
-                                            Else
-                                                cmbMonedaPago.SelectedValue = 0
-                                            End If
-                                        Else
-                                            cmbMonedaPago.SelectedValue = 1
-                                        End If
-                                        'se limpian las cajas de impuestos 
-
-                                        txtTotalAutorizacion.Text = 00.00
+                                            txtTotalAutorizacion.Text = 00.00
                                         txtTotalImpuestos.Text = 00.00
                                         txtTotalRetenciones.Text = 00.00
                                         txtTotal.Text = 00.00
@@ -659,24 +659,26 @@ Partial Class Siniestros_OrdenPago
 
                             oClavesPago = IIf(oDatos.Tables(1) Is Nothing OrElse oDatos.Tables(1).Rows.Count = 0, Nothing, oDatos.Tables(1))
 
-                            If Not oDatos.Tables(2) Is Nothing AndAlso oDatos.Tables(2).Rows.Count > 0 Then
+                                If Not oDatos.Tables(2) Is Nothing AndAlso oDatos.Tables(2).Rows.Count > 0 Then
 
-                                oOrigenesPago = IIf(oOrigenesPago Is Nothing OrElse oOrigenesPago.Rows.Count = 0, oDatos.Tables(2), oOrigenesPago)
-                                cmbOrigenOP.Items.Clear()
-                                For Each fila In oDatos.Tables(2).Rows
-                                    Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
-                                Next
+                                    oOrigenesPago = IIf(oOrigenesPago Is Nothing OrElse oOrigenesPago.Rows.Count = 0, oDatos.Tables(2), oOrigenesPago)
+                                    cmbOrigenOP.Items.Clear()
+                                    For Each fila In oDatos.Tables(2).Rows
+                                        Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
+                                    Next
 
-                            End If
-                            cmbSubsiniestro.Items.Clear()
-                            For Each fila In oDatos.Tables(0).Rows
-                                Me.cmbSubsiniestro.Items.Add(New ListItem(String.Format("Subsiniestro {0}", fila.Item("id_substro")).ToUpper, fila.Item("id_substro")))
-                            Next
+                                End If
 
-                            Me.lblObBase.Visible = True
-                            Me.txtOnBase.Visible = True
+                                'se comento por la parte de fondo que no tiene subsiniestro
+                                'cmbSubsiniestro.Items.Clear()
+                                'For Each fila In oDatos.Tables(0).Rows
+                                '    Me.cmbSubsiniestro.Items.Add(New ListItem(String.Format("Subsiniestro {0}", fila.Item("id_substro")).ToUpper, fila.Item("id_substro")))
+                                'Next
 
-                            cmbTipoComprobante.Items.Clear()
+                                Me.lblObBase.Visible = True
+                                Me.txtOnBase.Visible = True
+
+                                cmbTipoComprobante.Items.Clear()
                             If cmbTipoComprobante.Items.Count = 0 Then
 
                                 cmbTipoComprobante.DataSource = oDatos.Tables(3)
@@ -1071,10 +1073,11 @@ Partial Class Siniestros_OrdenPago
                     Return
                 End If
 
-                If Not ValidarFechaComprobante(Me.txtFechaComprobante.Text.Trim, CInt(Me.txtSiniestro.Text.Trim)) Then
-                    Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Fecha de comprobante, menor a fecha ocurrencia stro(s)", TipoMsg.Advertencia)
-                    Return
-                End If
+                'SE COMENTA POR QUE NO TIENE QUE VALIDAR LA FECHA DEL REGISTRODE LA FACTURA CON LA FECHA DEL SINIESTRO 
+                'If Not ValidarFechaComprobante(Me.txtFechaComprobante.Text.Trim, CInt(Me.txtSiniestro.Text.Trim)) Then
+                '    Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Fecha de comprobante, menor a fecha ocurrencia stro(s)", TipoMsg.Advertencia)
+                '    Return
+                'End If
 
             End If
 
@@ -1098,22 +1101,36 @@ Partial Class Siniestros_OrdenPago
 
 
                     Case eTipoUsuario.Proveedor
-                        If String.IsNullOrWhiteSpace(txtOnBase.Text) OrElse String.IsNullOrWhiteSpace(txtSiniestro.Text) OrElse cmbSubsiniestro.Items.Count = 0 Then
+                        If String.IsNullOrWhiteSpace(txtOnBase.Text) OrElse String.IsNullOrWhiteSpace(txtSiniestro.Text) Then
+                            'If String.IsNullOrWhiteSpace(txtOnBase.Text) OrElse String.IsNullOrWhiteSpace(txtSiniestro.Text) OrElse cmbSubsiniestro.Items.Count = 0 Then
                             Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Folio onbase vacío", TipoMsg.Falla)
                             Return
                         End If
                         'SE AGREGA LA VALIDACION PARA LOS VARIOS CONCEPTOS
+                        'ESTE CODIGO ES DE TRADICIONAL
+                        'If chkVariosConceptos.Checked = False Then
+                        '    oRegistro = oGrdOrden.AsEnumerable().[Select](Function(x) New With {
+                        '            Key .Siniestro = x.Field(Of String)("Siniestro"),
+                        '            Key .RFC = x.Field(Of String)("RFC"),
+                        '            Key .Subsiniestro = x.Field(Of String)("Subsiniestro"),
+                        '            Key .Poliza = x.Field(Of String)("Poliza"),
+                        '            Key .Factura = x.Field(Of String)("Factura")
+                        '  }).Where(Function(s) s.Siniestro = txtSiniestro.Text.Trim() AndAlso
+                        '                       s.RFC = txtRFC.Text.Trim() AndAlso
+                        '                       s.Subsiniestro = cmbSubsiniestro.SelectedValue.ToString() AndAlso
+                        '    s.Factura = txtNumeroComprobante.Text.Trim()
+                        ').FirstOrDefault()
+                        'End If
+
                         If chkVariosConceptos.Checked = False Then
                             oRegistro = oGrdOrden.AsEnumerable().[Select](Function(x) New With {
                                     Key .Siniestro = x.Field(Of String)("Siniestro"),
                                     Key .RFC = x.Field(Of String)("RFC"),
-                                    Key .Subsiniestro = x.Field(Of String)("Subsiniestro"),
                                     Key .Poliza = x.Field(Of String)("Poliza"),
                                     Key .Factura = x.Field(Of String)("Factura")
                           }).Where(Function(s) s.Siniestro = txtSiniestro.Text.Trim() AndAlso
                                                s.RFC = txtRFC.Text.Trim() AndAlso
-                                               s.Subsiniestro = cmbSubsiniestro.SelectedValue.ToString() AndAlso
-                                               s.Factura = txtNumeroComprobante.Text.Trim()
+                            s.Factura = txtNumeroComprobante.Text.Trim()
                         ).FirstOrDefault()
                         End If
 
@@ -1145,10 +1162,11 @@ Partial Class Siniestros_OrdenPago
                     'Se obtienen datos secundarios
                     Select Case cmbTipoUsuario.SelectedValue
                         Case eTipoUsuario.Asegurado, eTipoUsuario.Tercero
-                            oFilaSeleccion = oSeleccionActual.Select(String.Format("nro_stro = {0} AND id_substro = {1}", txtSiniestro.Text.Trim, cmbSubsiniestro.SelectedValue))
+                            'oFilaSeleccion = oSeleccionActual.Select(String.Format("nro_stro = {0} AND id_substro = {1}", txtSiniestro.Text.Trim, cmbSubsiniestro.SelectedValue))
+                            oFilaSeleccion = oSeleccionActual.Select(String.Format("nro_stro = {0} ", txtSiniestro.Text.Trim))
                         Case eTipoUsuario.Proveedor
                             'oFilaSeleccion = oSeleccionActual.Select(String.Format("nro_stro = {0} AND id_substro = {1} AND folio_GMX = {2}", txtSiniestro.Text.Trim, cmbSubsiniestro.SelectedValue, txtNumeroComprobante.Text.ToString())) 'FFUENTES
-                            oFilaSeleccion = oSeleccionActual.Select(String.Format("nro_stro = {0} AND id_substro = {1} ", txtSiniestro.Text.Trim, cmbSubsiniestro.SelectedValue, txtNumeroComprobante.Text.ToString())) 'FFUENTES
+                            oFilaSeleccion = oSeleccionActual.Select(String.Format("nro_stro = {0}", txtSiniestro.Text.Trim, txtNumeroComprobante.Text.ToString())) 'FFUENTES
                         Case Else
                             oFilaSeleccion = Nothing
                     End Select
