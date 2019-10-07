@@ -862,6 +862,7 @@ Partial Class Siniestros_FirmasElectronicas
 
         Dim UsuarioFirma As String = vbNullString
         Dim contador As Integer = 0
+        Dim ResultTran As Integer = 0
 
         dtAutoriza = New DataTable
         dtAutoriza.Columns.Add("noOP")
@@ -1032,11 +1033,12 @@ Partial Class Siniestros_FirmasElectronicas
                         intFolioOnBase = DirectCast(grdOrdenPago.Rows(contador).FindControl("lblFolioOnBase"), Label).Text
 
                         fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','" & strMotivoRechazo & "'")
-                        fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo & "," & intFolioOnBase)
+                        fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
+                        fn_Ejecuta("Update MIS_Expediente_OP set Nro_OP = " & strOP & ", id_Estatus_Registro = 3 where Folio_Onbase_Siniestro = " & intFolioOnBase & " And Id_etiqueta_Pago = 0", True)
                         fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
-                        fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
-                    Else
-                        dtCancela.Rows.Add(strOP, txtJustif)
+                            fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
+                        Else
+                            dtCancela.Rows.Add(strOP, txtJustif)
                     End If
 
                 End If

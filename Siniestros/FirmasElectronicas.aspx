@@ -737,11 +737,10 @@
                                                         <div class="row" style="border-style: inset; border-width: 1px;">
                                                             <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: left;">
                                                                 <asp:Label runat="server" Font-Bold="true">DETALLE DEL DOCUMENTO</asp:Label>
-                                                            </div>
-                                                            <div class="col-md-8"  text-align: right >
                                                                 <asp:Label runat="server" Font-Bold="true">FolioOnBase:</asp:Label>
-                                                                 <asp:Label runat="server" ID="lblFolioOnBase" Text='<%# Eval("FolioOnbase") %>'></asp:Label>
+                                                                <asp:Label runat="server" ID="lblFolioOnBase" Text='<%# Eval("FolioOnbase") %>'></asp:Label>
                                                             </div>
+
                                                             <asp:Panel runat="server" ID="pnlDetalleFactura" Width="100%" ScrollBars="None">
                                                                 <asp:GridView runat="server" ID="grdDetalleFactura" AutoGenerateColumns="false"
                                                                     GridLines="None" ShowHeaderWhenEmpty="true" CssClass="table grid-view" CellPadding="0">
