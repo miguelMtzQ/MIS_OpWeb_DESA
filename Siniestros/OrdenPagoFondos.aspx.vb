@@ -1186,18 +1186,19 @@ Partial Class Siniestros_OrdenPago
                         oFila("ClasePago") = "26"
                         oFila("ConceptoPago") = "350"
                         oFila("Poliza") = txtPoliza.Text.Trim()
-                        oFila("TipoMoneda") = oFilaSeleccion(0).Item("Moneda_poliza")
+                        'oFila("TipoMoneda") = oFilaSeleccion(0).Item("Moneda_poliza") 'se comenta por tema de fondos 
+                        oFila("TipoMoneda") = 0
                         oFila("Descuentos") = 0
                         oFila("Deducible") = 0
 
-                        oFila("IdSiniestro") = oFilaSeleccion(0).Item("id_stro")
+                        'oFila("IdSiniestro") = oFilaSeleccion(0).Item("id_stro")'se comenta por tema de fondos 
                         oFila("IdPersona") = oFilaSeleccion(0).Item("id_persona")
 
-                        If Me.txtMonedaPoliza.Text = "NACIONAL" Then
-                            Me.cmbMonedaPago.SelectedValue = 0
-                        Else
-                            Me.txtTipoCambio.Text = ObtenerTipoCambio().ToString
-                        End If
+                        'If Me.txtMonedaPoliza.Text = "NACIONAL" Then'se comenta por tema de fondos 
+                        '    Me.cmbMonedaPago.SelectedValue = 0
+                        'Else
+                        '    Me.txtTipoCambio.Text = ObtenerTipoCambio().ToString
+                        'End If
 
                         Select Case cmbTipoUsuario.SelectedValue
 
@@ -1224,8 +1225,8 @@ Partial Class Siniestros_OrdenPago
                                 oFila("NumeroOficioCondusef") = ""
                                 oFila("FechaOficioCondusef") = ""
                                 oFila("NumeroCorrelaEstim") = 0
-                                oFila("Estimacion") = oFilaSeleccion(0).Item("Estimacion")
-                                oFila("Reserva") = oFilaSeleccion(0).Item("Reserva")
+                                ' oFila("Estimacion") = oFilaSeleccion(0).Item("Estimacion")'se comenta por tema de fondos
+                                ' oFila("Reserva") = oFilaSeleccion(0).Item("Reserva")'se comenta por tema de fondos
                                 'Importes e impuestos
                                 'SE AGREGA LA VALIDACION PARA LOS VARIOS CONCEPTOS
                                 If chkVariosConceptos.Checked = False Then
@@ -1245,10 +1246,10 @@ Partial Class Siniestros_OrdenPago
                                 oFila("MonedaFactura") = oFilaSeleccion(0).Item("cod_moneda")
                         End Select
 
-                        oFila("CodItem") = oFilaSeleccion(0).Item("cod_item")
-                        oFila("CodigoRamo") = oFilaSeleccion(0).Item("Cod_ramo")
-                        oFila("CodigoSubRamo") = oFilaSeleccion(0).Item("cod_subramo")
-                        oFila("CodigoTipoStro") = oFilaSeleccion(0).Item("cod_tipo_stro")
+                        ' oFila("CodItem") = oFilaSeleccion(0).Item("cod_item")'se comenta por tema de fondos 
+                        'oFila("CodigoRamo") = oFilaSeleccion(0).Item("Cod_ramo") 'se comenta por tema de fondos 
+                        'oFila("CodigoSubRamo") = oFilaSeleccion(0).Item("cod_subramo") 'se comenta por tema de fondos 
+                        'oFila("CodigoTipoStro") = oFilaSeleccion(0).Item("cod_tipo_stro") 'se comenta por tema de fondos 
 
                         oFila("TipoPago") = 1
 
