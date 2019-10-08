@@ -1215,6 +1215,19 @@ Partial Class Siniestros_OrdenPago
                                 Else
                                     oFila("Pago") = 0
                                 End If
+
+                                If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor AndAlso CDbl(oFila("Pago")) > CDbl(oFilaSeleccion(0).Item("Reserva")) Then
+                                    oFila("Pago") = 0
+                                    Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("Límite de Reserva superado. {0} Reserva: {1} {2} Total de pagos: {3}",
+                                                                                                Environment.NewLine,
+                                                                                                CDbl(oFilaSeleccion(0).Item("Reserva")),
+                                                                                                Environment.NewLine,
+                                                                                                CDbl(oFilaSeleccion(0).Item("ImportePagosInd"))
+                                                                                                 ), TipoMsg.Advertencia)
+                                Else
+                                    oFila("Pago") = Math.Round(IIf(cmbMonedaPago.SelectedValue = 0, CDbl(oFilaSeleccion(0).Item("imp_subtotal")), CDbl(oFilaSeleccion(0).Item("imp_subtotal"))), 2)
+                                End If
+
                                 'Verificar si se queda
                                 oFila("Impuestos") = CDbl(oFilaSeleccion(0).Item("imp_impuestos"))
                                 oFila("Retenciones") = CDbl(oFilaSeleccion(0).Item("imp_retencion"))
