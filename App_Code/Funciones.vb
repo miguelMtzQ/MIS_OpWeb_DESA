@@ -244,6 +244,20 @@ Public Class Funciones
 
         Return intResultado
     End Function
+    Public Shared Function fn_Ejecuta(ByVal Consulta As String, Optional ConexionUAT As Boolean = False) As Integer
+        Dim conexion As SqlConnection = New SqlConnection(ConfigurationManager.ConnectionStrings("CadenaUAT").ConnectionString)
+        Dim comandoSQL As SqlClient.SqlCommand
+        Dim intResultado As Integer = 0
+
+        conexion.Open()
+
+        comandoSQL = New SqlClient.SqlCommand(Consulta, conexion)
+        intResultado = Convert.ToInt32(comandoSQL.ExecuteScalar())
+
+        conexion.Close()
+
+        Return intResultado
+    End Function
 
     Public Shared Function fn_EjecutaStr(ByVal Consulta As String) As String
         Dim conexion As SqlConnection = New SqlConnection(ConfigurationManager.ConnectionStrings("CadenaConexion").ConnectionString)
