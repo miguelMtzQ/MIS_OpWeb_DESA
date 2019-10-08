@@ -601,9 +601,9 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub btn_Firmar_Click(sender As Object, e As EventArgs) Handles btn_Firmar.Click
         Try
             ' ActualizaDataOP()
-            txtToken.Text = ""
+            'txtToken.Text = ""
 
-            fn_Token()
+            'fn_Token()
             If fn_Autorizaciones(False) = False Then
                 Exit Sub
             End If
@@ -881,6 +881,13 @@ Partial Class Siniestros_FirmasElectronicas
 
             If chk_Impresion = True Then
                 If chk_Rechazo = False Then
+
+                    Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & strOP)
+                    If Rechazada = 1 Then
+                        Mensaje.MuestraMensaje("Validación", "la Orden de Pago: " & strOP & " ya se encuentra rechazada, por favor deseleccionarla", TipoMsg.Advertencia)
+                        Exit Function
+                    End If
+
                     If row("NivelAutorizacion") = 1 Then
                         If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
                             UsuarioFirma = row("Solicitante")
@@ -1091,6 +1098,8 @@ Partial Class Siniestros_FirmasElectronicas
         fn_Autorizaciones = True
 
         If sn_proceso = False Then
+            txtToken.Text = ""
+            fn_Token()
             Funciones.AbrirModal("#Resumen")
         Else
             txtToken.Text = ""
@@ -2760,4 +2769,6 @@ Partial Class Siniestros_FirmasElectronicas
     Protected Sub chk_Rechazadas_CheckedChanged(sender As Object, e As EventArgs)
         VerificaRadios(Cons.TipoFiltro.Rechazadas)
     End Sub
+
+
 End Class
