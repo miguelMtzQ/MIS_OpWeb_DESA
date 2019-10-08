@@ -1216,17 +1216,18 @@ Partial Class Siniestros_OrdenPago
                                     oFila("Pago") = 0
                                 End If
 
-                                If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor AndAlso CDbl(oFila("Pago")) > CDbl(oFilaSeleccion(0).Item("Reserva")) Then
-                                    oFila("Pago") = 0
-                                    Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("Límite de Reserva superado. {0} Reserva: {1} {2} Total de pagos: {3}",
-                                                                                                Environment.NewLine,
-                                                                                                CDbl(oFilaSeleccion(0).Item("Reserva")),
-                                                                                                Environment.NewLine,
-                                                                                                CDbl(oFilaSeleccion(0).Item("ImportePagosInd"))
-                                                                                                 ), TipoMsg.Advertencia)
-                                Else
-                                    oFila("Pago") = Math.Round(IIf(cmbMonedaPago.SelectedValue = 0, CDbl(oFilaSeleccion(0).Item("imp_subtotal")), CDbl(oFilaSeleccion(0).Item("imp_subtotal"))), 2)
-                                End If
+                                'Se comenta por que la validacion debe ser al final
+                                'If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor AndAlso CDbl(oFila("Pago")) > CDbl(oFilaSeleccion(0).Item("Reserva")) Then
+                                '    oFila("Pago") = 0
+                                '    Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("Límite de Reserva superado. {0} Reserva: {1} {2} Total de pagos: {3}",
+                                '                                                                Environment.NewLine,
+                                '                                                                CDbl(oFilaSeleccion(0).Item("Reserva")),
+                                '                                                                Environment.NewLine,
+                                '                                                                CDbl(oFilaSeleccion(0).Item("ImportePagosInd"))
+                                '                                                                 ), TipoMsg.Advertencia)
+                                'Else
+                                '    oFila("Pago") = Math.Round(IIf(cmbMonedaPago.SelectedValue = 0, CDbl(oFilaSeleccion(0).Item("imp_subtotal")), CDbl(oFilaSeleccion(0).Item("imp_subtotal"))), 2)
+                                'End If
 
                                 'Verificar si se queda
                                 oFila("Impuestos") = CDbl(oFilaSeleccion(0).Item("imp_impuestos"))
@@ -1529,13 +1530,13 @@ Partial Class Siniestros_OrdenPago
                         oSolicitudPago.AppendFormat("<TipoUsuario>{0}</TipoUsuario>", 7)
                         oSolicitudPago.AppendFormat("<FolioOnbase>{0}</FolioOnbase>", Me.txtOnBase.Text)
                         oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", cmbTipoComprobante.SelectedValue)
-                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", IIf(txtNumeroComprobante.Text = String.Empty, "0", txtNumeroComprobante.Text))
+                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", IIf(txtNumeroComprobante.Text = String.Empty, "", txtNumeroComprobante.Text))
                         oSolicitudPago.AppendFormat("<FechaComprobante>{0}</FechaComprobante>", IIf(txtFechaComprobante.Text = String.Empty, "01/01/1900", txtFechaComprobante.Text))
                     Case eTipoUsuario.Tercero   'Tercero
                         oSolicitudPago.AppendFormat("<TipoUsuario>{0}</TipoUsuario>", 8)
                         oSolicitudPago.AppendFormat("<FolioOnbase>{0}</FolioOnbase>", Me.txtOnBase.Text)
                         oSolicitudPago.AppendFormat("<TipoComprobante>{0}</TipoComprobante>", cmbTipoComprobante.SelectedValue)
-                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", IIf(txtNumeroComprobante.Text = String.Empty, "0", txtNumeroComprobante.Text))
+                        oSolicitudPago.AppendFormat("<NumeroComprobante>{0}</NumeroComprobante>", IIf(txtNumeroComprobante.Text = String.Empty, "", txtNumeroComprobante.Text))
                         oSolicitudPago.AppendFormat("<FechaComprobante>{0}</FechaComprobante>", IIf(txtFechaComprobante.Text = String.Empty, "01/01/1900", txtFechaComprobante.Text))
                     Case eTipoUsuario.Proveedor    'Proveedor
                         oSolicitudPago.AppendFormat("<TipoUsuario>{0}</TipoUsuario>", 10)
@@ -2590,15 +2591,38 @@ Partial Class Siniestros_OrdenPago
                                 ValidarImpuestosOPFac = False
                                 Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Diferencia de iSubTotal: " + iSubTotal.ToString(), TipoMsg.Falla)
                             Else
-                                'Debe estar en true, esto significa que no ubo diferencias en los impuestos
-                                ValidarImpuestosOPFac = true
+                                If oGrdOrden.Rows(0)("ClasePago") = 26 Then
+                                    'Validamos el pago deacuerdo a la reserva 
+                                    If CDbl(iptxtTotal.Text) > CDbl(oGrdOrden.Rows(0)("Reserva")) Then
+                                        ValidarImpuestosOPFac = False
+                                        Mensaje.MuestraMensaje("OrdenPagoSiniestros", "El pago: " + iptxtTotal.Text.ToString() + " Mayor a la Reserva: " + oGrdOrden.Rows(0)("Reserva").ToString(), TipoMsg.Falla)
+                                    Else
+                                        'Debe estar en true, esto significa que no ubo diferencias en los impuestos
+                                        ValidarImpuestosOPFac = True
+                                    End If
+                                Else
+                                    'Debe estar en true, esto significa que no ubo diferencias en los impuestos
+                                    ValidarImpuestosOPFac = True
+                                End If
                             End If
                         End If
                     End If
                 End If
             Else
+                'ASEGURADOS Y TERCEROS
                 'para el caso de asegurado y terceros que no tienen descuentos
-                ValidarImpuestosOPFac = True
+                'Validamos el pago deacuerdo a la reserva 
+                If oGrdOrden.Rows(0)("ClasePago") = 26 Then
+                    If CDbl(iptxtTotal.Text) > CDbl(oGrdOrden.Rows(0)("Reserva")) Then
+                        ValidarImpuestosOPFac = False
+                        Mensaje.MuestraMensaje("OrdenPagoSiniestros", "El pago: " + iptxtTotal.Text.ToString() + " Mayor a la Reserva: " + oGrdOrden.Rows(0)("Reserva").ToString(), TipoMsg.Falla)
+                    Else
+                        'Debe estar en true, esto significa que no ubo diferencias en los impuestos
+                        ValidarImpuestosOPFac = True
+                    End If
+                Else
+                    ValidarImpuestosOPFac = True
+                End If
             End If
         Catch ex As Exception
             ValidarImpuestosOPFac = False
