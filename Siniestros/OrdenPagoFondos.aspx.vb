@@ -90,7 +90,7 @@ Partial Class Siniestros_OrdenPago
     Sub Page_Load(ByVal Sender As Object, ByVal e As EventArgs) Handles Me.Load
 
         If Not IsPostBack Then
-            Master.Titulo = "OP Tradicional"
+            Master.Titulo = "OP Fondos"
             InicializarValores()
         End If
 
@@ -1578,6 +1578,7 @@ Partial Class Siniestros_OrdenPago
                 oSolicitudPago.AppendFormat("<Observaciones>{0}</Observaciones>", Me.txtConceptoOP.Text.Trim + " - " + Me.txtcpto2.Text)
                 oSolicitudPago.AppendFormat("<FechaIngreso>{0}</FechaIngreso>", Convert.ToDateTime(txtFechaContable.Text.Trim).ToString("yyyyMMdd"))
                 oSolicitudPago.AppendFormat("<FechaEstimadoPago>{0}</FechaEstimadoPago>", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
+                oSolicitudPago.AppendFormat("<Analista_Fondos>{0}</Analista_Fondos>", cmbAnalistaSolicitante.SelectedValue)
 
                 For Each oFila In oGrdOrden.Rows
 
@@ -1964,6 +1965,8 @@ Partial Class Siniestros_OrdenPago
 
             CargarCatalogosCuentasBancarias()
 
+            CargarAnalistasFondos()
+
             Me.cmbTipoUsuario.Enabled = True
             Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado
 
@@ -2057,6 +2060,30 @@ Partial Class Siniestros_OrdenPago
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("InicializarValores error: {0}", ex.Message), TipoMsg.Falla)
         End Try
 
+    End Sub
+    Public Sub CargarAnalistasFondos()
+        Try
+            Dim oDatos As DataSet
+            oDatos = New DataSet
+            Dim oParametros As New Dictionary(Of String, Object)
+            oParametros.Add("Accion", "1")
+            oDatos = Funciones.ObtenerDatos("MIS_Catalago_Fondos", oParametros)
+            Me.cmbAnalistaSolicitante.Items.Clear()
+            If (oDatos.Tables(0).Rows.Count > 0) Then
+                'With oDatos.Tables(0).Rows(0)
+                '    Me.txtCodigoCuenta.Text = .Item("cod_cta_cble")
+                '    Me.txtDescCuenta.Text = .Item("txt_denomin")
+                'End With
+                For Each fila In oDatos.Tables(0).Rows
+                    Me.cmbAnalistaSolicitante.Items.Add(New ListItem(String.Format(fila.Item("AnalistaFondos")).ToUpper, fila.Item("usuarioanalista")))
+                Next
+
+            Else
+                Mensaje.MuestraMensaje("Analistas de Fondos", "No hay Analista de Fondos", TipoMsg.Falla)
+            End If
+        Catch ex As Exception
+            Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("grd_RowDataBound error: {0}", ex.Message), TipoMsg.Falla)
+        End Try
     End Sub
     Public Sub ObtenerDatosTransferenciaProveedor()
 
