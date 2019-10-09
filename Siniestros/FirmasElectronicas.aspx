@@ -24,7 +24,7 @@
             <asp:UpdatePanel runat="server" ID="upFiltros">
                 <ContentTemplate>
                     <asp:HiddenField runat="server" ID="hid_Ventanas" Value="0|1|1|1|1|1|1|1|" />
-                    <asp:Timer ID="tim_Actualizacion" runat="server" Enabled="false" Interval="600000"></asp:Timer>
+                    <%--<asp:Timer ID="tim_Actualizacion" runat="server" Enabled="false" Interval="600000"></asp:Timer>--%>
                     <div class="row">
                         <div class="col-md-6">
                             <asp:label runat="server" class="col-md-1 etiqueta-control" Width="20%">Orden Pago</asp:label>
@@ -185,107 +185,6 @@
                 </div>
             </div>
             <div class="clear padding5"></div>
-            <%--<div class="row">
-                <div class="col-md-6">
-                    <div class="cuadro-subtitulo">
-                        <input type="image" src="../Images/contraer_mini.png" id="coVentana4" class="contraer"  />
-                        <input type="image" src="../Images/expander_mini.png"   id="exVentana4" class="expandir"  />
-                        Broker
-                    </div>
-                    <div class="panel-subcontenido ventana4">
-                            <asp:UpdatePanel runat="server" ID="upBroker">
-                                <ContentTemplate>
-                                    <asp:Panel runat="server" ID="pnlBroker" Width="100%" Height="100px" ScrollBars="Both">
-                                            <asp:GridView runat="server" ID="gvd_Broker" AutoGenerateColumns="false" 
-                                                            CssClass="grid-view" HeaderStyle-CssClass="header" AlternatingRowStyle-CssClass="altern"
-                                                            GridLines="Horizontal"  ShowHeaderWhenEmpty="true" >
-                                                <Columns>
-                                                    <asp:TemplateField HeaderText="">
-                                                        <ItemTemplate>
-                                                                <asp:HiddenField runat="server" ID="chk_SelBro" value="false"/>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField >
-                                                    <asp:TemplateField HeaderText="Clave">
-                                                        <ItemTemplate>
-                                                            <asp:Label runat="server" ID="lbl_ClaveBro" Text='<%# Eval("Clave") %>' Width="50px"></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Descripción">
-                                                        <ItemTemplate>
-                                                            <asp:Label runat="server" ID="lbl_Desc" Text='<%# Eval("Descripcion") %>' Width="360px"></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <asp:imagebutton ImageUrl="~/Images/delete_rojo.png" CommandName="Delete" Height="26" runat="server" CssClass="btn Delete" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                        </asp:Panel>
-                                        <div style="width:100%;  text-align:right">
-                                            <asp:LinkButton id="btn_AddBroker" runat="server" class="btn botones AgregaBroker" data-toggle="modal" data-target="#EsperaModal">
-                                                <span>
-                                                    <img class="btn-añadir"/>
-                                                    Añadir
-                                                </span>
-                                            </asp:LinkButton>
-                                        </div>
-                                </ContentTemplate>
-                            </asp:UpdatePanel>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="cuadro-subtitulo">
-                        <input type="image" src="../Images/contraer_mini.png" id="coVentana5" class="contraer"  />
-                        <input type="image" src="../Images/expander_mini.png"   id="exVentana5" class="expandir"  />
-                        Reasegurador
-                    </div>
-                    <div class="panel-subcontenido ventana5">
-                            <asp:UpdatePanel runat="server" ID="upCompañia">
-                                <ContentTemplate>
-                                    <asp:Panel runat="server" ID="pnlCompañia" Width="100%" Height="100px" ScrollBars="Both">
-                                            <asp:GridView runat="server" ID="gvd_Compañia" AutoGenerateColumns="false" 
-                                                            CssClass="grid-view" HeaderStyle-CssClass="header" AlternatingRowStyle-CssClass="altern"
-                                                            GridLines="Horizontal"  ShowHeaderWhenEmpty="true">
-                                                <Columns>
-                                                    <asp:TemplateField HeaderText="" ItemStyle-CssClass="SelCia">
-                                                        <ItemTemplate>
-                                                            <asp:HiddenField runat="server" ID="chk_SelCia" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Clave" ItemStyle-CssClass="ClaveCia">
-                                                        <ItemTemplate>
-                                                            <asp:Label runat="server" ID="lbl_ClaveCia" Text='<%# Eval("Clave") %>' Width="50px" ></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Descripción" ItemStyle-CssClass="DescripcionCia">
-                                                        <ItemTemplate>
-                                                            <asp:Label runat="server" ID="lbl_Desc" Text='<%# Eval("Descripcion") %>' Width="360px"></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <asp:imagebutton ImageUrl="~/Images/delete_rojo.png" CommandName="Delete" Height="26" runat="server" CssClass="btn Delete" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                        </asp:Panel>
-                                        <div style="width:100%;  text-align:right">
-                                            <asp:LinkButton id="btn_AddCia" runat="server" class="btn botones AgregaCia" data-toggle="modal" data-target="#EsperaModal">
-                                                <span>
-                                                    <img class="btn-añadir"/>
-                                                    Añadir
-                                                </span>
-                                            </asp:LinkButton>
-                                        </div>
-                                </ContentTemplate>
-                            </asp:UpdatePanel> 
-                    </div>
-                </div>
-            </div>--%>
             <div class="clear padding5"></div>
             <div class="row">
                 <div class="col-md-6">
@@ -504,13 +403,13 @@
             Listado Ordenes de Pago
         </div>
         <div class="panel-contenido ventana1" >
-            <asp:UpdatePanel runat="server" ID="upOrdenes">
+            <asp:UpdatePanel runat="server" ID="upOrdenes" >
               <ContentTemplate>
                      <table style="width:100%;">
                         <tr>
                             <td style="width:4%;"></td>
                             <td style="width:6%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NRO</td>
-                            <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NOMBRE / RAZÓN SOCIAL</td>
+                            <%--<td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NOMBRE / RAZÓN SOCIAL</td>--%>
                             <td style="width:35%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">PAGAR A</td>
                             <td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MONTO</td>
                             <%--<td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MOTIVO RECH</td>--%>
@@ -521,7 +420,7 @@
                      <asp:Panel runat="server" id="pnlOrdenP" width="100%">
                          <asp:GridView runat="server" ID="grdOrdenPago" Width="100%" AutoGenerateColumns="false"  ShowHeader="false"
                              CssClass="grid-view" HeaderStyle-CssClass="header" AlternatingRowStyle-CssClass="altern"
-                             GridLines="None"  ShowHeaderWhenEmpty="true" 
+                             GridLines="None"  ShowHeaderWhenEmpty="true" PageSize="15"
                              DataKeyNames="nro_op,	FechaGeneracion,	FechaBaja,	NumeroRecibo,	NombreSucursal,	NombreSucursalPago,	CodigoAbona,	NombreModifica,	NombreUsuario,
                                            txt_cheque_a_nom,	FechaEstimadaPago,	imp_total,	Observaciones,	NombreAbona,	Direccion,	Calle,	NumeroExterior,	NumeroInterior,
                                            Colonia,	CodigoPostal,	Municipio,	Ciudad,	Departamento,	Sector,	Transferencia,	CodigoBanco,	NombreBanco,	Swift,	Aba,	NumeroCuenta,
@@ -555,7 +454,7 @@
                                                     <tr>
                                                         <td style="width:2%;"><asp:CheckBox runat="server"  ID="chkImpresion" Checked='false'/></td>
                                                         <td style="width:6%;"><asp:Label runat="server" ID="lblOrdenPago" Text='<%# Eval("nro_op")%>'  Width="100%"></asp:Label></td>
-                                                        <td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# Eval("contratante") %>' Width="100%" ></asp:Label></td>
+                                                        <%--<td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# Eval("contratante") %>' Width="100%" ></asp:Label></td>--%>
                                                         <td style="width:35%;"><asp:Label runat="server" ID="lblMoneda" Text='<%# Eval("txt_cheque_a_nom") %>' CssClass="Derecha" Width="100%"  ></asp:Label></td>
                                                         <td style="width:11%;"> <asp:Label runat="server" ID="lblMonto" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%" CssClass="Monto"></asp:Label></td>
                                                         <%--<td style="width:11%;"> <asp:Label runat="server" ID="Label1" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%"></asp:Label></td>--%>
@@ -829,7 +728,7 @@
                                                                             <asp:CheckBox runat="server" ID="chk_Rechazo" Checked='<%# Eval("Rechazada") %>' OnCheckedChanged="chk_Rechazo_CheckedChanged" AutoPostBack="true"/>
                                                                             <asp:Label runat="server" Text="RECHAZAR" Font-Bold="true"></asp:Label>
                                                                        </div>
-                                                                       <div class="col-md-4">
+                                                                        <div class="col-md-4">
              <%--                                                              <asp:LinkButton runat="server" ID="lnk_SelMotivo" Text="MOTIVO DE RECHAZO"  Width="100%"  OnClick="lnk_SelMotivo_Click"></asp:LinkButton>
                                                                            <asp:TextBox runat="server" ID="txt_Motivo" TextMode="MultiLine" CssClass="NoDisplay" Text='<%# Eval("motivo_rechazo") %>'></asp:TextBox>--%>
                                                                            <asp:label runat="server" ID="lnk_SelMotivo" Text="MOTIVO DE RECHAZO" visible="false"  Width="50%"></asp:label>
@@ -847,8 +746,8 @@
                                                                                 <asp:ListItem Value="10">No autorizada en tiempo (vencida)</asp:ListItem>
                                                                                <asp:ListItem Value="11">Otros (especificar)</asp:ListItem>
                                                                            </asp:DropDownList>
-                                                                   </div>
-                                                                       </div>
+                                                                         </div>
+                                                                    </div>
                                                                 </div>
                                                             <div class="row">
                                                                 <div class="col-md-4 Centro">
@@ -1034,7 +933,7 @@
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
-    </div>
+   
 
 
 
