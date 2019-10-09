@@ -105,8 +105,6 @@ Partial Class Siniestros_FirmasElectronicas
                 Master.InformacionGeneral()
                 Master.EvaluaPermisosModulo()
 
-
-
                 EdoControl(Operacion.Ninguna)
                 dtOrdenPago = Nothing
                 Funciones.LlenaCatDDL(cmbMoneda, "Mon")
@@ -951,7 +949,7 @@ Partial Class Siniestros_FirmasElectronicas
                         If sn_proceso = True Then
                             If Master.cod_usuario = "CLOPEZ" Then
                                 fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & cmbModuloOP.SelectedValue & ",-2")
-                                fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                                'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                 Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
                             Else
 
@@ -1085,7 +1083,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                     Funciones.fn_Consulta("mis_ObtieneOpEnvioFirma 0,''," & cmbModuloOP.SelectedValue, dtEnvios)
 
-                            For Each item In dtEnvios.Rows
+                    For Each item In dtEnvios.Rows
                         fn_Ejecuta("mis_EmailsOPStros '" & item("Ops") & "','" & item("tipomodulo") & "','" & item("cod_usuario") & "','" & Master.usuario & "','" & codRol & "'")
                         fn_Ejecuta("mis_ActualizaStsOpsEnv '" & item("Ops") & "','" & item("cod_usuario") & "'," & cmbModuloOP.SelectedValue & ",1")
                     Next
@@ -1888,35 +1886,8 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim gr As GridViewRow = DirectCast(DirectCast(DirectCast(sender, CheckBox).Parent.Parent, DataControlFieldCell).Parent, GridViewRow)
 
-            'If TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaSol"), CheckBox).Checked = False And TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaSol"), CheckBox).Enabled = True Then
-            '    sender.checked = False
-            '    Mensaje.MuestraMensaje(Master.Titulo, "Esta Orden de Pago no puede ser rechazada si no cuenta con la firma de solicitante: " & TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelSolicitante"), LinkButton).Text, TipoMsg.Falla)
-            'End If
-
             If sender.checked = True Then
-                '    If TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaJefe"), CheckBox).Enabled = True Then
-                '        TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaJefe"), CheckBox).Checked = False
-                '    End If
 
-                '    If TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_SubDir"), CheckBox).Enabled = True Then
-                '        TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_SubDir"), CheckBox).Checked = False
-                '    End If
-
-                '    If TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaDir"), CheckBox).Enabled = True Then
-                '        TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaDir"), CheckBox).Checked = False
-                '    End If
-
-                '    If TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaDirGral"), CheckBox).Enabled = True Then
-                '        TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaDirGral"), CheckBox).Checked = False
-                '    End If
-
-                '    If TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaTeso"), CheckBox).Enabled = True Then
-                '        TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaTeso"), CheckBox).Checked = False
-                '    End If
-
-                '    If TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaCon"), CheckBox).Enabled = True Then
-                '        TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_FirmaCon"), CheckBox).Checked = False
-                '    End If
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = True
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = True
@@ -2669,21 +2640,21 @@ Partial Class Siniestros_FirmasElectronicas
 
     End Sub
 
-    Private Sub tim_Actualizacion_Tick(sender As Object, e As EventArgs) Handles tim_Actualizacion.Tick
-        Try
-            Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+    'Private Sub tim_Actualizacion_Tick(sender As Object, e As EventArgs) Handles tim_Actualizacion.Tick
+    '    Try
+    '        Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
 
-            If grdOrdenPago.Rows.Count > 0 Then
-                'ListaRamosContables()
-                DesHabilitaChecksFirma()
-                Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago',true);")
-            End If
+    '        If grdOrdenPago.Rows.Count > 0 Then
+    '            'ListaRamosContables()
+    '            DesHabilitaChecksFirma()
+    '            Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago',true);")
+    '        End If
 
-        Catch ex As Exception
-            Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
-            Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "tim_Actualizacion_Tick: " & ex.Message)
-        End Try
-    End Sub
+    '    Catch ex As Exception
+    '        Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
+    '        Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "tim_Actualizacion_Tick: " & ex.Message)
+    '    End Try
+    'End Sub
 
 
     Protected Sub chk_Pendiente_CheckedChanged(sender As Object, e As EventArgs)
@@ -2769,6 +2740,5 @@ Partial Class Siniestros_FirmasElectronicas
     Protected Sub chk_Rechazadas_CheckedChanged(sender As Object, e As EventArgs)
         VerificaRadios(Cons.TipoFiltro.Rechazadas)
     End Sub
-
 
 End Class
