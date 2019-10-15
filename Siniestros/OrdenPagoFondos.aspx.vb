@@ -90,7 +90,7 @@ Partial Class Siniestros_OrdenPago
     Sub Page_Load(ByVal Sender As Object, ByVal e As EventArgs) Handles Me.Load
 
         If Not IsPostBack Then
-            Master.Titulo = "OP Tradicional"
+            Master.Titulo = "OP Fondos"
             InicializarValores()
         End If
 
@@ -99,7 +99,7 @@ Partial Class Siniestros_OrdenPago
             pnlProveedor.Style("display") = ""
             Facturas0.Style("display") = ""
             Facturas1.Style("display") = ""
-            cmbOrigenOP.Enabled = False
+            'cmbOrigenOP.Enabled = False'SE COMENTA POR TEMAS DE FONDOS
             cmbTipoPagoOP.Enabled = False
             txtRFC.Enabled = False
             txtBeneficiario_stro.Enabled = False
@@ -113,7 +113,7 @@ Partial Class Siniestros_OrdenPago
             pnlProveedor.Style("display") = "none"
             Facturas0.Style("display") = "none"
             Facturas1.Style("display") = "none"
-            cmbOrigenOP.Enabled = False
+            'cmbOrigenOP.Enabled = False'SE COMENTA POR TEMAS DE FONDOS
             cmbTipoPagoOP.Enabled = True
             cmbTipoComprobante.Enabled = True
             txtNumeroComprobante.Enabled = True
@@ -374,33 +374,35 @@ Partial Class Siniestros_OrdenPago
                     Dim cmbClasePago As DropDownList
                     cmbClasePago = New DropDownList
 
-
-                    If cmb.SelectedValue = 350 Or cmb.SelectedValue = 365 Then
-                        If Not SiniestroAbierto(CLng(oGrdOrden.Rows(iFila)("Siniestro")), CInt(oGrdOrden.Rows(iFila)("Subsiniestro"))) Then
-                            Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("EL SINIESTRO {0} - {1} ESTA CERRADO O CANCELADO. SE TOMARA LA SIGUIENTE CLASE DE PAGO DISPONIBLE", oGrdOrden.Rows(iFila)("Siniestro"), oGrdOrden.Rows(iFila)("Subsiniestro")), TipoMsg.Advertencia)
-                            oGrdOrden.Rows(iFila)("ClasePago") = oClavesPago.Rows(1).Item(0)
-                            cmb.SelectedValue = 905
-                            cmbOrigenOP.SelectedValue = 5
-                        End If
-                    End If
+                    'SE COMENTA POR TEMA DE FONDOS
+                    'If cmb.SelectedValue = 350 Or cmb.SelectedValue = 365 Then
+                    '    If Not SiniestroAbierto(CLng(oGrdOrden.Rows(iFila)("Siniestro")), CInt(oGrdOrden.Rows(iFila)("Subsiniestro"))) Then
+                    '        Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("EL SINIESTRO {0} - {1} ESTA CERRADO O CANCELADO. SE TOMARA LA SIGUIENTE CLASE DE PAGO DISPONIBLE", oGrdOrden.Rows(iFila)("Siniestro"), oGrdOrden.Rows(iFila)("Subsiniestro")), TipoMsg.Advertencia)
+                    '        oGrdOrden.Rows(iFila)("ClasePago") = oClavesPago.Rows(1).Item(0)
+                    '        cmb.SelectedValue = 905
+                    '        cmbOrigenOP.SelectedValue = 5
+                    '    End If
+                    'End If
                     CargarClasePago(row, iFila, txtCodigoBeneficiario_stro.Text, cmb.SelectedValue)
                     cmbClasePago = BuscarControlPorClase(row, "estandar-control clase_pago")
-                    cmbOrigenOP.SelectedValue = 6
-                    If (cmb.SelectedValue <> 350 Or cmb.SelectedValue <> 1260) Then
-                        oGrdOrden.Rows(iFila)("ConceptoPago") = cmb.SelectedValue
+                    'SE COMENTA POR TEMA DE FONDOS
+                    'cmbOrigenOP.SelectedValue = 6
+                    'If (cmb.SelectedValue <> 350 Or cmb.SelectedValue <> 1260) Then
+                    oGrdOrden.Rows(iFila)("ConceptoPago") = cmb.SelectedValue
                         oGrdOrden.Rows(iFila)("ClasePago") = cmbClasePago.SelectedValue
-                        If cmbClasePago.SelectedValue = 26 Or cmbClasePago.SelectedValue = 75 Then
-                            cmbOrigenOP.SelectedValue = 5
-                        Else
-                            cmbOrigenOP.SelectedValue = 6
-                        End If
-                        CalcularTotales()
-                    End If
-                    If cmbClasePago.SelectedValue = 26 Or cmbClasePago.SelectedValue = 75 Then
-                        cmbOrigenOP.SelectedValue = 5
-                    Else
-                        cmbOrigenOP.SelectedValue = 6
-                    End If
+                    ' If cmbClasePago.SelectedValue = 26 Or cmbClasePago.SelectedValue = 75 Then
+                    'cmbOrigenOP.SelectedValue = 5
+                    'Else
+                    'cmbOrigenOP.SelectedValue = 6
+                    'End If
+                    CalcularTotales()
+                   ' End If
+                    'SE COMENTA POR TEMA DE FONDOS
+                    'If cmbClasePago.SelectedValue = 26 Or cmbClasePago.SelectedValue = 75 Then
+                    '    cmbOrigenOP.SelectedValue = 5
+                    'Else
+                    '    cmbOrigenOP.SelectedValue = 6
+                    'End If
                 Case "tipo_pago"
                     oGrdOrden.Rows(iFila)("TipoPago") = IIf(cmb.SelectedValue = "P", 1, 2)
             End Select
@@ -595,10 +597,10 @@ Partial Class Siniestros_OrdenPago
                                         Me.txtBeneficiario_stro.Text = .Item("Proveedor")
                                         Me.txtCodigoBeneficiario_stro.Text = .Item("cod_pres")
 
-                                        Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", IIf(.Item("cod_moneda") = 0, "1.00", ObtenerTipoCambio.ToString()))
+                                            Me.txtTipoCambio.Text = IIf(cmbMonedaPago.SelectedValue = 0, "1.00", IIf(.Item("cod_moneda") = 0, "1.00", ObtenerTipoCambio.ToString()))
 
-                                        'Mostrar los importes de la factura de conta electronica
-                                        Me.txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_subtotal"), 2))
+                                            'Mostrar los importes de la factura de conta electronica
+                                            Me.txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_subtotal"), 2))
                                         Me.txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_subtotal"), 2))
                                         Me.txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_impuestos"), 2))
                                         Me.txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(.Item("imp_retencion"), 2))
@@ -801,7 +803,7 @@ Partial Class Siniestros_OrdenPago
 
                                     End If
 
-                                    Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", ObtenerTipoCambio.ToString())
+                                    Me.txtTipoCambio.Text = IIf(cmbMonedaPago.SelectedValue = 0, "1.00", ObtenerTipoCambio.ToString())
 
                                 Else
 
@@ -884,7 +886,7 @@ Partial Class Siniestros_OrdenPago
 
                                 End If
 
-                                Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", ObtenerTipoCambio.ToString())
+                                Me.txtTipoCambio.Text = IIf(cmbMonedaPago.SelectedValue = 0, "1.00", ObtenerTipoCambio.ToString())
 
                             Else
 
@@ -1181,7 +1183,7 @@ Partial Class Siniestros_OrdenPago
                         oFila("Siniestro") = txtSiniestro.Text.Trim()
                         oFila("RFC") = txtRFC.Text.Trim()
                         oFila("Subsiniestro") = cmbSubsiniestro.SelectedValue.ToString()
-                        oFila("Moneda") = txtMonedaPoliza.Text
+                        oFila("Moneda") = cmbMonedaPago.SelectedValue
                         'SE VA AGREGAR EL METODO PARA CARGAR LOS CONCEPTOS POR DEFAULT FFUENTES
                         oFila("ClasePago") = "26"
                         oFila("ConceptoPago") = "350"
@@ -1308,11 +1310,11 @@ Partial Class Siniestros_OrdenPago
                 oFila("Factura") = IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, txtOnBase.Text.Trim(), String.Empty)
                 oFila("Siniestro") = txtSiniestro.Text.Trim()
                 oFila("Subsiniestro") = cmbSubsiniestro.SelectedValue.ToString()
-                oFila("Moneda") = txtMonedaPoliza.Text
+                oFila("Moneda") = cmbMonedaPago.SelectedValue
                 oFila("ClasePago") = "26"
                 oFila("ConceptoPago") = "350"
                 oFila("Poliza") = txtPoliza.Text.Trim()
-                oFila("TipoMoneda") = IIf(txtMonedaPoliza.Text = "NACIONAL", 0, 1)
+                oFila("TipoMoneda") = cmbMonedaPago.SelectedValue
 
                 oTabla.Rows.Add(oFila)
 
@@ -1567,9 +1569,9 @@ Partial Class Siniestros_OrdenPago
                     Case "T"
                         oSolicitudPago.AppendFormat("<TipoPago>{0}</TipoPago>", 2)
                 End Select
-
-                oSolicitudPago.AppendFormat("<CodigoRamo>{0}</CodigoRamo>", CInt(oGrdOrden.Rows(0).Item("CodigoRamo")))
-                oSolicitudPago.AppendFormat("<CodigoSubRamo>{0}</CodigoSubRamo>", CInt(oGrdOrden.Rows(0).Item("CodigoSubRamo")))
+                'Se COMENTA POR TEMA DE FONDOS SE MODIFICA POR TEMA DE FONDOS 
+                oSolicitudPago.AppendFormat("<CodigoRamo>{0}</CodigoRamo>", 0)
+                oSolicitudPago.AppendFormat("<CodigoSubRamo>{0}</CodigoSubRamo>", 0)
                 oSolicitudPago.AppendFormat("<Moneda>{0}</Moneda>", CInt(oGrdOrden.Rows(0).Item("TipoMoneda")))
 
                 oSolicitudPago.AppendFormat("<TipoCambio>{0}</TipoCambio>", CDbl(txtTipoCambio.Text))
@@ -1578,12 +1580,15 @@ Partial Class Siniestros_OrdenPago
                 oSolicitudPago.AppendFormat("<Observaciones>{0}</Observaciones>", Me.txtConceptoOP.Text.Trim + " - " + Me.txtcpto2.Text)
                 oSolicitudPago.AppendFormat("<FechaIngreso>{0}</FechaIngreso>", Convert.ToDateTime(txtFechaContable.Text.Trim).ToString("yyyyMMdd"))
                 oSolicitudPago.AppendFormat("<FechaEstimadoPago>{0}</FechaEstimadoPago>", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
+                oSolicitudPago.AppendFormat("<Analista_Fondos>{0}</Analista_Fondos>", cmbAnalistaSolicitante.SelectedValue)
 
                 For Each oFila In oGrdOrden.Rows
 
                     oSolicitudPago.AppendLine("<Detalle>")
-                    oSolicitudPago.AppendFormat("<IdSiniestro>{0}</IdSiniestro>", CInt(oFila.Item("IdSiniestro")))
-                    oSolicitudPago.AppendFormat("<Subsiniestro>{0}</Subsiniestro>", CInt(oFila.Item("Subsiniestro")))
+                    'Se COMENTA POR TEMA DE FONDOS
+                    'oSolicitudPago.AppendFormat("<IdSiniestro>{0}</IdSiniestro>", CInt(oFila.Item("IdSiniestro")))
+                    oSolicitudPago.AppendFormat("<IdSiniestro>{0}</IdSiniestro>", 1)
+                    oSolicitudPago.AppendFormat("<Subsiniestro>{0}</Subsiniestro>", 0)
                     oSolicitudPago.AppendFormat("<CodigoTercero>{0}</CodigoTercero>", CInt(oFila.Item("CodigoTercero")))
                     oSolicitudPago.AppendFormat("<ClasePago>{0}</ClasePago>", CInt(oFila.Item("ClasePago")))
                     oSolicitudPago.AppendFormat("<ConceptoPago>{0}</ConceptoPago>", CInt(oFila.Item("ConceptoPago")))
@@ -1594,17 +1599,17 @@ Partial Class Siniestros_OrdenPago
                         oSolicitudPago.AppendFormat("<Pago>{0}</Pago>", CDbl(oFila.Item("Pago")) - CDbl(oFila.Item("Descuentos")))
                         'oSolicitudPago.AppendFormat("<PagoFacturado>{0}</PagoFacturado>", CDbl(oFila.Item("Pago")))
                     End If
-
-                    oSolicitudPago.AppendFormat("<CodItem>{0}</CodItem>", CInt(oFila.Item("CodItem")))
-                    oSolicitudPago.AppendFormat("<CodIndCob>{0}</CodIndCob>", CInt(oFila.Item("CodIndCob")))
+                    'Se MODIFICA POR TEMA DE FONDOS
+                    oSolicitudPago.AppendFormat("<CodItem>{0}</CodItem>", 0)
+                    oSolicitudPago.AppendFormat("<CodIndCob>{0}</CodIndCob>", 0)
                     oSolicitudPago.AppendFormat("<Deducible>0</Deducible>", IIf(IsDBNull(oFila.Item("Deducible")), 0, CDbl(oFila.Item("Deducible"))))
-                    oSolicitudPago.AppendFormat("<NumeroCorrelaEstim>{0}</NumeroCorrelaEstim>", CInt(oFila.Item("NumeroCorrelaEstim")))
-                    oSolicitudPago.AppendFormat("<NumeroCorrelaPagos>{0}</NumeroCorrelaPagos>", iNumeroCorrelaPagos)
-                    oSolicitudPago.AppendFormat("<SnCondusef>{0}</SnCondusef>", oFila.Item("SnCondusef"))
-                    oSolicitudPago.AppendFormat("<NumeroOficioCondusef>{0}</NumeroOficioCondusef>", oFila.Item("NumeroOficioCondusef"))
-                    oSolicitudPago.AppendFormat("<FechaOficioCondusef>{0}</FechaOficioCondusef>", oFila.Item("FechaOficioCondusef"))
+                    oSolicitudPago.AppendFormat("<NumeroCorrelaEstim>{0}</NumeroCorrelaEstim>", 0)
+                    oSolicitudPago.AppendFormat("<NumeroCorrelaPagos>{0}</NumeroCorrelaPagos>", 0)
+                    oSolicitudPago.AppendFormat("<SnCondusef>{0}</SnCondusef>", 0)
+                    oSolicitudPago.AppendFormat("<NumeroOficioCondusef>{0}</NumeroOficioCondusef>", 0)
+                    oSolicitudPago.AppendFormat("<FechaOficioCondusef>{0}</FechaOficioCondusef>", 0)
                     oSolicitudPago.AppendFormat("<PagoNacional>{0}</PagoNacional>", IIf(cmbMonedaPago.SelectedValue = 0, (CDbl(oFila.Item("Pago")) - CDbl(oFila.Item("Descuentos"))), (CDbl(oFila.Item("Pago")) - CDbl(oFila.Item("Descuentos"))) * CDbl(txtTipoCambio.Text)))
-                    oSolicitudPago.AppendFormat("<CodigoTipoStro>{0}</CodigoTipoStro>", CInt(oFila.Item("CodigoTipoStro")))
+                    oSolicitudPago.AppendFormat("<CodigoTipoStro>{0}</CodigoTipoStro>", 0)
                     oSolicitudPago.AppendFormat("<TipoPagoDetalle>{0}</TipoPagoDetalle>", CInt(oFila.Item("TipoPago")))
 
                     oSolicitudPago.AppendLine("</Detalle>")
@@ -1670,9 +1675,9 @@ Partial Class Siniestros_OrdenPago
                     'Basado en campos de la tabla stro_op_p_impuesto_g_c
                     'El id_stro_op y cod_tercero no se mandan porque sera calculado en el sp que crea la orden de pago
                     oImpuestos.AppendFormat("<IdStro>{0}</IdStro>", CInt(oFila("IdSiniestro")))
-                    oImpuestos.AppendFormat("<CodItem>{0}</CodItem>", CInt(oFila.Item("CodItem")))
-                    oImpuestos.AppendFormat("<CodIndCob>{0}</CodIndCob>", CInt(oFila.Item("CodIndCob")))
-                    oImpuestos.AppendFormat("<NumeroCorrelaPagos>{0}</NumeroCorrelaPagos>", iNumeroCorrelaPagos)
+                    oImpuestos.AppendFormat("<CodItem>{0}</CodItem>", 0)
+                    oImpuestos.AppendFormat("<CodIndCob>{0}</CodIndCob>", 0)
+                    oImpuestos.AppendFormat("<NumeroCorrelaPagos>{0}</NumeroCorrelaPagos>", 0)
                     oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("CodigoConcepto")))
                     oImpuestos.AppendFormat("<CodigoImpuesto>{0}</CodigoImpuesto>", CInt(oDetalle("CodigoImpuesto")))
                     oImpuestos.AppendFormat("<CodigoGrupo>{0}</CodigoGrupo>", CInt(oDetalle("CodigoGrupo")))
@@ -1689,7 +1694,7 @@ Partial Class Siniestros_OrdenPago
                     oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(0).Item("ImporteRetencion")), Math.Round(CDbl(oDatos.Tables(0).Rows(0).Item("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
 
                     oImpuestos.AppendFormat("<CodigoTratamiento>{0}</CodigoTratamiento>", CInt(oDetalle("CodigoTratamiento")))
-                    oImpuestos.AppendFormat("<Subsiniestro>{0}</Subsiniestro>", CInt(oFila.Item("Subsiniestro")))
+                    oImpuestos.AppendFormat("<Subsiniestro>{0}</Subsiniestro>", 0)
 
                     oImpuestos.AppendLine("</Detalle>")
 
@@ -1727,7 +1732,12 @@ Partial Class Siniestros_OrdenPago
 
             End If
 
-            If Me.txtSiniestro.Text.Trim = String.Empty OrElse cmbSubsiniestro.Items.Count = 0 Then
+            'Se Modifica por el tema de fondos original
+            'If Me.txtSiniestro.Text.Trim = String.Empty OrElse cmbSubsiniestro.Items.Count = 0 Then
+            '    Throw New Exception("Número de siniestro no definido")
+            'End If
+
+            If Me.txtSiniestro.Text.Trim = String.Empty Then
                 Throw New Exception("Número de siniestro no definido")
             End If
 
@@ -1964,6 +1974,8 @@ Partial Class Siniestros_OrdenPago
 
             CargarCatalogosCuentasBancarias()
 
+            CargarAnalistasFondos()
+
             Me.cmbTipoUsuario.Enabled = True
             Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado
 
@@ -1984,23 +1996,12 @@ Partial Class Siniestros_OrdenPago
             Me.grd.DataSource = Nothing
             Me.grd.DataBind()
 
-            'Me.txtTotalAutorizacion.Text = String.Empty
-            'Me.txtTotalAutorizacionNacional.Text = String.Empty
+            'SE COMENTA POR PARTE DE FONDOS 
+
+            'Me.txtTotalAutorizacion.Text = String.Empty 'importe de la poliza
             'Me.txtTotalImpuestos.Text = String.Empty
             'Me.txtTotalRetenciones.Text = String.Empty
-            'Me.txtTotal.Text = String.Empty
-            'Me.txtDescuentos.Text = String.Empty
-
-            'Me.txtTotalAutorizacionFac.Text = String.Empty
-            'Me.txtTotalAutorizacionNacionalFac.Text = String.Empty
-            'Me.txtTotalImpuestosFac.Text = String.Empty
-            'Me.txtTotalRetencionesFac.Text = String.Empty
-            'Me.txtTotalFac.Text = String.Empty
-
-            Me.txtTotalAutorizacion.Text = String.Empty 'importe de la poliza
-            Me.txtTotalImpuestos.Text = String.Empty
-            Me.txtTotalRetenciones.Text = String.Empty
-            Me.txtTotal.Text = String.Empty  'importe de la poliza
+            'Me.txtTotal.Text = String.Empty  'importe de la poliza
 
             Me.iptxtTotalAutorizacion.Text = String.Empty 'importe de pago
             Me.iptxtTotalImpuestos.Text = String.Empty
@@ -2057,6 +2058,30 @@ Partial Class Siniestros_OrdenPago
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("InicializarValores error: {0}", ex.Message), TipoMsg.Falla)
         End Try
 
+    End Sub
+    Public Sub CargarAnalistasFondos()
+        Try
+            Dim oDatos As DataSet
+            oDatos = New DataSet
+            Dim oParametros As New Dictionary(Of String, Object)
+            oParametros.Add("Accion", "1")
+            oDatos = Funciones.ObtenerDatos("MIS_Catalago_Fondos", oParametros)
+            Me.cmbAnalistaSolicitante.Items.Clear()
+            If (oDatos.Tables(0).Rows.Count > 0) Then
+                'With oDatos.Tables(0).Rows(0)
+                '    Me.txtCodigoCuenta.Text = .Item("cod_cta_cble")
+                '    Me.txtDescCuenta.Text = .Item("txt_denomin")
+                'End With
+                For Each fila In oDatos.Tables(0).Rows
+                    Me.cmbAnalistaSolicitante.Items.Add(New ListItem(String.Format(fila.Item("AnalistaFondos")).ToUpper, fila.Item("usuarioanalista")))
+                Next
+
+            Else
+                Mensaje.MuestraMensaje("Analistas de Fondos", "No hay Analista de Fondos", TipoMsg.Falla)
+            End If
+        Catch ex As Exception
+            Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("grd_RowDataBound error: {0}", ex.Message), TipoMsg.Falla)
+        End Try
     End Sub
     Public Sub ObtenerDatosTransferenciaProveedor()
 
@@ -2126,7 +2151,7 @@ Partial Class Siniestros_OrdenPago
         Dim dcod_cpto As Int16 = 0
         Try
 
-            If txtMonedaPoliza.Text = "NACIONAL" Then
+            If cmbMonedaPago.SelectedValue = 0 Then
                 cmbMonedaPago.SelectedValue = 0
                 dTipoCambio = 1
             Else
@@ -2191,12 +2216,12 @@ Partial Class Siniestros_OrdenPago
                                 dImporteImpuesto = 0
                                 dImporteRetencion = 0
                             Else
-                                'varios conceptos
-                                txtTotalAutorizacion.Text = dPago + txtTotalAutorizacion.Text
-                                txtTotalImpuestos.Text = dImporteImpuesto + txtTotalImpuestos.Text
-                                txtTotalRetenciones.Text = dImporteRetencion + txtTotalRetenciones.Text
-                                txtTotal.Text = dPago + txtTotal.Text
-                                txtTotalNacional.Text = dPago + txtTotalNacional.Text
+                                'varios conceptos Se comenta por Fondos 
+                                'txtTotalAutorizacion.Text = dPago + txtTotalAutorizacion.Text
+                                'txtTotalImpuestos.Text = dImporteImpuesto + txtTotalImpuestos.Text
+                                'txtTotalRetenciones.Text = dImporteRetencion + txtTotalRetenciones.Text
+                                'txtTotal.Text = dPago + txtTotal.Text
+                                'txtTotalNacional.Text = dPago + txtTotalNacional.Text
 
                                 'varios conceptos
                                 iptxtTotalAutorizacion.Text = dPago + iptxtTotalAutorizacion.Text
@@ -2211,12 +2236,12 @@ Partial Class Siniestros_OrdenPago
                             If chkVariosConceptos.Checked = True Then
                                 If dImporteImpuesto = 0 AndAlso dImporteRetencion = 0 Then 'esto es cuando calcula los impuesto al cero
 
-                                    'varios conceptos
-                                    txtTotalAutorizacion.Text = dPago + txtTotalAutorizacion.Text
-                                    txtTotalImpuestos.Text = dImporteImpuesto + txtTotalImpuestos.Text
-                                    txtTotalRetenciones.Text = dImporteRetencion + txtTotalRetenciones.Text
-                                    txtTotal.Text = dPago + txtTotal.Text
-                                    txtTotalNacional.Text = dPago + txtTotalNacional.Text
+                                    'varios conceptos Se comenta por Fondos 
+                                    'txtTotalAutorizacion.Text = dPago + txtTotalAutorizacion.Text
+                                    'txtTotalImpuestos.Text = dImporteImpuesto + txtTotalImpuestos.Text
+                                    'txtTotalRetenciones.Text = dImporteRetencion + txtTotalRetenciones.Text
+                                    'txtTotal.Text = dPago + txtTotal.Text
+                                    'txtTotalNacional.Text = dPago + txtTotalNacional.Text
 
                                     'varios conceptos
                                     iptxtTotalAutorizacion.Text = dPago + iptxtTotalAutorizacion.Text
@@ -2318,24 +2343,27 @@ Partial Class Siniestros_OrdenPago
 
                     If txtMonedaPoliza.Text = "DOLAR AMERICANO" Then
                         If cmbMonedaPago.SelectedValue = 0 Then
-                            Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion / txtTipoCambio.Text, 2))
-                            Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos / txtTipoCambio.Text, 2))
-                            Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones / txtTipoCambio.Text, 2))
-                            Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round((dTotalAutorizacion / txtTipoCambio.Text) + dTotalImpuestos - dTotalRetenciones, 2))
-                            Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional / txtTipoCambio.Text)
+                            'SE COMENTA POR TEMA DE FONDOS
+                            'Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion / txtTipoCambio.Text, 2))
+                            'Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos / txtTipoCambio.Text, 2))
+                            'Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones / txtTipoCambio.Text, 2))
+                            'Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round((dTotalAutorizacion / txtTipoCambio.Text) + dTotalImpuestos - dTotalRetenciones, 2))
+                            'Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional / txtTipoCambio.Text)
                         Else
-                            Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
-                            Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
-                            Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
-                            Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
-                            Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
+                            'SE COMENTA POR TEMA DE FONDOS
+                            'Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
+                            'Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                            'Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
+                            'Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
+                            'Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
                         End If
                     Else
-                        Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
-                        Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
-                        Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
-                        Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
-                        Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
+                        'SE COMENTA POR TEMA DE FONDOS
+                        'Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
+                        'Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                        'Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
+                        'Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
+                        'Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
                     End If
                     'Cambiara segun si la moneda de pago son pesos o dolares
 
@@ -2354,24 +2382,27 @@ Partial Class Siniestros_OrdenPago
                 Case eTipoUsuario.Proveedor
                     If txtMonedaPoliza.Text = "DOLAR AMERICANO" Then
                         If cmbMonedaPago.SelectedValue = 0 Then
-                            Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion / txtTipoCambio.Text, 2))
-                            Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos / txtTipoCambio.Text, 2))
-                            Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones / txtTipoCambio.Text, 2))
-                            Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round((dTotalAutorizacion / txtTipoCambio.Text) + (dTotalImpuestos / txtTipoCambio.Text) - (dTotalRetenciones / txtTipoCambio.Text), 2))
-                            Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional / txtTipoCambio.Text)
+                            'SE COMENTA POR TEMA DE FONDOS
+                            'Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion / txtTipoCambio.Text, 2))
+                            'Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos / txtTipoCambio.Text, 2))
+                            'Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones / txtTipoCambio.Text, 2))
+                            'Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round((dTotalAutorizacion / txtTipoCambio.Text) + (dTotalImpuestos / txtTipoCambio.Text) - (dTotalRetenciones / txtTipoCambio.Text), 2))
+                            'Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional / txtTipoCambio.Text)
                         Else
-                            Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
-                            Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
-                            Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
-                            Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
-                            Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
+                            'SE COMENTA POR TEMA DE FONDOS
+                            'Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
+                            'Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                            'Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
+                            'Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
+                            'Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
                         End If
                     Else
-                        Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
-                        Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
-                        Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
-                        Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
-                        Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
+                        'SE COMENTA POR TEMA DE FONDOS
+                        'Me.txtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
+                        'Me.txtTotalImpuestos.Text = String.Format("{0:0,0.00}", Math.Round(dTotalImpuestos, 2))
+                        'Me.txtTotalRetenciones.Text = String.Format("{0:0,0.00}", Math.Round(dTotalRetenciones, 2))
+                        'Me.txtTotal.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion + dTotalImpuestos - dTotalRetenciones, 2))
+                        'Me.txtTotalNacional.Text = String.Format("{0:0,0.00}", dTotalAutorizacionNacional)
                     End If
 
                     Me.iptxtTotalAutorizacion.Text = String.Format("{0:0,0.00}", Math.Round(dTotalAutorizacion, 2))
@@ -2762,8 +2793,9 @@ Partial Class Siniestros_OrdenPago
 
                 oParametros.Add("Cod_Pres", Me.txtCodigoBeneficiario_stro.Text)
                 oParametros.Add("cod_cpto", scpto)
+                oParametros.Add("folioonbase", txtOnBase.Text) 'Folios onbase
 
-                oDatos = Funciones.ObtenerDatos("MIS_sp_op_stro_Consulta_Tradicional", oParametros)
+                oDatos = Funciones.ObtenerDatos("MIS_sp_op_stro_Consulta_Fondos", oParametros)
 
                 If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
 
@@ -2839,9 +2871,9 @@ Partial Class Siniestros_OrdenPago
                 End If
                 oParametros.Add("Cod_Pres", Me.txtCodigoBeneficiario_stro.Text)
                 oParametros.Add("Cod_cpto", "0")
-                oParametros.Add("stro_cerrado_abierto", stro_OC) 'CERO SI ESTA ABIERTO Y 1 SI ESTA CERRADO
+                oParametros.Add("folioonbase", txtOnBase.Text) '
 
-                oDatos = Funciones.ObtenerDatos("MIS_sp_op_stro_Consulta_Tradicional", oParametros)
+                oDatos = Funciones.ObtenerDatos("MIS_sp_op_stro_Consulta_Fondos", oParametros)
 
                 If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
 

@@ -103,7 +103,7 @@
                         </div>                                                
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Moneda de pago</asp:Label>
-                            <asp:DropDownList AutoPostBack="True" ID="cmbMonedaPago" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro" OnSelectedIndexChanged="CalcularTotales">
+                            <asp:DropDownList AutoPostBack="True" ID="cmbMonedaPago" Enabled="false" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero Centro" OnSelectedIndexChanged="CalcularTotales">
                                 <asp:ListItem Value="0">NACIONAL</asp:ListItem>
                                 <asp:ListItem Value="1">DOLAR AMERICANO</asp:ListItem>
                             </asp:DropDownList>
@@ -140,6 +140,11 @@
                                 <asp:TextBox ID="txtFechaComprobante" runat="server" Text='<%# Eval("FechaComprobante") %>' CssClass="estandar-control Tablero Fecha Centro" autocomplete="off" ></asp:TextBox>
                             </div>
                         </div> 
+                           <div class="form-group col-md-4">
+                            <asp:Label runat="server" class="etiqueta-control">Analista Solicitante</asp:Label>
+                            <asp:DropDownList ID="cmbAnalistaSolicitante" runat="server" ClientIDMode="Static" CssClass="estandar-control Tablero">
+                            </asp:DropDownList>
+                        </div> 
                     </div>
                     <div id="pnlProveedor" class="row" runat="server">
                         <div class="form-group col-md-2">
@@ -151,8 +156,9 @@
                             <div class="form-check Centrado">
                                 <asp:CheckBox runat="server" ID="chkVariosConceptos" Text="Varios conceptos" CssClass="etiqueta-control" />
                             </div>
-                        </div>
-                    </div>                                           
+                        </div>                        
+                    </div>     
+                                                      
                     <div style="width: 100%; text-align: left">
                         <asp:LinkButton ID="btnAgregarFila" runat="server" class="btn btn-primary btn-xs" style="background-color: #003A5D;" OnClientClick="return ValidarBeneficiario();">
                             <span>
@@ -190,7 +196,7 @@
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Siniestro") %>' CssClass="estandar-control"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Subsiniestro">
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Subsiniestro" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Subsiniestro") %>' CssClass="estandar-control"></asp:TextBox>
                                                 </ItemTemplate>
@@ -200,7 +206,7 @@
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Estimacion") %>' CssClass="estandar-control Estimacion"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Reserva" Visible="True">
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Reserva" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:TextBox ReadOnly="true" runat="server" Text='<%# Eval("Reserva") %>' CssClass="estandar-control Reserva"></asp:TextBox>
                                                 </ItemTemplate>
@@ -388,7 +394,7 @@
                     <div class="row">
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Origen</asp:Label>
-                            <asp:DropDownList ID="cmbOrigenOP" runat="server" ClientIDMode="Static" Enabled="false" ReadOnly="true" CssClass="estandar-control Tablero"></asp:DropDownList>
+                            <asp:DropDownList ID="cmbOrigenOP" runat="server" ClientIDMode="Static" ReadOnly="true" CssClass="estandar-control Tablero"></asp:DropDownList>
                         </div>
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Tipo de pago</asp:Label>
