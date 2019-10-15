@@ -124,7 +124,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            ' Master.cod_usuario = "AARROYO"
+            ' Master.cod_usuario = "CBASURTO"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -337,6 +337,8 @@ Partial Class Siniestros_FirmasElectronicas
                     iStatusFirma = Cons.TipoFiltro.Rechazadas
                 End If
 
+                Dim valorMoneda As String
+
 
                 Dim ValorRol As Integer = 0
                 ValorRol = ddlRolFilter.SelectedValue
@@ -542,13 +544,28 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub LimpiaCtrls()
         txt_NroOP.Text = ""
         cmbModuloOP.SelectedIndex = 0
+        'cmbMoneda.SelectedIndex = 0
+        ddlRolFilter.SelectedIndex = 0
+        txtFechaGeneracionDesde.Text = ""
+        txtFechaGeneracionHasta.Text = ""
+        chk_Autorizada.Checked = False
+        chk_PorRevisar.Checked = False
+        chk_Todas.Checked = False
+        chk_Pendiente.Checked = False
+        chk_Rechazadas.Checked = False
+        txtMontoDesde.Text = ""
+        txtMontoHasta.Text = ""
+        txtFechaPagoDesde.Text = ""
+        txtFechaPagoHasta.Text = ""
+
+
     End Sub
 
     Private Sub btn_BuscaOP_Click(sender As Object, e As EventArgs) Handles btn_BuscaOP.Click
         Try
             If cmbModuloOP.SelectedValue > 0 Then
-                'If ValidaRadios() Then
-                Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+                If ValidaRadios() Then
+                    Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
 
                     If grdOrdenPago.Rows.Count > 0 Then
                         grdOrdenPago.PageIndex = 0
@@ -558,9 +575,9 @@ Partial Class Siniestros_FirmasElectronicas
                     Else
                         Mensaje.MuestraMensaje(Master.Titulo, "La Consulta no devolvió resultados", TipoMsg.Advertencia)
                     End If
-                'Else
-                '    MuestraMensaje("Validación", "Debe elegir un filtro de Estatus de Firma", TipoMsg.Advertencia)
-                'End If
+                Else
+                    MuestraMensaje("Validación", "Debe elegir un filtro de Estatus de Firma", TipoMsg.Advertencia)
+                End If
             Else
                 MuestraMensaje("Validación", "Debe elegir el tipo de módulo", TipoMsg.Advertencia)
             End If
@@ -973,16 +990,18 @@ Partial Class Siniestros_FirmasElectronicas
                     strMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
                     intFolioOnBase = DirectCast(grdOrdenPago.Rows(contador).FindControl("lblFolioOnBase"), Label).Text
 
-                    If strMotivoRechazo = "--Seleccione--" Then
-                        Mensaje.MuestraMensaje("Validación Motivo de Rechazo", "No se ha seleccionado ningun motivo de rechazo de para la OP: " & strOP, TipoMsg.Advertencia)
-                        Exit Function
-                    End If
-
                     Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & strOP)
                     If Rechazada = 1 Then
                         Mensaje.MuestraMensaje("Validación Rechazos", "la Orden de Pago: " & strOP & " ya se encuentra rechazada, por favor deseleccionarla", TipoMsg.Advertencia)
                         Exit Function
                     End If
+
+                    If strMotivoRechazo = "--Seleccione--" Then
+                        Mensaje.MuestraMensaje("Validación Motivo de Rechazo", "No se ha seleccionado ningun motivo de rechazo de para la OP: " & strOP, TipoMsg.Advertencia)
+                        Exit Function
+                    End If
+
+
 
                     If sn_proceso = True Then
 
@@ -1048,7 +1067,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                         End If
 
-                        fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','" & strMotivoRechazo & "'")
+                        fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','Usuario: " & Master.usuario & " /Motivo: " & strMotivoRechazo & "'")
                         fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
                         fn_Ejecuta("Update MIS_Expediente_OP set Nro_OP = " & strOP & ", id_Estatus_Registro = 3 where Folio_Onbase_Siniestro = " & intFolioOnBase & " And Id_etiqueta_Pago = 0", True)
                         fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
@@ -1088,7 +1107,7 @@ Partial Class Siniestros_FirmasElectronicas
                         fn_Ejecuta("mis_ActualizaStsOpsEnv '" & item("Ops") & "','" & item("cod_usuario") & "'," & cmbModuloOP.SelectedValue & ",1")
                     Next
                     fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
-                    Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron y enviaron la OPs para las firmas correspondientes", Mensaje.TipoMsg.Confirma)
+                    Mensaje.MuestraMensaje("Autorizaciones", "Se realizaron las acciones correctamente", Mensaje.TipoMsg.Confirma)
 
                 End If
             End If
@@ -1566,7 +1585,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 'Se dispara evento para retirar firmas
                 chkFirmaTesoreria_CheckedChanged(TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaTesoreria"), CheckBox), Nothing)
-
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = False
             Else
 
                 'Si no existen las firmas necesarias que anteceden a esta no se puede firmar
@@ -1577,6 +1596,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaJefe"), Label).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
                 End If
 
             End If
@@ -1609,7 +1629,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 'Se dispara evento para retirar firmas
                 chkFirmaTesoreria_CheckedChanged(TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaTesoreria"), CheckBox), Nothing)
-
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = False
             Else
 
                 'Si no existen las firmas necesarias que anteceden a esta no se puede firmar
@@ -1620,6 +1640,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaSubgerente"), Label).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
                 End If
 
             End If
@@ -1663,7 +1684,7 @@ Partial Class Siniestros_FirmasElectronicas
                         chkFirmaDirector_CheckedChanged(TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaDirector"), CheckBox), Nothing)
 
                 End Select
-
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = False
             Else
 
                 'Si no existen las firmas necesarias que anteceden a esta no se puede firmar
@@ -1674,6 +1695,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaSubdirector"), Label).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
                 End If
 
             End If
@@ -1717,7 +1739,7 @@ Partial Class Siniestros_FirmasElectronicas
                         chkFirmaDirectorGeneral_CheckedChanged(TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaDirectorGeneral"), CheckBox), Nothing)
 
                 End Select
-
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = False
             Else
 
                 'Si no existen las firmas necesarias que anteceden a esta no se puede firmar
@@ -1729,6 +1751,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaDirector"), Label).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
                 End If
 
             End If
@@ -1759,7 +1782,7 @@ Partial Class Siniestros_FirmasElectronicas
                 'Se retira firma de tesorería
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaTesoreria"), CheckBox).Checked = False
                 chkFirmaTesoreria_CheckedChanged(TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaTesoreria"), CheckBox), Nothing)
-
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = False
             Else
 
                 'Si no existen las firmas necesarias que anteceden a esta no se puede firmar
@@ -1772,6 +1795,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaDirectorGeneral"), Label).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
                 End If
 
             End If
@@ -1799,6 +1823,7 @@ Partial Class Siniestros_FirmasElectronicas
 
             If Not sender.checked Then
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaTesoreria"), Label).Visible = True
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = False
             Else
 
                 'Se validaran si ya existen todas las firmas antecesoras para que tesorería pueda autorizar
@@ -1860,6 +1885,7 @@ Partial Class Siniestros_FirmasElectronicas
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaTesoreria"), Label).Visible = True
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaTesoreria"), Label).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
                 End If
 
             End If
@@ -2123,7 +2149,12 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub grdOrdenPago_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles grdOrdenPago.PageIndexChanging
         Try
             grdOrdenPago.PageIndex = e.NewPageIndex
-            Funciones.LlenaGrid(grdOrdenPago, ActualizaDataOP)
+            Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+            ' Funciones.LlenaGrid(grdOrdenPago, ActualizaDataOP)
+            'ListaRamosContables()
+            'DesHabilitaChecksFirma()
+            'Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago',true);")
+
             'ListaRamosContables()
             'DesHabilitaChecksFirma()
 
@@ -2453,6 +2484,7 @@ Partial Class Siniestros_FirmasElectronicas
         Try
             Dim Tabla_Asegurado As String
             Dim Asegurados() As String
+
 
             If e.Row.RowType = DataControlRowType.DataRow Then
 
