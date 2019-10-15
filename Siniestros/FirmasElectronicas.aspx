@@ -32,9 +32,9 @@
                              <asp:label runat="server" class="col-md-1 etiqueta-control" Width="14%">Módulo</asp:label>
                             <asp:DropDownList runat="server" ID="cmbModuloOP" CssClass="col-md-1 estandar-control" Width="36%">
                                 <asp:ListItem Text="Seleccione módulo" Value="0"></asp:ListItem>
-                                <asp:ListItem Text="Ordenes de pago de siniestros" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="OP Tradicional" Value="1"></asp:ListItem>
                                 <%--<asp:ListItem Text="Autorizaciones varias" Value="2"></asp:ListItem>--%>
-                                <asp:ListItem Text="Circuito de ordenes de pago" Value="3"></asp:ListItem>
+                                <asp:ListItem Text="OP Fondos" Value="3"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-6">
@@ -409,7 +409,7 @@
                         <tr>
                             <td style="width:4%;"></td>
                             <td style="width:6%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NRO</td>
-                            <%--<td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NOMBRE / RAZÓN SOCIAL</td>--%>
+                            <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid"></td>
                             <td style="width:35%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">PAGAR A</td>
                             <td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MONTO</td>
                             <%--<td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MOTIVO RECH</td>--%>
@@ -420,7 +420,7 @@
                      <asp:Panel runat="server" id="pnlOrdenP" width="100%">
                          <asp:GridView runat="server" ID="grdOrdenPago" Width="100%" AutoGenerateColumns="false"  ShowHeader="false"
                              CssClass="grid-view" HeaderStyle-CssClass="header" AlternatingRowStyle-CssClass="altern"
-                             GridLines="None"  ShowHeaderWhenEmpty="true" PageSize="15"
+                             GridLines="None"  ShowHeaderWhenEmpty="true"  AllowPaging="true" PageSize="20"
                              DataKeyNames="nro_op,	FechaGeneracion,	FechaBaja,	NumeroRecibo,	NombreSucursal,	NombreSucursalPago,	CodigoAbona,	NombreModifica,	NombreUsuario,
                                            txt_cheque_a_nom,	FechaEstimadaPago,	imp_total,	Observaciones,	NombreAbona,	Direccion,	Calle,	NumeroExterior,	NumeroInterior,
                                            Colonia,	CodigoPostal,	Municipio,	Ciudad,	Departamento,	Sector,	Transferencia,	CodigoBanco,	NombreBanco,	Swift,	Aba,	NumeroCuenta,
@@ -454,7 +454,7 @@
                                                     <tr>
                                                         <td style="width:2%;"><asp:CheckBox runat="server"  ID="chkImpresion" Checked='false'/></td>
                                                         <td style="width:6%;"><asp:Label runat="server" ID="lblOrdenPago" Text='<%# Eval("nro_op")%>'  Width="100%"></asp:Label></td>
-                                                        <%--<td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# Eval("contratante") %>' Width="100%" ></asp:Label></td>--%>
+                                                        <td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# String.Format("RECHAZADA:  {0}", Eval("motivo_rechazo")) %>' Width="100%" ForeColor="Orange" Visible='<%# Eval("Rechazada") = 1 %>' ></asp:Label></td>
                                                         <td style="width:35%;"><asp:Label runat="server" ID="lblMoneda" Text='<%# Eval("txt_cheque_a_nom") %>' CssClass="Derecha" Width="100%"  ></asp:Label></td>
                                                         <td style="width:11%;"> <asp:Label runat="server" ID="lblMonto" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%" CssClass="Monto"></asp:Label></td>
                                                         <%--<td style="width:11%;"> <asp:Label runat="server" ID="Label1" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%"></asp:Label></td>--%>
@@ -725,7 +725,7 @@
                                                             <div style="width:100%;border-bottom:inset;border-width:1px;text-align:left;padding-left:30px;">
                                                                    <div class="row">
                                                                        <div class="col-md-2">
-                                                                            <asp:CheckBox runat="server" ID="chk_Rechazo" Checked='<%# Eval("Rechazada") %>' OnCheckedChanged="chk_Rechazo_CheckedChanged" AutoPostBack="true"/>
+                                                                            <asp:CheckBox runat="server" ID="chk_Rechazo" Checked='<%# Eval("Rechazada") %>' Enabled='<%# Eval("Rechazada") = 0 %>' OnCheckedChanged="chk_Rechazo_CheckedChanged" AutoPostBack="true"/>
                                                                             <asp:Label runat="server" Text="RECHAZAR" Font-Bold="true"></asp:Label>
                                                                        </div>
                                                                         <div class="col-md-4">
@@ -919,7 +919,7 @@
                                 </span>
                             </asp:LinkButton>--%>
 
-                            <asp:LinkButton id="btn_Firmar" runat="server" class="btn botones Autorizacion">
+                            <asp:LinkButton id="btn_Firmar" runat="server" class="btn botones">
                                 <span>
                                     <img class="btn-aceptar"/>
                                     Aceptar
