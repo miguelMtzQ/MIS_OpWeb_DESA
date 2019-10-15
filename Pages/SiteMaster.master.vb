@@ -2251,6 +2251,8 @@ Partial Class Pages_SiteMaster
             cmbTipoCuentaT_stro.DataValueField = "Codigo"
             cmbTipoCuentaT_stro.DataBind()
 
+            cmbTipoCuentaT_stro.SelectedValue = 2
+
             'Carga de catalogos de monedas
             If cmbMonedaT_stro.Items.Count > 0 Then
                 cmbMonedaT_stro.Items.Clear()
@@ -2280,7 +2282,7 @@ Partial Class Pages_SiteMaster
                 Me.txtCuentaBancariaT_stro_Confirmacion.Text = IIf(oValoresActuales("CuentaBancaria").ToString.Trim = String.Empty, String.Empty, oValoresActuales("CuentaBancaria"))
                 Me.txtPlazaT_stro.Text = IIf(oValoresActuales("Plaza").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Plaza"))
                 Me.txtAbaT_stro.Text = IIf(oValoresActuales("ABA").ToString.Trim = String.Empty, String.Empty, oValoresActuales("ABA"))
-
+                cmbTipoCuentaT_stro.SelectedValue = 2
             End If
 
             If bTieneDatosBancarios Then
@@ -2299,6 +2301,7 @@ Partial Class Pages_SiteMaster
                 Me.txtCuentaBancariaT_stro_Confirmacion.Enabled = True
                 Me.txtCuentaBancariaT_stro.Text = String.Empty
                 Me.txtCuentaBancariaT_stro_Confirmacion.Text = String.Empty
+                cmbTipoCuentaT_stro.SelectedValue = 2
             End If
 
             hid_Control.Value = Control
