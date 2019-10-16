@@ -113,8 +113,9 @@ Partial Class Siniestros_FirmasElectronicas
                 Dim Params As String = Request.QueryString("NumOrds")
                 If Params <> vbNullString Then
                     txt_NroOP.Text = Split(Params, "|")(0)
-                    cmbModuloOP.SelectedValue = Split(Params, "|")(1)
+                    'cmbModuloOP.SelectedValue = Split(Params, "|")(1)
                     Master.cod_usuario = Split(Params, "|")(2)
+                    chk_Todas.Checked = True
                 End If
 
                 If Len(txt_NroOP.Text) > 0 Then
@@ -153,13 +154,13 @@ Partial Class Siniestros_FirmasElectronicas
     Private Function ConsultaOrdenesPago() As DataTable
         Dim FiltroOP As String = ""
         Dim FiltroBrokerCia As String = ""
-        Dim FiltroRamoContable As String = ""
-        Dim FiltroPoliza As String = ""
+        'Dim FiltroRamoContable As String = ""
+        'Dim FiltroPoliza As String = ""
 
         Dim FiltroFechaGen As String = ""
         Dim FiltroFechaPago As String = ""
         Dim FiltroUsuario As String = ""
-        Dim FiltroEstatus As String = ""
+        'Dim FiltroEstatus As String = ""
         Dim FiltroMonto As String = ""
 
         Dim intFirmas As Integer = 0
@@ -177,10 +178,10 @@ Partial Class Siniestros_FirmasElectronicas
 
         If Len(FiltroBrokerCia) > 0 Then FiltroBrokerCia = Mid(FiltroBrokerCia, 1, Len(FiltroBrokerCia) - 1)
 
-        FiltroRamoContable = Funciones.ObtieneElementos(gvd_RamoContable, "RamC", False)
-        FiltroPoliza = Funciones.ObtieneElementos(gvd_Poliza, "Pol", False, True)
+        'FiltroRamoContable = Funciones.ObtieneElementos(gvd_RamoContable, "RamC", False)
+        'FiltroPoliza = Funciones.ObtieneElementos(gvd_Poliza, "Pol", False, True)
         FiltroUsuario = Funciones.ObtieneElementos(gvd_Usuario, "Usu", True)
-        FiltroEstatus = Funciones.ObtieneElementos(gvd_Estatus, "Est", False)
+        'FiltroEstatus = Funciones.ObtieneElementos(gvd_Estatus, "Est", False)
 
         If IsDate(txtFechaGeneracionDesde.Text) And IsDate(txtFechaGeneracionHasta.Text) Then
             If CDate(txtFechaGeneracionDesde.Text) <= CDate(txtFechaGeneracionHasta.Text) Then
@@ -232,22 +233,22 @@ Partial Class Siniestros_FirmasElectronicas
         'dtOrdenPago = New DataTable
         'dtOrdenPago = Funciones.Lista_A_Datatable(ws.ObtieneOrdenPago(FiltroOP, FiltroBrokerCia, "", FiltroPoliza, FiltroFechaPago, FiltroRamoContable, FiltroUsuario, FiltroEstatus, FiltroFechaGen, cmbMoneda.SelectedValue, Trim(txtAsegurado.Text), FiltroMonto, FiltroNatOP, intFirmas, Master.cod_usuario, "").ToList)
 
-        fn_Consulta("spS_OrdenPago '" & FiltroOP & "'," &
-                                    "'" & FiltroBrokerCia & "'," &
-                                    "''," &
-                                    "'" & FiltroPoliza & "'," &
-                                    "'" & FiltroFechaPago & "'," &
-                                    "'" & FiltroRamoContable & "'," &
-                                    "'" & Replace(FiltroUsuario, "'", "''") & "'," &
-                                    "'" & FiltroEstatus & "'," &
-                                    "'" & FiltroFechaGen & "'," &
-                                          cmbMoneda.SelectedValue & "," &
-                                    "'" & Trim(txtAsegurado.Text) & "'," &
-                                    "'" & FiltroMonto & "'," &
-                                    "'" & FiltroNatOP & "'," &
-                                          intFirmas & "," &
-                                    "'" & Master.cod_usuario & "'," &
-                                    "''," & intTipoFirma, dtOrdenPago)
+        'fn_Consulta("spS_OrdenPago '" & FiltroOP & "'," &
+        '                            "'" & FiltroBrokerCia & "'," &
+        '                            "''," &
+        '                            "'" & FiltroPoliza & "'," &
+        '                            "'" & FiltroFechaPago & "'," &
+        '                            "'" & FiltroRamoContable & "'," &
+        '                            "'" & Replace(FiltroUsuario, "'", "''") & "'," &
+        '                            "'" & FiltroEstatus & "'," &
+        '                            "'" & FiltroFechaGen & "'," &
+        '                                  cmbMoneda.SelectedValue & "," &
+        '                            "'" & Trim(txtAsegurado.Text) & "'," &
+        '                            "'" & FiltroMonto & "'," &
+        '                            "'" & FiltroNatOP & "'," &
+        '                                  intFirmas & "," &
+        '                            "'" & Master.cod_usuario & "'," &
+        '                            "''," & intTipoFirma, dtOrdenPago)
 
         Return dtOrdenPago
     End Function
@@ -266,13 +267,13 @@ Partial Class Siniestros_FirmasElectronicas
         Dim sFiltroFechaPago As String = String.Empty
         Dim sFiltroMonto As String = String.Empty
         Dim iStatusFirma As Integer = -1
-
+        Dim sFiltroStro As String = ""
+        Dim sFiltroBenef As String = ""
 
         Dim FiltroBrokerCia As String = ""
-        Dim FiltroRamoContable As String = ""
+        'Dim FiltroRamoContable As String = ""
 
         Dim intFirmas As Integer = 0
-
 
         Dim FiltroNatOP As String = ""
 
@@ -280,32 +281,32 @@ Partial Class Siniestros_FirmasElectronicas
 
         Try
 
-            If Me.cmbModuloOP.SelectedValue = 0 Then
-                Mensaje.MuestraMensaje(Master.Titulo, "Seleccione un módulo", TipoMsg.Advertencia)
-                dtOrdenPago = Nothing
-            Else
+            'If Me.cmbModuloOP.SelectedValue = 0 Then
+            '    Mensaje.MuestraMensaje(Master.Titulo, "Seleccione un módulo", TipoMsg.Advertencia)
+            '    dtOrdenPago = Nothing
+            'Else
 
-                sFiltroOP = IIf(Not String.IsNullOrWhiteSpace(txt_NroOP.Text.Trim), txt_NroOP.Text.Trim, 0)
+            sFiltroOP = IIf(Not String.IsNullOrWhiteSpace(txt_NroOP.Text.Trim), txt_NroOP.Text.Trim, 0)
                 sFiltroUsuario = Funciones.ObtieneElementos(gvd_Usuario, "Usu", True)
-                sFiltroPoliza = Funciones.ObtieneElementos(gvd_Poliza, "Pol", False, True)
+            'sFiltroPoliza = Funciones.ObtieneElementos(gvd_Poliza, "Pol", False, True)
 
-                Select Case cmbModuloOP.SelectedValue
+            'Select Case cmbModuloOP.SelectedValue
 
-                    Case eTipoModulo.OrdenPagoSiniestros
-                        sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND t.cod_usuario IN ('{0}')", sFiltroUsuario), String.Empty)
-                        sFiltroPoliza = IIf(Not String.IsNullOrWhiteSpace(sFiltroPoliza), String.Format("AND NumeroPoliza IN ('{0}')", sFiltroPoliza), String.Empty)
-                    Case eTipoModulo.AutorizacionesVarias
-                        sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND tu.txt_nombre IN ('{0}')", sFiltroUsuario), String.Empty)
-                        sFiltroPoliza = String.Empty
-                    Case eTipoModulo.CircuitoOrdenesPago
-                        sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND tu.txt_nombre IN ('{0}')", sFiltroUsuario), String.Empty)
-                        sFiltroPoliza = String.Empty
+            '    Case eTipoModulo.OrdenPagoSiniestros
+            sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND t.cod_usuario IN ('{0}')", sFiltroUsuario), String.Empty)
+            'sFiltroPoliza = IIf(Not String.IsNullOrWhiteSpace(sFiltroPoliza), String.Format("AND NumeroPoliza IN ('{0}')", sFiltroPoliza), String.Empty)
+            '    Case eTipoModulo.AutorizacionesVarias
+            '        sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND tu.txt_nombre IN ('{0}')", sFiltroUsuario), String.Empty)
+            '        'sFiltroPoliza = String.Empty
+            '    Case eTipoModulo.CircuitoOrdenesPago
+            '        sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND tu.txt_nombre IN ('{0}')", sFiltroUsuario), String.Empty)
+            '        'sFiltroPoliza = String.Empty
 
-                End Select
+            'End Select
 
-                sFiltroEstatus = Funciones.ObtieneElementos(gvd_Estatus, "Est", False)
+            'sFiltroEstatus = Funciones.ObtieneElementos(gvd_Estatus, "Est", False)
 
-                If IsDate(txtFechaGeneracionDesde.Text.Trim) And IsDate(txtFechaGeneracionHasta.Text.Trim) Then
+            If IsDate(txtFechaGeneracionDesde.Text.Trim) And IsDate(txtFechaGeneracionHasta.Text.Trim) Then
                     If CDate(txtFechaGeneracionDesde.Text.Trim) <= CDate(txtFechaGeneracionHasta.Text.Trim) Then
                         sFiltroFechaGeneracion = String.Format(" AND CONVERT(VARCHAR(10),fec_generacion,112) >= ''{0}'' AND CONVERT(VARCHAR(10),fec_generacion,112) <= ''{1}'' ", CDate(txtFechaGeneracionDesde.Text).ToString("yyyyMMdd"), CDate(txtFechaGeneracionHasta.Text).ToString("yyyyMMdd"))
                     End If
@@ -325,41 +326,48 @@ Partial Class Siniestros_FirmasElectronicas
                     sFiltroMonto = String.Format("{0} AND mop.imp_total <= {1}", sFiltroMonto, txtMontoHasta.Text.Trim)
                 End If
 
-                If chk_Todas.Checked Then
-                    iStatusFirma = Cons.TipoFiltro.Todas
-                ElseIf chk_PorRevisar.Checked Then
-                    iStatusFirma = Cons.TipoFiltro.PorRevisar
-                ElseIf chk_Pendiente.Checked Then
-                    iStatusFirma = Cons.TipoFiltro.Pendientes
-                ElseIf chk_Autorizada.Checked Then
-                    iStatusFirma = Cons.TipoFiltro.Firmadas
-                ElseIf chk_Rechazadas.Checked Then
-                    iStatusFirma = Cons.TipoFiltro.Rechazadas
-                End If
+            If chk_Todas.Checked Then
+                iStatusFirma = Cons.TipoFiltro.Todas
+            ElseIf chk_PorRevisar.Checked Then
+                iStatusFirma = Cons.TipoFiltro.PorRevisar
+            ElseIf chk_Pendiente.Checked Then
+                iStatusFirma = Cons.TipoFiltro.Pendientes
+            ElseIf chk_Autorizada.Checked Then
+                iStatusFirma = Cons.TipoFiltro.Firmadas
+            ElseIf chk_Rechazadas.Checked Then
+                iStatusFirma = Cons.TipoFiltro.Rechazadas
+            ElseIf chk_FinalAut.Checked Then
+                iStatusFirma = Cons.TipoFiltro.Autorizadas
+            End If
 
-                Dim valorMoneda As String
+            Dim valorMoneda As String = ""
+            If cmbMoneda.SelectedItem.Text <> ". . ." Then valorMoneda = cmbMoneda.SelectedItem.Text
+
+            If txtSiniestro.Text <> "" Then sFiltroStro = txtSiniestro.Text
+            If txtAsegurado.Text <> "" Then sFiltroBenef = txtAsegurado.Text
 
 
-                Dim ValorRol As Integer = 0
+            Dim ValorRol As Integer = 0
                 ValorRol = ddlRolFilter.SelectedValue
 
-                'Cambiar SP por original (usp_ObtenerOrdenPago_stro)
-                fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}'",
-                                              Me.cmbModuloOP.SelectedValue,
+            'Cambiar SP por original (usp_ObtenerOrdenPago_stro)
+            fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}'",
+                                              Cons.StrosTradicional,
                                               sFiltroOP,
                                               sFiltroMonto,
                                               sFiltroFechaGeneracion,
                                               sFiltroFechaPago,
-                                              sFiltroPoliza,
                                               sFiltroUsuario,
                                               Master.cod_usuario,
                                               iStatusFirma,
-                                              ValorRol),
-                                dtOrdenPago)
+                                              ValorRol,
+                                               valorMoneda,
+                                                sFiltroStro,
+                                                sFiltroBenef), dtOrdenPago)
 
-                Return dtOrdenPago
+            Return dtOrdenPago
 
-            End If
+            'End If
 
         Catch ex As Exception
             ConsultaOrdenesPagoSiniestros = Nothing
@@ -383,9 +391,10 @@ Partial Class Siniestros_FirmasElectronicas
 
                 gvd_Usuario.Enabled = False
                 btn_AddUsuario.Visible = False
-                gvd_Estatus.Enabled = False
-                btn_AddEstatus.Visible = False
-
+                'gvd_Estatus.Enabled = False
+                'btn_AddEstatus.Visible = False
+                BarraEstados(False)
+                txtSiniestro.Enabled = False
                 'JJIMENEZ
                 'gvd_Broker.Enabled = False
                 'btn_AddBroker.Visible = False
@@ -393,11 +402,11 @@ Partial Class Siniestros_FirmasElectronicas
                 'gvd_Compañia.Enabled = False
                 'btn_AddCia.Visible = False
 
-                gvd_Poliza.Enabled = False
-                btn_AddPol.Visible = False
+                'gvd_Poliza.Enabled = False
+                'btn_AddPol.Visible = False
 
-                gvd_RamoContable.Enabled = False
-                btn_AddRamoContable.Visible = False
+                'gvd_RamoContable.Enabled = False
+                'btn_AddRamoContable.Visible = False
 
                 'JJIMENEZ
                 'chk_Devolucion.Enabled = False
@@ -422,31 +431,6 @@ Partial Class Siniestros_FirmasElectronicas
 
                 btn_Imprimir.Visible = True
 
-                '''If Master.Cambio = 0 Then
-                '''    btn_Firmar.Visible = False
-                '''    btnCambia.Visible = False
-                '''    gvd_Destinatarios.Enabled = False
-
-                '''    For Each row In grdOrdenPago.Rows
-                '''        TryCast(row.FindControl("chk_Urgente"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_Financiado"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_Manual"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_AutorizaDireccion"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_Rechazo"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_FirmaJefe"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_FirmaTeso"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_FirmaCon"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_FirmaSol"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_FirmaDir"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_SubDir"), CheckBox).Enabled = False
-                '''        TryCast(row.FindControl("chk_FirmaDirGral"), CheckBox).Enabled = False
-                '''    Next
-                '''Else
-                '''    btn_Firmar.Visible = True
-                '''    btnCambia.Visible = True
-                '''    gvd_Destinatarios.Enabled = True
-                '''End If
-
                 btn_Firmar.Visible = True
 
                 'If Master.Baja = 0 Then
@@ -469,11 +453,12 @@ Partial Class Siniestros_FirmasElectronicas
                 txtMontoDesde.Enabled = True
                 txtMontoHasta.Enabled = True
                 LimpiaCtrls()
-
+                BarraEstados(True)
+                txtSiniestro.Enabled = True
                 gvd_Usuario.Enabled = True
                 btn_AddUsuario.Visible = True
-                gvd_Estatus.Enabled = True
-                btn_AddEstatus.Visible = True
+                'gvd_Estatus.Enabled = True
+                'btn_AddEstatus.Visible = True
 
                 'JJIMENEZ
                 'gvd_Broker.Enabled = True
@@ -482,11 +467,11 @@ Partial Class Siniestros_FirmasElectronicas
                 'gvd_Compañia.Enabled = True
                 'btn_AddCia.Visible = True
 
-                gvd_Poliza.Enabled = True
-                btn_AddPol.Visible = True
+                'gvd_Poliza.Enabled = True
+                'btn_AddPol.Visible = True
 
-                gvd_RamoContable.Enabled = True
-                btn_AddRamoContable.Visible = True
+                'gvd_RamoContable.Enabled = True
+                'btn_AddRamoContable.Visible = True
 
                 'JJIMENEZ
                 'chk_Devolucion.Enabled = True
@@ -540,10 +525,20 @@ Partial Class Siniestros_FirmasElectronicas
 
         End Select
     End Sub
+    Private Sub BarraEstados(valor As Boolean)
+        chk_Todas.Enabled = valor
+        chk_PorRevisar.Enabled = valor
+        chk_Pendiente.Enabled = valor
+        chk_Autorizada.Enabled = valor
+        chk_Rechazadas.Enabled = valor
+        chk_FinalAut.Enabled = valor
+        ddlRolFilter.Enabled = valor
+    End Sub
+
 
     Private Sub LimpiaCtrls()
         txt_NroOP.Text = ""
-        cmbModuloOP.SelectedIndex = 0
+        'cmbModuloOP.SelectedIndex = 0
         'cmbMoneda.SelectedIndex = 0
         ddlRolFilter.SelectedIndex = 0
         txtFechaGeneracionDesde.Text = ""
@@ -553,34 +548,39 @@ Partial Class Siniestros_FirmasElectronicas
         chk_Todas.Checked = False
         chk_Pendiente.Checked = False
         chk_Rechazadas.Checked = False
+        chk_FinalAut.Checked = False
         txtMontoDesde.Text = ""
         txtMontoHasta.Text = ""
         txtFechaPagoDesde.Text = ""
         txtFechaPagoHasta.Text = ""
+        txtSiniestro.Text = ""
+        txtAsegurado.Text = ""
+
 
 
     End Sub
 
     Private Sub btn_BuscaOP_Click(sender As Object, e As EventArgs) Handles btn_BuscaOP.Click
         Try
-            If cmbModuloOP.SelectedValue > 0 Then
-                If ValidaRadios() Then
-                    Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+            'If cmbModuloOP.SelectedValue > 0 Then
+            If ValidaRadios() Then
+                'Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+                Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(Cons.StrosTradicional))
 
-                    If grdOrdenPago.Rows.Count > 0 Then
-                        grdOrdenPago.PageIndex = 0
+                If grdOrdenPago.Rows.Count > 0 Then
+                    grdOrdenPago.PageIndex = 0
 
-                        EdoControl(Operacion.Consulta)
-                        Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago',true);")
-                    Else
-                        Mensaje.MuestraMensaje(Master.Titulo, "La Consulta no devolvió resultados", TipoMsg.Advertencia)
-                    End If
+                    EdoControl(Operacion.Consulta)
+                    Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago',true);")
                 Else
-                    MuestraMensaje("Validación", "Debe elegir un filtro de Estatus de Firma", TipoMsg.Advertencia)
+                    Mensaje.MuestraMensaje(Master.Titulo, "La Consulta no devolvió resultados", TipoMsg.Advertencia)
                 End If
             Else
-                MuestraMensaje("Validación", "Debe elegir el tipo de módulo", TipoMsg.Advertencia)
+                MuestraMensaje("Validación", "Debe elegir un filtro de Estatus de Firma", TipoMsg.Advertencia)
             End If
+            'Else
+            '    MuestraMensaje("Validación", "Debe elegir el tipo de módulo", TipoMsg.Advertencia)
+            'End If
 
         Catch ex As Exception
             Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
@@ -594,10 +594,11 @@ Partial Class Siniestros_FirmasElectronicas
                 If chk_Pendiente.Checked = False Then
                     If chk_Autorizada.Checked = False Then
                         If chk_Rechazadas.Checked = False Then
-                            ValidaRadios = False
-
+                            If chk_FinalAut.Checked = False Then
+                                ValidaRadios = False
+                            End If
                         End If
-                    End If
+                        End If
                 End If
             End If
         End If
@@ -965,15 +966,15 @@ Partial Class Siniestros_FirmasElectronicas
 
                         If sn_proceso = True Then
                             If Master.cod_usuario = "CLOPEZ" Then
-                                fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & cmbModuloOP.SelectedValue & ",-2")
+                                fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",-2")
                                 'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                 Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
                             Else
 
                                 If fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",-1,'" & codRol & "'") = 1 Then
-                                    fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & cmbModuloOP.SelectedValue & ",0")
+                                    fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",0")
 
-                                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosTradicional & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                     Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron las firmas correspondientes", Mensaje.TipoMsg.Confirma)
 
                                 End If
@@ -1100,13 +1101,13 @@ Partial Class Siniestros_FirmasElectronicas
             If sn_proceso = True Then
                 If Master.cod_usuario <> "CLOPEZ" Then
 
-                    Funciones.fn_Consulta("mis_ObtieneOpEnvioFirma 0,''," & cmbModuloOP.SelectedValue, dtEnvios)
+                    Funciones.fn_Consulta("mis_ObtieneOpEnvioFirma 0,''," & Cons.StrosTradicional, dtEnvios)
 
                     For Each item In dtEnvios.Rows
                         fn_Ejecuta("mis_EmailsOPStros '" & item("Ops") & "','" & item("tipomodulo") & "','" & item("cod_usuario") & "','" & Master.usuario & "','" & codRol & "'")
-                        fn_Ejecuta("mis_ActualizaStsOpsEnv '" & item("Ops") & "','" & item("cod_usuario") & "'," & cmbModuloOP.SelectedValue & ",1")
+                        fn_Ejecuta("mis_ActualizaStsOpsEnv '" & item("Ops") & "','" & item("cod_usuario") & "'," & Cons.StrosTradicional & ",1")
                     Next
-                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosTradicional & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                     Mensaje.MuestraMensaje("Autorizaciones", "Se realizaron las acciones correctamente", Mensaje.TipoMsg.Confirma)
 
                 End If
@@ -2149,7 +2150,7 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub grdOrdenPago_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles grdOrdenPago.PageIndexChanging
         Try
             grdOrdenPago.PageIndex = e.NewPageIndex
-            Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+            Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(Cons.StrosTradicional))
             ' Funciones.LlenaGrid(grdOrdenPago, ActualizaDataOP)
             'ListaRamosContables()
             'DesHabilitaChecksFirma()
@@ -2409,14 +2410,14 @@ Partial Class Siniestros_FirmasElectronicas
         End Try
     End Sub
 
-    Private Sub btn_AddPol_Click(sender As Object, e As EventArgs) Handles btn_AddPol.Click
-        Try
-            Master.MuestraPolizario("gvd_Poliza", False, False, False, False, False)
-        Catch ex As Exception
-            Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
-            Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_AddPol_Click: " & ex.Message)
-        End Try
-    End Sub
+    'Private Sub btn_AddPol_Click(sender As Object, e As EventArgs) Handles btn_AddPol.Click
+    '    Try
+    '        Master.MuestraPolizario("gvd_Poliza", False, False, False, False, False)
+    '    Catch ex As Exception
+    '        Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
+    '        Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_AddPol_Click: " & ex.Message)
+    '    End Try
+    'End Sub
 
     Private Sub btn_Imprimir_Click(sender As Object, e As EventArgs) Handles btn_Imprimir.Click
 
@@ -2705,6 +2706,7 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_PorRevisar.Checked = False
                     chk_Pendiente.Checked = False
                     chk_Autorizada.Checked = False
+                    chk_FinalAut.Checked = False
                 End If
             Case 1
                 If chk_PorRevisar.Checked Then
@@ -2712,6 +2714,7 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_Pendiente.Checked = False
                     chk_Todas.Checked = False
                     chk_Autorizada.Checked = False
+                    chk_FinalAut.Checked = False
                 End If
             Case 2
                 If chk_Pendiente.Checked Then
@@ -2719,6 +2722,7 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_PorRevisar.Checked = False
                     chk_Autorizada.Checked = False
                     chk_Rechazadas.Checked = False
+                    chk_FinalAut.Checked = False
                 End If
             Case 3
                 If chk_Autorizada.Checked Then
@@ -2726,9 +2730,19 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_PorRevisar.Checked = False
                     chk_Pendiente.Checked = False
                     chk_Rechazadas.Checked = False
+                    chk_FinalAut.Checked = False
                 End If
             Case 4
                 If chk_Rechazadas.Checked Then
+                    chk_Todas.Checked = False
+                    chk_PorRevisar.Checked = False
+                    chk_Pendiente.Checked = False
+                    chk_Autorizada.Checked = False
+                    chk_FinalAut.Checked = False
+                End If
+            Case 5
+                If chk_FinalAut.Checked Then
+                    chk_Rechazadas.Checked = False
                     chk_Todas.Checked = False
                     chk_PorRevisar.Checked = False
                     chk_Pendiente.Checked = False
@@ -2771,6 +2785,10 @@ Partial Class Siniestros_FirmasElectronicas
     End Sub
     Protected Sub chk_Rechazadas_CheckedChanged(sender As Object, e As EventArgs)
         VerificaRadios(Cons.TipoFiltro.Rechazadas)
+    End Sub
+
+    Protected Sub chk_FinalAut_CheckedChanged(sender As Object, e As EventArgs)
+        VerificaRadios(Cons.TipoFiltro.Autorizadas)
     End Sub
 
 End Class
