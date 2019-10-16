@@ -28,9 +28,9 @@
                     <div class="row">
                         <div class="col-md-6">
                             <asp:label runat="server" class="col-md-1 etiqueta-control" Width="20%">Orden Pago</asp:label>
-                            <asp:TextBox runat="server" ID="txt_NroOP" CssClass="col-md-1 estandar-control" PlaceHolder="Ejemplo: 84162,102201" Width="30%"></asp:TextBox>
-                             <asp:label runat="server" class="col-md-1 etiqueta-control" Width="14%">Módulo</asp:label>
-                            <asp:DropDownList runat="server" ID="cmbModuloOP" CssClass="col-md-1 estandar-control" Width="36%">
+                            <asp:TextBox runat="server" ID="txt_NroOP" CssClass="col-md-1 estandar-control" PlaceHolder="Ejemplo: 84162,102201" Width="80%"></asp:TextBox>
+                             <%--<asp:label runat="server" class="col-md-1 etiqueta-control" Width="14%">Módulo</asp:label>--%>
+                            <asp:DropDownList runat="server" ID="cmbModuloOP" CssClass="col-md-1 estandar-control" Width="36%" Visible="false">
                                 <asp:ListItem Text="Seleccione módulo" Value="0"></asp:ListItem>
                                 <asp:ListItem Text="OP Tradicional" Value="1"></asp:ListItem>
                                 <%--<asp:ListItem Text="Autorizaciones varias" Value="2"></asp:ListItem>--%>
@@ -38,7 +38,7 @@
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-6">
-                            <asp:label runat="server" class="col-md-1 etiqueta-control" Width="25%">Asegurado</asp:label>
+                            <asp:label runat="server" class="col-md-1 etiqueta-control" Width="25%">Beneficiario</asp:label>
                             <asp:HiddenField runat="server" ID="hidClaveAse" Value="" />
                             <asp:textbox runat="server" ID="txtAsegurado" CssClass="estandar-control" Width="75%" ></asp:textbox>
                         </div>
@@ -133,7 +133,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+<%--                <div class="col-md-6">
                     <div class="cuadro-subtitulo">
                         <input type="image" src="../Images/contraer_mini.png" id="coVentana3" class="contraer"  />
                         <input type="image" src="../Images/expander_mini.png"   id="exVentana3" class="expandir"  />
@@ -182,10 +182,14 @@
                            </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>
+                </div>--%>
+                <div class="col-md-6">
+                            <asp:label runat="server" class="col-md-1 etiqueta-control" Width="25%">Siniestro</asp:label>
+                            <asp:textbox runat="server" ID="txtSiniestro" CssClass="estandar-control" Width="75%" ></asp:textbox>
                 </div>
             </div>
             <div class="clear padding5"></div>
-            <div class="clear padding5"></div>
+<%--            <div class="clear padding5"></div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="cuadro-subtitulo">
@@ -293,7 +297,7 @@
                             </asp:UpdatePanel>
                     </div>
                 </div>
-            </div>
+            </div>--%>
 
             <div class="clear padding5"></div>
             
@@ -330,7 +334,7 @@
                         <div class="col-md-12">
                             <div class="cuadro-subtitulo">
 
-                                <table style="width:50%">
+                                <table style="width:60%">
                                     <tr>
                                         <td><asp:label runat="server" class="etiqueta-control">Estatus Firma Electrónica:</asp:label></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Todas" Text="Todas" CssClass="etiqueta-control" OnCheckedChanged="chk_Todas_CheckedChanged" AutoPostBack="true" /></td>
@@ -338,6 +342,7 @@
                                         <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Autorizada"  Text="Firmada por" CssClass="etiqueta-control" OnCheckedChanged="chk_Autorizada_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Rechazadas" Text="Rechazadas" CssClass="etiqueta-control" OnCheckedChanged="chk_Rechazadas_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_FinalAut" Text="Autorizadas" CssClass="etiqueta-control" OnCheckedChanged="chk_FinalAut_CheckedChanged" AutoPostBack="true" /></td>
                                     </tr>
                                 </table>
                                 
@@ -746,6 +751,7 @@
                                                                                 <asp:ListItem Value="10">No autorizada en tiempo (vencida)</asp:ListItem>
                                                                                <asp:ListItem Value="11">Otros (especificar)</asp:ListItem>
                                                                            </asp:DropDownList>
+                                                                         <%--   <asp:TextBox runat="server" ID="txtOtros" Visible="true"></asp:TextBox>--%>
                                                                          </div>
                                                                     </div>
                                                                 </div>
