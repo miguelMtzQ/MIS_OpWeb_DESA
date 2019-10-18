@@ -40,6 +40,9 @@ Public Class Cons
 
     Public Const SectorReaseguro = 32
 
+    Public Const StrosTradicional = 1
+    Public Const StrosFondos = 3
+
     Public Const SubModMesaControl As Integer = 11
     Public Const SubModTableroControl As Integer = 12
     Public Const SubModMemoriaCalculo As Integer = 13
@@ -63,6 +66,7 @@ Public Class Cons
         Pendientes = 2
         Firmadas = 3
         Rechazadas = 4
+        Autorizadas = 5
     End Enum
 
 

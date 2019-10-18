@@ -28,17 +28,17 @@
                     <div class="row">
                         <div class="col-md-6">
                             <asp:label runat="server" class="col-md-1 etiqueta-control" Width="20%">Orden Pago</asp:label>
-                            <asp:TextBox runat="server" ID="txt_NroOP" CssClass="col-md-1 estandar-control" PlaceHolder="Ejemplo: 84162,102201" Width="30%"></asp:TextBox>
-                             <asp:label runat="server" class="col-md-1 etiqueta-control" Width="14%">Módulo</asp:label>
-                            <asp:DropDownList runat="server" ID="cmbModuloOP" CssClass="col-md-1 estandar-control" Width="36%">
+                            <asp:TextBox runat="server" ID="txt_NroOP" CssClass="col-md-1 estandar-control" PlaceHolder="Ejemplo: 84162,102201" Width="80%"></asp:TextBox>
+                             <%--<asp:label runat="server" class="col-md-1 etiqueta-control" Width="14%">Módulo</asp:label>--%>
+                            <asp:DropDownList runat="server" ID="cmbModuloOP" CssClass="col-md-1 estandar-control" Width="36%" Visible="false">
                                 <asp:ListItem Text="Seleccione módulo" Value="0"></asp:ListItem>
-                                <asp:ListItem Text="Ordenes de pago de siniestros" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="OP Tradicional" Value="1"></asp:ListItem>
                                 <%--<asp:ListItem Text="Autorizaciones varias" Value="2"></asp:ListItem>--%>
-                                <asp:ListItem Text="Circuito de ordenes de pago" Value="3"></asp:ListItem>
+                                <asp:ListItem Text="OP Fondos" Value="3"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-6">
-                            <asp:label runat="server" class="col-md-1 etiqueta-control" Width="25%">Asegurado</asp:label>
+                            <asp:label runat="server" class="col-md-1 etiqueta-control" Width="25%">Beneficiario</asp:label>
                             <asp:HiddenField runat="server" ID="hidClaveAse" Value="" />
                             <asp:textbox runat="server" ID="txtAsegurado" CssClass="estandar-control" Width="75%" ></asp:textbox>
                         </div>
@@ -133,7 +133,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+<%--                <div class="col-md-6">
                     <div class="cuadro-subtitulo">
                         <input type="image" src="../Images/contraer_mini.png" id="coVentana3" class="contraer"  />
                         <input type="image" src="../Images/expander_mini.png"   id="exVentana3" class="expandir"  />
@@ -182,10 +182,14 @@
                            </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>
+                </div>--%>
+                <div class="col-md-6">
+                            <asp:label runat="server" class="col-md-1 etiqueta-control" Width="25%">Siniestro</asp:label>
+                            <asp:textbox runat="server" ID="txtSiniestro" CssClass="estandar-control" Width="75%" ></asp:textbox>
                 </div>
             </div>
             <div class="clear padding5"></div>
-            <div class="clear padding5"></div>
+<%--            <div class="clear padding5"></div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="cuadro-subtitulo">
@@ -293,7 +297,7 @@
                             </asp:UpdatePanel>
                     </div>
                 </div>
-            </div>
+            </div>--%>
 
             <div class="clear padding5"></div>
             
@@ -330,7 +334,7 @@
                         <div class="col-md-12">
                             <div class="cuadro-subtitulo">
 
-                                <table style="width:50%">
+                                <table style="width:60%">
                                     <tr>
                                         <td><asp:label runat="server" class="etiqueta-control">Estatus Firma Electrónica:</asp:label></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Todas" Text="Todas" CssClass="etiqueta-control" OnCheckedChanged="chk_Todas_CheckedChanged" AutoPostBack="true" /></td>
@@ -338,6 +342,7 @@
                                         <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Autorizada"  Text="Firmada por" CssClass="etiqueta-control" OnCheckedChanged="chk_Autorizada_CheckedChanged" AutoPostBack="true" /></td>
                                         <td><asp:RadioButton runat="server" ID="chk_Rechazadas" Text="Rechazadas" CssClass="etiqueta-control" OnCheckedChanged="chk_Rechazadas_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_FinalAut" Text="Autorizadas" CssClass="etiqueta-control" OnCheckedChanged="chk_FinalAut_CheckedChanged" AutoPostBack="true" /></td>
                                     </tr>
                                 </table>
                                 
@@ -409,7 +414,7 @@
                         <tr>
                             <td style="width:4%;"></td>
                             <td style="width:6%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NRO</td>
-                            <%--<td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">NOMBRE / RAZÓN SOCIAL</td>--%>
+                            <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid"></td>
                             <td style="width:35%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">PAGAR A</td>
                             <td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MONTO</td>
                             <%--<td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MOTIVO RECH</td>--%>
@@ -420,7 +425,7 @@
                      <asp:Panel runat="server" id="pnlOrdenP" width="100%">
                          <asp:GridView runat="server" ID="grdOrdenPago" Width="100%" AutoGenerateColumns="false"  ShowHeader="false"
                              CssClass="grid-view" HeaderStyle-CssClass="header" AlternatingRowStyle-CssClass="altern"
-                             GridLines="None"  ShowHeaderWhenEmpty="true" PageSize="15"
+                             GridLines="None"  ShowHeaderWhenEmpty="true"  AllowPaging="true" PageSize="20"
                              DataKeyNames="nro_op,	FechaGeneracion,	FechaBaja,	NumeroRecibo,	NombreSucursal,	NombreSucursalPago,	CodigoAbona,	NombreModifica,	NombreUsuario,
                                            txt_cheque_a_nom,	FechaEstimadaPago,	imp_total,	Observaciones,	NombreAbona,	Direccion,	Calle,	NumeroExterior,	NumeroInterior,
                                            Colonia,	CodigoPostal,	Municipio,	Ciudad,	Departamento,	Sector,	Transferencia,	CodigoBanco,	NombreBanco,	Swift,	Aba,	NumeroCuenta,
@@ -454,7 +459,7 @@
                                                     <tr>
                                                         <td style="width:2%;"><asp:CheckBox runat="server"  ID="chkImpresion" Checked='false'/></td>
                                                         <td style="width:6%;"><asp:Label runat="server" ID="lblOrdenPago" Text='<%# Eval("nro_op")%>'  Width="100%"></asp:Label></td>
-                                                        <%--<td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# Eval("contratante") %>' Width="100%" ></asp:Label></td>--%>
+                                                        <td style="width:35%;"><asp:Label runat="server" ID="txtAsegurado" Text='<%# String.Format("RECHAZADA:  {0}", Eval("motivo_rechazo")) %>' Width="100%" ForeColor="Orange" Visible='<%# Eval("Rechazada") = 1 %>' ></asp:Label></td>
                                                         <td style="width:35%;"><asp:Label runat="server" ID="lblMoneda" Text='<%# Eval("txt_cheque_a_nom") %>' CssClass="Derecha" Width="100%"  ></asp:Label></td>
                                                         <td style="width:11%;"> <asp:Label runat="server" ID="lblMonto" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%" CssClass="Monto"></asp:Label></td>
                                                         <%--<td style="width:11%;"> <asp:Label runat="server" ID="Label1" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%"></asp:Label></td>--%>
@@ -725,7 +730,7 @@
                                                             <div style="width:100%;border-bottom:inset;border-width:1px;text-align:left;padding-left:30px;">
                                                                    <div class="row">
                                                                        <div class="col-md-2">
-                                                                            <asp:CheckBox runat="server" ID="chk_Rechazo" Checked='<%# Eval("Rechazada") %>' OnCheckedChanged="chk_Rechazo_CheckedChanged" AutoPostBack="true"/>
+                                                                            <asp:CheckBox runat="server" ID="chk_Rechazo" Checked='<%# Eval("Rechazada") %>' Enabled='<%# Eval("Rechazada") = 0 %>' OnCheckedChanged="chk_Rechazo_CheckedChanged" AutoPostBack="true"/>
                                                                             <asp:Label runat="server" Text="RECHAZAR" Font-Bold="true"></asp:Label>
                                                                        </div>
                                                                         <div class="col-md-4">
@@ -746,6 +751,7 @@
                                                                                 <asp:ListItem Value="10">No autorizada en tiempo (vencida)</asp:ListItem>
                                                                                <asp:ListItem Value="11">Otros (especificar)</asp:ListItem>
                                                                            </asp:DropDownList>
+                                                                         <%--   <asp:TextBox runat="server" ID="txtOtros" Visible="true"></asp:TextBox>--%>
                                                                          </div>
                                                                     </div>
                                                                 </div>
@@ -919,7 +925,7 @@
                                 </span>
                             </asp:LinkButton>--%>
 
-                            <asp:LinkButton id="btn_Firmar" runat="server" class="btn botones Autorizacion">
+                            <asp:LinkButton id="btn_Firmar" runat="server" class="btn botones">
                                 <span>
                                     <img class="btn-aceptar"/>
                                     Aceptar
