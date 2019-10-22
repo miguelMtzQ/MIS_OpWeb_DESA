@@ -356,7 +356,7 @@
                                          <td style="width:14.28%;"><asp:CheckBox runat="server" ID="chk_Director"  Enabled="false"   Text="Director" CssClass="etiqueta-control" /> </td>
                                          <td style="width:14.28%;"><asp:CheckBox runat="server" ID="chk_DirectorGral"  Enabled="false"    Text="Director Gral." CssClass="etiqueta-control" /> </td>
                                          <td style="width:14.28%;"><asp:CheckBox runat="server" ID="chk_Tesoreria"  Enabled="false"  Text="Tesoreria" CssClass="etiqueta-control" /> </td>--%>
-                                        <asp:DropDownList runat="server" ID="ddlRolFilter" CssClass="col-md-1 estandar-control" Width="36%">
+                                        <asp:DropDownList runat="server" ID="ddlRolFilter" CssClass="col-md-1 estandar-control" Width="36%" Visible="false">
                                             <asp:ListItem Text="Seleccione Rol" Value="0"></asp:ListItem>
                                             <asp:ListItem Text="Solicitante" Value="1"></asp:ListItem>
                                             <asp:ListItem Text="Jefe Directo" Value="2"></asp:ListItem>
@@ -433,7 +433,7 @@
                                            ClasePago, Solicitante, Jefe, Tesoreria, Subdirector, Director, DirectorGeneral, Subgerente, NombreSolicitante,	NombreJefe, NombreTesoreria, 
                                            NombreSubdirector, NombreDirector, NombreDirectorGeneral, NombreSubgerente,	FirmaSolicitante, FirmaJefe, FirmaTesoreria, FirmaSubdirector, FirmaDirector,			
                                            FirmaDirectorGeneral, FirmaSubgerente, FirmadoSolicitante, FirmadoJefe, FirmadoTesoreria, FirmadoSubdirector, FirmadoDirector, FirmadoDirectorGeneral,FirmadoSubgerente,	FechaFirmaSolicitante,
-                                           FechaFirmaJefe, FechaFirmaTesoreria ,FechaFirmaSubdirector ,FechaFirmaDirector ,FechaFirmaDirectorGeneral,FechaFirmaSubgerente, NivelAutorizacion, Preautorizada">
+                                           FechaFirmaJefe, FechaFirmaTesoreria ,FechaFirmaSubdirector ,FechaFirmaDirector ,FechaFirmaDirectorGeneral,FechaFirmaSubgerente, NivelAutorizacion, Preautorizada,Rechazada">
 
                              <Columns>
                                  <%--Usado para mostrar u ocultar la orden de pago--%>
@@ -806,7 +806,7 @@
                                                                     <asp:Image runat="server" ID="Image1" ImageUrl='<%# "data:image/png;base64," + Convert.ToBase64String(Eval("FirmaSolicitante"))  %>' Visible="true" CssClass="img-firma" />
                                                                     <%--<asp:Label runat="server" ID="lbl_Fechajefe" Text='<%# Eval("fec_firma_jefe") %>' Width="100%" Font-Bold="true" CssClass="Centro" ForeColor="#003A5D"></asp:Label>--%>
                                                                     <div style="width: 100%; border-style: inset; border-width: 1px;"></div>
-                                                                    <asp:LinkButton runat="server" ID="LinkButton2" Text='<%# Eval("NombreSolicitante") %>' Width="100%" OnClick="lnk_SelJefe_Click"></asp:LinkButton>
+                                                                    <asp:LinkButton runat="server" ID="lnk_SelSolicitante" Text='<%# Eval("NombreSolicitante") %>' Width="100%" OnClick="lnk_SelJefe_Click"></asp:LinkButton>
                                                                     <asp:Label runat="server" Text="SOLICITANTE" Font-Bold="true"></asp:Label>
                                                                     <asp:Label runat="server" ID="lblPendienteFirmaSolicitante" Text="¡Pendiente de Firma!" ForeColor="Red" Font-Bold="true" Visible='<%# Not CBool(Eval("FirmadoSolicitante"))  %>'></asp:Label>
                                                                     <asp:HiddenField runat="server" ID="hidSolicitante" Value='<%# Eval("Solicitante") %>' ></asp:HiddenField>
