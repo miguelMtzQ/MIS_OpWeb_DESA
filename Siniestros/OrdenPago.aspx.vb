@@ -613,15 +613,16 @@ Partial Class Siniestros_OrdenPago
                                             lbldescuento.Text = ""
                                         End If
 
-                                        If .Item("Moneda_poliza") = 0 Then
-                                            If .Item("cod_moneda") = 1 Then
-                                                Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la poliza esta en pesos: ", TipoMsg.Falla)
-                                                Limpiartodo()
+                                            If .Item("Moneda_poliza") = 0 Then
+                                                'If .Item("cod_moneda") = 1 Then se agrega por el tema de los 4 campos mas
+                                                If .Item("Moneda_Hara_Pago") = 1 Then
+                                                    Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la poliza esta en pesos: ", TipoMsg.Falla)
+                                                    Limpiartodo()
+                                                Else
+                                                    cmbMonedaPago.SelectedValue = 0
+                                                End If
                                             Else
-                                                cmbMonedaPago.SelectedValue = 0
-                                            End If
-                                        Else
-                                            cmbMonedaPago.SelectedValue = 1
+                                                cmbMonedaPago.SelectedValue = 1
                                         End If
                                         'se limpian las cajas de impuestos 
 
@@ -635,22 +636,25 @@ Partial Class Siniestros_OrdenPago
                                         iptxtTotalImpuestos.Text = 00.00
                                         iptxtTotalRetenciones.Text = 00.00
                                         iptxtTotal.Text = 00.00
-                                        iptxtTotalNacional.Text = 00.00
-
-                                        'moneda nacional.
-                                        If .Item("cod_moneda") = 0 And Not Me.txtMonedaPoliza.Text = "NACIONAL" Then
-                                            'Mensaje.MuestraMensaje("Calculo de totales", "Factura capturada en pesos, se utilizará tipo de cambio nacional.", TipoMsg.Advertencia)
-                                            'Me.txtTipoCambio.Text = "1.00"
-                                            Me.cmbMonedaPago.SelectedValue = 0
-                                        End If
-                                        If .Item("sn_transferencia") = -1 Then
-                                            Me.cmbTipoPagoOP.SelectedValue = "T"
-                                        Else
-                                            If .Item("sn_transferencia") = 0 Then
-                                                Me.cmbTipoPagoOP.SelectedValue = "C"
+                                            iptxtTotalNacional.Text = 00.00
+                                            'moneda nacional.
+                                            If .Item("cod_moneda") = 0 And Not Me.txtMonedaPoliza.Text = "NACIONAL" Then
+                                                'Mensaje.MuestraMensaje("Calculo de totales", "Factura capturada en pesos, se utilizará tipo de cambio nacional.", TipoMsg.Advertencia)
+                                                'Me.txtTipoCambio.Text = "1.00"
+                                                Me.cmbMonedaPago.SelectedValue = 0
                                             End If
-                                        End If
-                                    Else
+                                            'Se agrega por el tema de 4 campos mas
+                                            If .Item("sn_transferencia") <> .Item("Forma_Hara_Pago") Then
+                                                Mensaje.MuestraMensaje("Moneda", "No coincide la forma del pago MIS vs SIIGMX (OP WEB) ", TipoMsg.Falla)
+                                            End If
+                                            If .Item("sn_transferencia") = -1 Then
+                                                Me.cmbTipoPagoOP.SelectedValue = "T"
+                                            Else
+                                                If .Item("sn_transferencia") = 0 Then
+                                                    Me.cmbTipoPagoOP.SelectedValue = "C"
+                                                End If
+                                            End If
+                                        Else
                                         Mensaje.MuestraMensaje("Fecha Comprobante menor al año fiscal: ", "Fecha del comprobante Fiscal: " + oDatos.Tables(0).Rows(0).Item("fecha_emision_gmx").ToString(), TipoMsg.Falla)
                                         Limpiartodo()
                                     End If
@@ -766,7 +770,14 @@ Partial Class Siniestros_OrdenPago
                                             Me.txtCodigoBeneficiario_stro.Text = String.Empty
                                             Me.txtBeneficiario.Text = String.Empty
                                         End If
-
+                                        'se agrego por el tema de los 4 campos mas 
+                                        If .Item("Forma_Hara_Pago") = -1 Then
+                                            Me.cmbTipoPagoOP.SelectedValue = "T"
+                                        Else
+                                            If .Item("Forma_Hara_Pago") = 0 Then
+                                                Me.cmbTipoPagoOP.SelectedValue = "C"
+                                            End If
+                                        End If
                                     End With
 
                                     oClavesPago = IIf(oDatos.Tables(1) Is Nothing OrElse oDatos.Tables(1).Rows.Count = 0, Nothing, oDatos.Tables(1))
@@ -848,6 +859,14 @@ Partial Class Siniestros_OrdenPago
                                         Me.txtBeneficiario_stro.Text = String.Empty
                                         Me.txtCodigoBeneficiario_stro.Text = String.Empty
                                         Me.txtBeneficiario.Text = String.Empty
+                                    End If
+                                    'se agrego por el tema de los 4 campos mas 
+                                    If .Item("Forma_Hara_Pago") = -1 Then
+                                        Me.cmbTipoPagoOP.SelectedValue = "T"
+                                    Else
+                                        If .Item("Forma_Hara_Pago") = 0 Then
+                                            Me.cmbTipoPagoOP.SelectedValue = "C"
+                                        End If
                                     End If
 
                                 End With
