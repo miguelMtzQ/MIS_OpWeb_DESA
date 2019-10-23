@@ -825,6 +825,18 @@ Partial Class Siniestros_OrdenPago
 
                                 'Onbase.Style("display") = "none" 'FFUENTES none
                                 pnlProveedor.Style("display") = "none"
+                            Else
+                                'ESTO SE AGREGA PARA VER QUIEN TIENE RELACIONADO EL FOLIO ONBASE DE ASEGURADOS O TERCEROS
+                                If (oDatos.Tables(4).Rows(0).Item("sn_relacionado") = "-1") Then
+                                    Mensaje.MuestraMensaje("Folio OnBase Relacionado", "Fecha Relacionado: " + oDatos.Tables(4).Rows(0).Item("fecha_relacion").ToString() + " Usuario relacion: " + oDatos.Tables(4).Rows(0).Item("cod_usuario_relacion").ToString() + " Fecha de Comprobante: " + oDatos.Tables(4).Rows(0).Item("fecha_emision_gmx").ToString(), TipoMsg.Falla)
+                                    Limpiartodo()
+                                    ''ESTO LO COMENTE
+                                    'Else
+                                    '    Mensaje.MuestraMensaje("Folio Onbase con datos erroneos:", "Folio Onbase: " + oDatos.Tables(4).Rows(0).Item("num_folio").ToString() + " Numero Siniestro: " + oDatos.Tables(4).Rows(0).Item("num_siniestro").ToString() + " RFC Proveedor: " + oDatos.Tables(4).Rows(0).Item("RFC_proveedor").ToString(), TipoMsg.Falla)
+
+                                    '    Limpiartodo()
+                                    '    EliminarFila(1)
+                                End If
                             End If
                     End Select
 
