@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            ' Master.cod_usuario = "GSANCHEZL"
+            ' Master.cod_usuario = "CLOPEZ"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -1553,6 +1553,10 @@ Partial Class Siniestros_FirmasElectronicas
             Else
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaSolicitante"), Label).Visible = False
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_Rechazo"), CheckBox).Checked = False
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
             End If
 
 
@@ -1600,6 +1604,10 @@ Partial Class Siniestros_FirmasElectronicas
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaJefe"), Label).Visible = False
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_Rechazo"), CheckBox).Checked = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 End If
 
             End If
@@ -1644,6 +1652,10 @@ Partial Class Siniestros_FirmasElectronicas
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaSubgerente"), Label).Visible = False
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_Rechazo"), CheckBox).Checked = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 End If
 
             End If
@@ -1699,6 +1711,10 @@ Partial Class Siniestros_FirmasElectronicas
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaSubdirector"), Label).Visible = False
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_Rechazo"), CheckBox).Checked = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 End If
 
             End If
@@ -1755,6 +1771,10 @@ Partial Class Siniestros_FirmasElectronicas
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaDirector"), Label).Visible = False
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_Rechazo"), CheckBox).Checked = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 End If
 
             End If
@@ -1799,6 +1819,10 @@ Partial Class Siniestros_FirmasElectronicas
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaDirectorGeneral"), Label).Visible = False
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_Rechazo"), CheckBox).Checked = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 End If
 
             End If
@@ -1889,6 +1913,10 @@ Partial Class Siniestros_FirmasElectronicas
                 Else
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lblPendienteFirmaTesoreria"), Label).Visible = False
                     TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox).Checked = True
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chk_Rechazo"), CheckBox).Checked = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                    TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 End If
 
             End If
@@ -1915,17 +1943,37 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim gr As GridViewRow = DirectCast(DirectCast(DirectCast(sender, CheckBox).Parent.Parent, DataControlFieldCell).Parent, GridViewRow)
             Dim chkImp As CheckBox = TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkImpresion"), CheckBox)
+
+            Dim chkSol = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaSolicitante"), CheckBox)
+            Dim chkJefe = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaJefe"), CheckBox)
+            Dim chkSubDir = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaSubdirector"), CheckBox)
+            Dim chkDir = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaDirector"), CheckBox)
+            Dim chk_FirmaDirGral = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaDirectorGeneral"), CheckBox)
+            Dim chk_Teso = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaTesoreria"), CheckBox)
+            Dim chkSubGnt = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("chkFirmaSubgerente"), CheckBox)
+
             If sender.checked = True Then
 
                 If chkImp.Enabled = True Then chkImp.Checked = True
+
+                'O rechaza o firma, no puede hacer las 2 cosas.
+
+                If chkSol.Checked = True And chkSol.Enabled = True Then chkSol.Checked = False
+                If chkJefe.Checked = True And chkJefe.Enabled = True Then chkJefe.Checked = False
+                If chkSubGnt.Checked = True And chkSubGnt.Enabled = True Then chkSubGnt.Checked = False
+                If chkSubDir.Checked = True And chkSubDir.Enabled = True Then chkSubDir.Checked = False
+                If chkDir.Checked = True And chkDir.Enabled = True Then chkDir.Checked = False
+                If chk_FirmaDirGral.Checked = True And chk_FirmaDirGral.Enabled = True Then chk_FirmaDirGral.Checked = False
+                If chk_Teso.Checked = True And chk_Teso.Enabled = True Then chk_Teso.Checked = False
+
 
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = True
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = True
             Else
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
-                chkImp.Checked = False
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
+                chkImp.Checked = False
             End If
 
         Catch ex As Exception
