@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            ' Master.cod_usuario = "CLOPEZ"
+            Master.cod_usuario = "ALOZADA"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -457,6 +457,8 @@ Partial Class Siniestros_FirmasElectronicas
                 txtSiniestro.Enabled = True
                 gvd_Usuario.Enabled = True
                 btn_AddUsuario.Visible = True
+                gvd_Usuario.DataSource = Nothing
+                gvd_Usuario.DataBind()
                 'gvd_Estatus.Enabled = True
                 'btn_AddEstatus.Visible = True
 
@@ -518,6 +520,7 @@ Partial Class Siniestros_FirmasElectronicas
                 btn_Firmar.Visible = False
                 btn_BuscaOP.Visible = True
                 'btn_Rechazar.Visible = False
+                'btn_Limpiar_Click(Nothing, )
 
                 hid_Ventanas.Value = "0|1|1|1|1|1|1|1|"
 
@@ -978,7 +981,6 @@ Partial Class Siniestros_FirmasElectronicas
 
                                     fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosTradicional & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                     Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron las firmas correspondientes", Mensaje.TipoMsg.Confirma)
-
                                 End If
                             End If
                         End If
@@ -1015,7 +1017,7 @@ Partial Class Siniestros_FirmasElectronicas
                                 UsuarioFirma = row("Jefe")
                                 fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
 
-                    ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
                                 UsuarioFirma = row("Solicitante")
                                 fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
                             End If
@@ -1113,16 +1115,21 @@ Partial Class Siniestros_FirmasElectronicas
                     Mensaje.MuestraMensaje("Autorizaciones", "Se realizaron las acciones correctamente", Mensaje.TipoMsg.Confirma)
 
                 End If
+
+                btn_Limpiar_Click(Nothing, Nothing)
+
             End If
         End If
         fn_Autorizaciones = True
 
         If sn_proceso = False Then
-            txtToken.Text = ""
-            fn_Token()
+            If gvd_Canceladas.Rows.Count > 0 Or gvd_Autorizadas.Rows.Count > 0 Then
+                txtToken.Text = ""
+                fn_Token()
+            End If
             Funciones.AbrirModal("#Resumen")
-        Else
-            txtToken.Text = ""
+            Else
+                txtToken.Text = ""
             Mensaje.MuestraMensaje("Proceso Autorizacion Electrónica", "Se realizaron las acciones correctamente", TipoMsg.Confirma)
             Funciones.CerrarModal("#Resumen")
         End If
@@ -2280,8 +2287,9 @@ Partial Class Siniestros_FirmasElectronicas
                 lnk_SelDir.ForeColor = Drawing.Color.Gray
                 lnk_SelDirGral.Enabled = False
                 lnk_SelDirGral.ForeColor = Drawing.Color.Gray
-                lnk_SelTeso.Enabled = False
-                lnk_SelTeso.ForeColor = Drawing.Color.Gray
+                'lnk_SelSubGnt.Enabled = False
+                'lnk_SelSubGnt.ForeColor = Drawing.Color.Gray
+
                 'Else
                 'lnk_SelMotivo.Visible = False
             End If
