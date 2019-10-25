@@ -110,7 +110,7 @@ $("body").on("click", "[id*=grdOrdenPago] .Ocultar", function () {
 
 $("body").on("click", ".AgregaUsuario", function () {
     var strSel = fn_ElementosSeleccionados($("[id*=gvd_Usuario]"), $('[id*=lbl_ClaveUsu]'), $('[id*=chk_SelUsu]'), true);
-    fn_CargaCatalogo("Usu", "", strSel, "Multiple", "gvd_Usuario", "USUARIOS");
+    fn_CargaCatalogo("UsuStro", "", strSel, "Multiple", "gvd_Usuario", "USUARIOS");
 });
 
 $("body").on("click", ".AgregaEstatus", function () {
