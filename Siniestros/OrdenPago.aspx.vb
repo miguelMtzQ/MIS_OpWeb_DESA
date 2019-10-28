@@ -617,7 +617,7 @@ Partial Class Siniestros_OrdenPago
                                                 'If .Item("cod_moneda") = 1 Then se agrega por el tema de los 4 campos mas
                                                 If .Item("Moneda_Hara_Pago") = 1 Then
                                                     Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la poliza esta en pesos: ", TipoMsg.Falla)
-                                                    Limpiartodo()
+                                                    ' Limpiartodo()'se comenta por que solo se requiere una alerta
                                                 Else
                                                     cmbMonedaPago.SelectedValue = 0
                                                 End If
