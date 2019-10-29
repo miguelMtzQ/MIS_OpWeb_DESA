@@ -756,6 +756,7 @@ Partial Class Siniestros_OrdenPago
                                 'valida los datos de numero de siniestro
                                 oParametros.Clear()
                                 oParametros.Add("Numero_Siniestro", Me.txtSiniestro.Text.Trim)
+                                oParametros.Add("FolioOnbase", Me.txtOnBase.Text.Trim)
 
                                 oDatos = Funciones.ObtenerDatos("sp_op_stro_consulta_numero_siniestro", oParametros)
 
