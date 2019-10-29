@@ -613,20 +613,31 @@ Partial Class Siniestros_OrdenPago
                                             lbldescuento.Text = ""
                                         End If
 
-                                            If .Item("Moneda_poliza") = 0 Then
+                                            If .Item("cod_moneda") = 0 Then
                                                 'If .Item("cod_moneda") = 1 Then se agrega por el tema de los 4 campos mas
                                                 If .Item("Moneda_Hara_Pago") = 1 Then
-                                                    Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la poliza esta en pesos: ", TipoMsg.Falla)
-                                                    Limpiartodo()
+                                                    Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la factura esta en pesos: ", TipoMsg.Falla)
+                                                    ' Limpiartodo()'se comenta por que solo se requiere una alerta
                                                 Else
                                                     cmbMonedaPago.SelectedValue = 0
                                                 End If
                                             Else
                                                 cmbMonedaPago.SelectedValue = 1
-                                        End If
-                                        'se limpian las cajas de impuestos 
+                                            End If
+                                            If .Item("Moneda_Hara_Pago") = 0 Then
+                                                'If .Item("cod_moneda") = 1 Then se agrega por el tema de los 4 campos mas
+                                                If .Item("cod_moneda") = 1 Then
+                                                    Mensaje.MuestraMensaje("Moneda", "No puedes pagar en pesos por que la moneda de la factura esta en dolares: ", TipoMsg.Falla)
+                                                    ' Limpiartodo()'se comenta por que solo se requiere una alerta
+                                                Else
+                                                    cmbMonedaPago.SelectedValue = 0
+                                                End If
+                                            Else
+                                                cmbMonedaPago.SelectedValue = 1
+                                            End If
+                                            'se limpian las cajas de impuestos 
 
-                                        txtTotalAutorizacion.Text = 00.00
+                                            txtTotalAutorizacion.Text = 00.00
                                         txtTotalImpuestos.Text = 00.00
                                         txtTotalRetenciones.Text = 00.00
                                         txtTotal.Text = 00.00
@@ -771,6 +782,18 @@ Partial Class Siniestros_OrdenPago
                                             Me.txtBeneficiario.Text = String.Empty
                                         End If
                                         'se agrego por el tema de los 4 campos mas 
+                                        If .Item("Moneda_poliza") = 0 Then
+                                            'If .Item("cod_moneda") = 1 Then se agrega por el tema de los 4 campos mas
+                                            If .Item("Moneda_Hara_Pago") = 1 Then
+                                                Mensaje.MuestraMensaje("Moneda", "No puedes pagar en dolares por que la moneda de la Poliza esta en pesos: ", TipoMsg.Falla)
+                                                ' Limpiartodo()'se comenta por que solo se requiere una alerta
+                                            Else
+                                                cmbMonedaPago.SelectedValue = 0
+                                            End If
+                                        Else
+                                            cmbMonedaPago.SelectedValue = 1
+                                        End If
+
                                         If .Item("Forma_Hara_Pago") = -1 Then
                                             Me.cmbTipoPagoOP.SelectedValue = "T"
                                         Else

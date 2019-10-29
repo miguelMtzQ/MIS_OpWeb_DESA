@@ -1200,7 +1200,8 @@ Partial Class Siniestros_OrdenPago
 
                         'oFila("IdSiniestro") = oFilaSeleccion(0).Item("id_stro")'se comenta por tema de fondos 
                         oFila("IdSiniestro") = 1
-                        oFila("IdPersona") = oFilaSeleccion(0).Item("id_persona")
+                        'oFila("IdPersona") = oFilaSeleccion(0).Item("id_persona") 'se comenta por el tema de fondos
+                        oFila("IdPersona") = txtCodigoBeneficiario_stro.Text 'se comenta por el tema de fondos
 
                         'If Me.txtMonedaPoliza.Text = "NACIONAL" Then'se comenta por tema de fondos 
                         '    Me.cmbMonedaPago.SelectedValue = 0
