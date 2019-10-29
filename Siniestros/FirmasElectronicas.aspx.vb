@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            Master.cod_usuario = "ALOZADA"
+            'Master.cod_usuario = "CLOPEZ"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -2955,6 +2955,9 @@ Partial Class Siniestros_FirmasElectronicas
 
     Protected Sub chk_FinalAut_CheckedChanged(sender As Object, e As EventArgs)
         VerificaRadios(Cons.TipoFiltro.Autorizadas)
+
     End Sub
+
+
 
 End Class

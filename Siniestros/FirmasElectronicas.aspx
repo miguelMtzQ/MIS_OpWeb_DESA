@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Pages/SiteMaster.master" AutoEventWireup="false" CodeFile="FirmasElectronicas.aspx.vb" Inherits="Siniestros_FirmasElectronicas" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Pages/SiteMaster.master" AutoEventWireup="true" CodeFile="FirmasElectronicas.aspx.vb" Inherits="Siniestros_FirmasElectronicas" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 <%@ MasterType VirtualPath="~/Pages/SiteMaster.master" %>
@@ -734,24 +734,22 @@
                                                                             <asp:Label runat="server" Text="RECHAZAR" Font-Bold="true"></asp:Label>
                                                                        </div>
                                                                         <div class="col-md-4">
-             <%--                                                              <asp:LinkButton runat="server" ID="lnk_SelMotivo" Text="MOTIVO DE RECHAZO"  Width="100%"  OnClick="lnk_SelMotivo_Click"></asp:LinkButton>
-                                                                           <asp:TextBox runat="server" ID="txt_Motivo" TextMode="MultiLine" CssClass="NoDisplay" Text='<%# Eval("motivo_rechazo") %>'></asp:TextBox>--%>
                                                                            <asp:label runat="server" ID="lnk_SelMotivo" Text="MOTIVO DE RECHAZO" visible="false"  Width="50%"></asp:label>
-                                                                           <asp:DropDownList runat="server" ID="txt_Motivo" Visible="false" width="80%">
-                                                                               <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
-                                                                              <asp:ListItem Value="1">Importe incorrecto</asp:ListItem>
-                                                                                <asp:ListItem Value="2">Error en la cuenta bancaria</asp:ListItem>
-                                                                               <asp:ListItem Value="3">Error en el concepto de pago</asp:ListItem>
-                                                                               <asp:ListItem Value="4">Error en la forma de pago</asp:ListItem>
-                                                                               <asp:ListItem Value="5">Error en la moneda de pago</asp:ListItem>
-                                                                               <asp:ListItem Value="6">Beneficiario incorrecto</asp:ListItem>
-                                                                               <asp:ListItem Value="7">Error en el tipo de pago</asp:ListItem>
-                                                                               <asp:ListItem Value="8">Error en el número del Siniestro o Subsiniestro</asp:ListItem>
-                                                                               <asp:ListItem Value="9">Siniestro improcedente de pago</asp:ListItem>
-                                                                                <asp:ListItem Value="10">No autorizada en tiempo (vencida)</asp:ListItem>
-                                                                               <asp:ListItem Value="11">Otros (especificar)</asp:ListItem>
-                                                                           </asp:DropDownList>
-                                                                         <%--   <asp:TextBox runat="server" ID="txtOtros" Visible="true"></asp:TextBox>--%>
+                                                                            <asp:DropDownList runat="server" ID="txt_Motivo" Visible="false" width="80%" AutoPostBack="true">
+                                                                                <asp:ListItem Value="0" Text="--Seleccione--"></asp:ListItem>
+                                                                                <asp:ListItem Value="1" Text="Importe incorrecto"></asp:ListItem>
+                                                                                <asp:ListItem Value="2" Text="Error en la cuenta bancaria"></asp:ListItem>
+                                                                               <asp:ListItem Value="3" Text="Error en el concepto de pago"></asp:ListItem> 
+                                                                               <asp:ListItem Value="4" Text="Error en la forma de pago"></asp:ListItem>
+                                                                               <asp:ListItem Value="5" Text="Error en la moneda de pago"></asp:ListItem>
+                                                                               <asp:ListItem Value="6" Text="Beneficiario incorrecto"></asp:ListItem>
+                                                                               <asp:ListItem Value="7" Text="Error en el tipo de pago"></asp:ListItem>
+                                                                               <asp:ListItem Value="8" Text="Error en el número del Siniestro o Subsiniestro"></asp:ListItem>
+                                                                               <asp:ListItem Value="9" Text="Siniestro improcedente de pago"></asp:ListItem>
+                                                                                <asp:ListItem Value="10" Text="No autorizada en tiempo (vencida)"></asp:ListItem>
+                                                                               <asp:ListItem Value="11" Text="Otros (especificar)"></asp:ListItem>
+                                                                            </asp:DropDownList>
+                                                                            <asp:textbox runat="server" ID="txtOtros" CssClass="estandar-control" Width="220px" Visible="false" ></asp:textbox>
                                                                          </div>
                                                                     </div>
                                                                 </div>
