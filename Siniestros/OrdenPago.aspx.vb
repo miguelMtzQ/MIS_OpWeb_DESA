@@ -1663,8 +1663,32 @@ Partial Class Siniestros_OrdenPago
                 Next
                 'Campos para transferencia
                 If cmbTipoPagoOP.SelectedValue = "T" Then
-                    oSolicitudPago.AppendFormat("<NumeroCuentaTransferencia>{0}</NumeroCuentaTransferencia>", oCuentaBancariaT_stro.Value)
-                    oSolicitudPago.AppendFormat("<CodigoBancoTransferencia>{0}</CodigoBancoTransferencia>", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
+                    Select Case cmbTipoUsuario.SelectedValue
+                        Case eTipoUsuario.Asegurado    'Asegurado
+                            oSolicitudPago.AppendFormat("<NumeroCuentaTransferencia>{0}</NumeroCuentaTransferencia>", oCuentaBancariaT_stro.Value)
+                            oSolicitudPago.AppendFormat("<CodigoBancoTransferencia>{0}</CodigoBancoTransferencia>", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
+                        Case eTipoUsuario.Tercero   'Tercero
+                            oSolicitudPago.AppendFormat("<NumeroCuentaTransferencia>{0}</NumeroCuentaTransferencia>", oCuentaBancariaT_stro.Value)
+                            oSolicitudPago.AppendFormat("<CodigoBancoTransferencia>{0}</CodigoBancoTransferencia>", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
+                        Case eTipoUsuario.Proveedor    'Proveedor
+                            Dim oParametros As New Dictionary(Of String, Object)
+                            Dim oDatos As DataSet
+                            oDatos = New DataSet
+                            oParametros = New Dictionary(Of String, Object)
+                            oParametros.Add("Codigo", CInt(oGrdOrden.Rows(0).Item("IdPersona")))
+                            oDatos = Funciones.ObtenerDatos("usp_CargarDatosBancariosBeneficiario_stro", oParametros)
+                            If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
+                                With oDatos.Tables(0).Rows(0)
+                                    oBancoT_stro.Value = .Item("CodigoBanco")
+                                    oMonedaT_stro.Value = .Item("CodigoMoneda")
+                                    oTipoCuentaT_stro.Value = .Item("TipoCuenta")
+                                    oCuentaBancariaT_stro.Value = .Item("NumeroCuenta")
+                                    oBeneficiarioT_stro.Value = .Item("Beneficiario")
+                                End With
+                            End If
+                            oSolicitudPago.AppendFormat("<NumeroCuentaTransferencia>{0}</NumeroCuentaTransferencia>", oCuentaBancariaT_stro.Value)
+                            oSolicitudPago.AppendFormat("<CodigoBancoTransferencia>{0}</CodigoBancoTransferencia>", IIf(oBancoT_stro.Value = String.Empty, String.Empty, CInt(oBancoT_stro.Value)))
+                    End Select
                 Else
                     oSolicitudPago.AppendLine("<NumeroCuentaTransferencia></NumeroCuentaTransferencia>")
                     oSolicitudPago.AppendLine("<CodigoBancoTransferencia></CodigoBancoTransferencia>")
