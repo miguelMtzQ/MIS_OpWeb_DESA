@@ -1712,6 +1712,8 @@ Partial Class Siniestros_OrdenPago
         Dim iNumeroCorrelaPagos As Integer = 1
 
         Dim iMonedaPoliza As Integer
+        'esto se agrega para que tome la posicion del impuesto IVA ISR
+        Dim inum_impuesto As Integer = 0
 
         Try
 
@@ -1756,15 +1758,17 @@ Partial Class Siniestros_OrdenPago
                     oImpuestos.AppendFormat("<Base>{0}</Base>", IIf(iMonedaPoliza = 0, (CDbl(oFila("Pago")) - CDbl(oFila("Descuentos"))), Math.Round(CDbl(oFila("Pago") - CDbl(oFila("Descuentos"))) / CDbl(Me.txtTipoCambio.Text), 2)))
                     oImpuestos.AppendFormat("<ImporteNoGravado>{0}</ImporteNoGravado>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("ImporteNoGravado")), Math.Round(CDbl(oDetalle("ImporteNoGravado")) / CDbl(Me.txtTipoCambio.Text), 2)))
                     'oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("ImporteImpuesto")), Math.Round(CDbl(oDetalle("ImporteImpuesto")) / CDbl(Me.txtTipoCambio.Text), 2)))
-                    oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(0).Item("ImporteImpuesto")), Math.Round(CDbl(oDatos.Tables(0).Rows(0).Item("ImporteImpuesto")) / CDbl(Me.txtTipoCambio.Text), 2)))
+                    oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")), Math.Round(CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")) / CDbl(Me.txtTipoCambio.Text), 2)))
                     oImpuestos.AppendFormat("<PjeRetencion>{0}</PjeRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("PjeRetencion")), Math.Round(CDbl(oDetalle("PjeRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
                     'oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("ImporteRetencion")), Math.Round(CDbl(oDetalle("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
-                    oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(0).Item("ImporteRetencion")), Math.Round(CDbl(oDatos.Tables(0).Rows(0).Item("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
+                    oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteRetencion")), Math.Round(CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
 
                     oImpuestos.AppendFormat("<CodigoTratamiento>{0}</CodigoTratamiento>", CInt(oDetalle("CodigoTratamiento")))
                     oImpuestos.AppendFormat("<Subsiniestro>{0}</Subsiniestro>", CInt(oFila.Item("Subsiniestro")))
 
                     oImpuestos.AppendLine("</Detalle>")
+
+                    inum_impuesto = inum_impuesto + 1
 
                 Next
 
