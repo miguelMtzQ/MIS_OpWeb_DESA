@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            'Master.cod_usuario = "CLOPEZ"
+            Master.cod_usuario = "AMEZA"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -269,6 +269,8 @@ Partial Class Siniestros_FirmasElectronicas
         Dim iStatusFirma As Integer = -1
         Dim sFiltroStro As String = ""
         Dim sFiltroBenef As String = ""
+        Dim sFiltroFecDe As String = String.Empty
+        Dim sFiltroFecHasta As String = String.Empty
 
         Dim FiltroBrokerCia As String = ""
         'Dim FiltroRamoContable As String = ""
@@ -307,29 +309,39 @@ Partial Class Siniestros_FirmasElectronicas
             'sFiltroEstatus = Funciones.ObtieneElementos(gvd_Estatus, "Est", False)
 
             If IsDate(txtFechaGeneracionDesde.Text.Trim) And IsDate(txtFechaGeneracionHasta.Text.Trim) Then
-                    If CDate(txtFechaGeneracionDesde.Text.Trim) <= CDate(txtFechaGeneracionHasta.Text.Trim) Then
-                        sFiltroFechaGeneracion = String.Format(" AND CONVERT(VARCHAR(10),fec_generacion,112) >= ''{0}'' AND CONVERT(VARCHAR(10),fec_generacion,112) <= ''{1}'' ", CDate(txtFechaGeneracionDesde.Text).ToString("yyyyMMdd"), CDate(txtFechaGeneracionHasta.Text).ToString("yyyyMMdd"))
-                    End If
+                If CDate(txtFechaGeneracionDesde.Text.Trim) <= CDate(txtFechaGeneracionHasta.Text.Trim) Then
+                    sFiltroFechaGeneracion = String.Format(" AND CONVERT(VARCHAR(10),fec_generacion,112) >= ''{0}'' AND CONVERT(VARCHAR(10),fec_generacion,112) <= ''{1}'' ", CDate(txtFechaGeneracionDesde.Text).ToString("yyyyMMdd"), CDate(txtFechaGeneracionHasta.Text).ToString("yyyyMMdd"))
                 End If
+            End If
 
-                If IsDate(txtFechaPagoDesde.Text) And IsDate(txtFechaPagoHasta.Text) Then
-                    If CDate(txtFechaPagoDesde.Text) <= CDate(txtFechaPagoHasta.Text) Then
-                        sFiltroFechaPago = String.Format(" AND CONVERT(VARCHAR(10),mop.fec_pago,112) >= ''{0}'' AND CONVERT(VARCHAR(10),mop.fec_pago,112) <= ''{1}'' ", CDate(txtFechaPagoDesde.Text).ToString("yyyyMMdd"), CDate(txtFechaPagoHasta.Text).ToString("yyyyMMdd"))
-                    End If
+            If IsDate(txtFechaPagoDesde.Text) And IsDate(txtFechaPagoHasta.Text) Then
+                If CDate(txtFechaPagoDesde.Text) <= CDate(txtFechaPagoHasta.Text) Then
+                    sFiltroFechaPago = String.Format(" AND CONVERT(VARCHAR(10),mop.fec_pago,112) >= ''{0}'' AND CONVERT(VARCHAR(10),mop.fec_pago,112) <= ''{1}'' ", CDate(txtFechaPagoDesde.Text).ToString("yyyyMMdd"), CDate(txtFechaPagoHasta.Text).ToString("yyyyMMdd"))
                 End If
+            End If
 
-                If IsNumeric(txtMontoDesde.Text.Trim) Then
-                    sFiltroMonto = String.Format(" AND mop.imp_total >= {0}", txtMontoDesde.Text.Trim)
-                End If
 
-                If IsNumeric(txtMontoHasta.Text.Trim) Then
-                    sFiltroMonto = String.Format("{0} AND mop.imp_total <= {1}", sFiltroMonto, txtMontoHasta.Text.Trim)
+            If IsDate(fecFilter_De.Text) And IsDate(fecFilter_Hasta.Text) Then
+                If CDate(fecFilter_De.Text) <= CDate(fecFilter_Hasta.Text) Then
+                    sFiltroFecDe = CDate(fecFilter_De.Text).ToString("yyyy-MM-dd")
+                    sFiltroFecHasta = CDate(fecFilter_Hasta.Text).ToString("yyyy-MM-dd")
                 End If
+            End If
+
+            If IsNumeric(txtMontoDesde.Text.Trim) Then
+                sFiltroMonto = String.Format(" AND mop.imp_total >= {0}", txtMontoDesde.Text.Trim)
+            End If
+
+            If IsNumeric(txtMontoHasta.Text.Trim) Then
+                sFiltroMonto = String.Format("{0} AND mop.imp_total <= {1}", sFiltroMonto, txtMontoHasta.Text.Trim)
+            End If
 
             If chk_Todas.Checked Then
                 iStatusFirma = Cons.TipoFiltro.Todas
             ElseIf chk_PorRevisar.Checked Then
                 iStatusFirma = Cons.TipoFiltro.PorRevisar
+            ElseIf chk_Revisadas.Checked Then
+                iStatusFirma = Cons.TipoFiltro.Revisadas
             ElseIf chk_Pendiente.Checked Then
                 iStatusFirma = Cons.TipoFiltro.Pendientes
             ElseIf chk_Autorizada.Checked Then
@@ -351,7 +363,7 @@ Partial Class Siniestros_FirmasElectronicas
                 ValorRol = ddlRolFilter.SelectedValue
 
             'Cambiar SP por original (usp_ObtenerOrdenPago_stro)
-            fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}'",
+            fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}'",
                                               Cons.StrosTradicional,
                                               sFiltroOP,
                                               sFiltroMonto,
@@ -363,7 +375,9 @@ Partial Class Siniestros_FirmasElectronicas
                                               ValorRol,
                                                valorMoneda,
                                                 sFiltroStro,
-                                                sFiltroBenef), dtOrdenPago)
+                                                sFiltroBenef,
+                                                sFiltroFecDe,
+                                                sFiltroFecHasta), dtOrdenPago)
 
             Return dtOrdenPago
 
@@ -430,6 +444,7 @@ Partial Class Siniestros_FirmasElectronicas
                 btn_Ninguna.Visible = True
 
                 btn_Imprimir.Visible = True
+                btn_SelTodos.Visible = True
 
                 btn_Firmar.Visible = True
 
@@ -516,7 +531,7 @@ Partial Class Siniestros_FirmasElectronicas
                 btn_Ninguna.Visible = False
 
                 btn_Imprimir.Visible = False
-
+                btn_SelTodos.Visible = False
                 btn_Firmar.Visible = False
                 btn_BuscaOP.Visible = True
                 'btn_Rechazar.Visible = False
@@ -531,6 +546,7 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub BarraEstados(valor As Boolean)
         chk_Todas.Enabled = valor
         chk_PorRevisar.Enabled = valor
+        chk_Revisadas.Enabled = valor
         chk_Pendiente.Enabled = valor
         chk_Autorizada.Enabled = valor
         chk_Rechazadas.Enabled = valor
@@ -548,6 +564,7 @@ Partial Class Siniestros_FirmasElectronicas
         txtFechaGeneracionHasta.Text = ""
         chk_Autorizada.Checked = False
         chk_PorRevisar.Checked = False
+        chk_Revisadas.Checked = False
         chk_Todas.Checked = False
         chk_Pendiente.Checked = False
         chk_Rechazadas.Checked = False
@@ -559,6 +576,8 @@ Partial Class Siniestros_FirmasElectronicas
         txtFechaPagoHasta.Text = ""
         txtSiniestro.Text = ""
         txtAsegurado.Text = ""
+        fecFilter_De.Text = ""
+        fecFilter_Hasta.Text = ""
 
 
 
@@ -596,14 +615,16 @@ Partial Class Siniestros_FirmasElectronicas
         ValidaRadios = True
         If chk_Todas.Checked = False Then
             If chk_PorRevisar.Checked = False Then
-                If chk_Pendiente.Checked = False Then
-                    If chk_Autorizada.Checked = False Then
-                        If chk_Rechazadas.Checked = False Then
-                            If chk_FinalAut.Checked = False Then
-                                ValidaRadios = False
+                If chk_Revisadas.Checked = False Then
+                    If chk_Pendiente.Checked = False Then
+                        If chk_Autorizada.Checked = False Then
+                            If chk_Rechazadas.Checked = False Then
+                                If chk_FinalAut.Checked = False Then
+                                    ValidaRadios = False
+                                End If
                             End If
                         End If
-                        End If
+                    End If
                 End If
             End If
         End If
@@ -623,6 +644,7 @@ Partial Class Siniestros_FirmasElectronicas
         Try
             ' ActualizaDataOP()
             'txtToken.Text = ""
+
 
             'fn_Token()
             If fn_Autorizaciones(False) = False Then
@@ -850,7 +872,6 @@ Partial Class Siniestros_FirmasElectronicas
         dtAutorizaciones.Columns.Add("FirmadoSubgerente")
         dtAutorizaciones.Columns.Add("NombreModifica")
 
-
         For Each row In dtOrdenPago.Rows
 
             dtAutorizaciones.Rows.Add(row("nro_op"), Master.cod_usuario, Master.user, Master.usuario,
@@ -875,6 +896,7 @@ Partial Class Siniestros_FirmasElectronicas
         Next
 
 
+
         'Nivel 1 Firma analista y supervisor
         'Nivel 2 Firma analista y subgerente
         'Nivel 3 Firma analista y subdirector
@@ -891,201 +913,237 @@ Partial Class Siniestros_FirmasElectronicas
         dtCancela.Columns.Add("noOP")
         dtCancela.Columns.Add("Justificacion")
 
+        Dim numPaginas As Integer
+        Dim paginaActual As Integer
+        Dim RowsMostrados As Integer
+
+        numPaginas = grdOrdenPago.PageCount
+        paginaActual = grdOrdenPago.PageIndex
+        RowsMostrados = grdOrdenPago.Rows.Count
+        Dim RegTotales As Integer = dtAutorizaciones.Rows.Count
+
+        Dim contadorIni As Integer = 0
+        Select Case grdOrdenPago.PageIndex
+            Case 0
+                contador = 0
+                contadorIni = 0
+            Case 1
+                contador = 0
+                contadorIni = 20
+            Case 2
+                contador = 0
+                contadorIni = 40
+            Case 3
+                contador = 0
+                contadorIni = 60
+            Case 4
+                contador = 0
+                contadorIni = 80
+        End Select
 
         For Each row In dtAutorizaciones.Rows
 
-            Dim chk_Impresion As Boolean = DirectCast(grdOrdenPago.Rows(contador).FindControl("chkImpresion"), CheckBox).Checked
-            Dim chk_Rechazo As Boolean = DirectCast(grdOrdenPago.Rows(contador).FindControl("chk_Rechazo"), CheckBox).Checked
-            Dim txtJustif As String = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
 
-            strOP = row("nro_op")
+            If contadorIni = dtAutorizaciones.Rows.IndexOf(row) And contador <= (RowsMostrados - 1) Then
 
-            If chk_Impresion = True Then
-                If chk_Rechazo = False Then
 
-                    Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & strOP)
-                    If Rechazada = 1 Then
-                        Mensaje.MuestraMensaje("Validación", "la Orden de Pago: " & strOP & " ya se encuentra rechazada, por favor deseleccionarla", TipoMsg.Advertencia)
-                        Exit Function
-                    End If
+                Dim chk_Impresion As Boolean = DirectCast(grdOrdenPago.Rows(contador).FindControl("chkImpresion"), CheckBox).Checked
+                Dim chk_Rechazo As Boolean = DirectCast(grdOrdenPago.Rows(contador).FindControl("chk_Rechazo"), CheckBox).Checked
+                Dim txtJustif As String = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
 
-                    If row("NivelAutorizacion") = 1 Then
-                        If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Solicitante")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaJefe"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Jefe")
-                        Else
-                            fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
-                            OPCompletada = True
+                strOP = row("nro_op")
+
+                If chk_Impresion = True Then
+                    If chk_Rechazo = False Then
+
+                        Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & strOP)
+                        If Rechazada = 1 Then
+                            Mensaje.MuestraMensaje("Validación", "la Orden de Pago: " & strOP & " ya se encuentra rechazada, por favor deseleccionarla", TipoMsg.Advertencia)
+                            Exit Function
                         End If
-
-                    ElseIf row("NivelAutorizacion") = 2 Then
-                        If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Solicitante")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubgerente"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Subgerente")
-                        Else
-                            fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
-                            OPCompletada = True
-                        End If
-
-
-                    ElseIf row("NivelAutorizacion") = 3 Then
-                        If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Solicitante")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Subdirector")
-                        Else
-                            fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
-                            OPCompletada = True
-                        End If
-
-                    ElseIf row("NivelAutorizacion") = 4 Then
-                        If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Solicitante")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Subdirector")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Director")
-                        Else
-                            fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
-                            OPCompletada = True
-                        End If
-
-                    ElseIf row("NivelAutorizacion") = 5 Then
-                        If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Solicitante")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Subdirector")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("Director")
-                        ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirectorGeneral"), CheckBox).Checked = False Then
-                            UsuarioFirma = row("DirectorGeneral")
-                        Else
-                            fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
-                            OPCompletada = True
-                        End If
-
-                    End If
-                    If OPCompletada = False Then
-
-                        If sn_proceso = True Then
-                            If Master.cod_usuario = "CLOPEZ" Then
-                                fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",-2")
-                                'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
-                                Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
-                            Else
-
-                                If fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",-1,'" & codRol & "'") = 1 Then
-                                    fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",0")
-
-                                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosTradicional & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
-                                    Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron las firmas correspondientes", Mensaje.TipoMsg.Confirma)
-                                End If
-                            End If
-                        End If
-                    End If
-                    dtAutoriza.Rows.Add(strOP)
-
-                Else 'rechazo
-                    Dim codMotivoRechazo As Integer
-                    Dim strMotivoRechazo As String
-                    Dim intFolioOnBase As Integer
-                    codMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Value
-                    strMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
-                    intFolioOnBase = DirectCast(grdOrdenPago.Rows(contador).FindControl("lblFolioOnBase"), Label).Text
-
-                    Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & strOP)
-                    If Rechazada = 1 Then
-                        Mensaje.MuestraMensaje("Validación Rechazos", "la Orden de Pago: " & strOP & " ya se encuentra rechazada, por favor deseleccionarla", TipoMsg.Advertencia)
-                        Exit Function
-                    End If
-
-                    If strMotivoRechazo = "--Seleccione--" Then
-                        Mensaje.MuestraMensaje("Validación Motivo de Rechazo", "No se ha seleccionado ningun motivo de rechazo de para la OP: " & strOP, TipoMsg.Advertencia)
-                        Exit Function
-                    End If
-
-
-
-                    If sn_proceso = True Then
-
 
                         If row("NivelAutorizacion") = 1 Then
-
-                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaJefe"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("Jefe")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
                                 UsuarioFirma = row("Solicitante")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaJefe"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("Jefe")
+                            Else
+                                fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
+                                OPCompletada = True
                             End If
 
                         ElseIf row("NivelAutorizacion") = 2 Then
-
-                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubgerente"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("Subgerente")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
                                 UsuarioFirma = row("Solicitante")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubgerente"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("Subgerente")
+                            Else
+                                fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
+                                OPCompletada = True
                             End If
 
-                        ElseIf row("NivelAutorizacion") = 3 Then
 
-                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("Subdirector")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                        ElseIf row("NivelAutorizacion") = 3 Then
+                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
                                 UsuarioFirma = row("Solicitante")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("Subdirector")
+                            Else
+                                fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
+                                OPCompletada = True
                             End If
 
                         ElseIf row("NivelAutorizacion") = 4 Then
-                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("Director")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("Subdirector")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
                                 UsuarioFirma = row("Solicitante")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("Subdirector")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("Director")
+                            Else
+                                fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
+                                OPCompletada = True
                             End If
 
                         ElseIf row("NivelAutorizacion") = 5 Then
-
-                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirectorGeneral"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("DirectorGeneral")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("Director")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = True Then
-                                UsuarioFirma = row("Subdirector")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
-                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                            If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = False Then
                                 UsuarioFirma = row("Solicitante")
-                                fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("Subdirector")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("Director")
+                            ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirectorGeneral"), CheckBox).Checked = False Then
+                                UsuarioFirma = row("DirectorGeneral")
+                            Else
+                                fn_Ejecuta("mis_AutorizaOPSTros " & strOP & ",'" & Master.cod_usuario & "'")
+                                OPCompletada = True
                             End If
 
                         End If
+                        If OPCompletada = False Then
 
-                        fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','Usuario: " & Master.usuario & " /Motivo: " & strMotivoRechazo & "'")
-                        fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
-                        fn_Ejecuta("Update MIS_Expediente_OP set Nro_OP = " & strOP & ", id_Estatus_Registro = 3 where Folio_Onbase_Siniestro = " & intFolioOnBase & " And Id_etiqueta_Pago = 0", True)
-                        fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
-                        fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
-                    Else
-                        dtCancela.Rows.Add(strOP, txtJustif)
+                            If sn_proceso = True Then
+                                If Master.cod_usuario = "CLOPEZ" Then
+                                    fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",-2")
+                                    'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                                    Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
+                                Else
+
+                                    If fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",-1,'" & codRol & "'") = 1 Then
+                                        fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",0")
+
+                                        fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosTradicional & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                                        Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron las firmas correspondientes", Mensaje.TipoMsg.Confirma)
+                                    End If
+                                End If
+                            End If
+                        End If
+                        dtAutoriza.Rows.Add(strOP)
+
+                    Else 'rechazo
+                        Dim codMotivoRechazo As Integer
+                        Dim strMotivoRechazo As String
+                        Dim intFolioOnBase As Integer
+                        codMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Value
+                        strMotivoRechazo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
+                        intFolioOnBase = DirectCast(grdOrdenPago.Rows(contador).FindControl("lblFolioOnBase"), Label).Text
+
+                        Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & strOP)
+                        If Rechazada = 1 Then
+                            Mensaje.MuestraMensaje("Validación Rechazos", "la Orden de Pago: " & strOP & " ya se encuentra rechazada, por favor deseleccionarla", TipoMsg.Advertencia)
+                            Exit Function
+                        End If
+
+                        If strMotivoRechazo = "--Seleccione--" Then
+                            Mensaje.MuestraMensaje("Validación Motivo de Rechazo", "No se ha seleccionado ningun motivo de rechazo de para la OP: " & strOP, TipoMsg.Advertencia)
+                            Exit Function
+                        End If
+
+
+
+                        If sn_proceso = True Then
+
+
+                            If row("NivelAutorizacion") = 1 Then
+
+                                If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaJefe"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Jefe")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Solicitante")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                End If
+
+                            ElseIf row("NivelAutorizacion") = 2 Then
+
+                                If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubgerente"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Subgerente")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Solicitante")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                End If
+
+                            ElseIf row("NivelAutorizacion") = 3 Then
+
+                                If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Subdirector")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Solicitante")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                End If
+
+                            ElseIf row("NivelAutorizacion") = 4 Then
+                                If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Director")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Subdirector")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Solicitante")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                End If
+
+                            ElseIf row("NivelAutorizacion") = 5 Then
+
+                                If DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirectorGeneral"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("DirectorGeneral")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaDirector"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Director")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSubdirector"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Subdirector")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                ElseIf DirectCast(grdOrdenPago.Rows(contador).FindControl("chkFirmaSolicitante"), CheckBox).Checked = True Then
+                                    UsuarioFirma = row("Solicitante")
+                                    fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsuarioFirma & "','" & Master.usuario & "'")
+                                End If
+
+                            End If
+
+                            fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','Usuario: " & Master.usuario & " /Motivo: " & strMotivoRechazo & "'")
+                            fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
+                            fn_Ejecuta("Update MIS_Expediente_OP set Nro_OP = " & strOP & ", id_Estatus_Registro = 3 where Folio_Onbase_Siniestro = " & intFolioOnBase & " And Id_etiqueta_Pago = 0", True)
+                            fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
+                            fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
+                        Else
+                            dtCancela.Rows.Add(strOP, txtJustif)
+                        End If
+
                     End If
 
                 End If
-
+                contador = contador + 1
+                contadorIni = contadorIni + 1
+            Else
+                'contador = contador + 1
             End If
 
-            contador = contador + 1
+
         Next
 
         gvd_Canceladas.DataSource = dtCancela
@@ -2588,7 +2646,7 @@ Partial Class Siniestros_FirmasElectronicas
 
             For Each row In grdOrdenPago.Rows
 
-                If TryCast(row.FindControl("chkImpresion"), CheckBox).Checked Then
+                If TryCast(row.FindControl("chk_Print"), CheckBox).Checked Then
                     strOrdenPago = String.Format("{0}, {1}", strOrdenPago, DirectCast(row.FindControl("lblOrdenPago"), Label).Text.Trim)
                 End If
 
@@ -2867,7 +2925,9 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_Pendiente.Checked = False
                     chk_Autorizada.Checked = False
                     chk_FinalAut.Checked = False
+                    chk_Revisadas.Checked = False
                     ddlRolFilter.Visible = False
+                    div_Fechas.Visible = False
                 End If
             Case 1
                 If chk_PorRevisar.Checked Then
@@ -2876,7 +2936,9 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_Todas.Checked = False
                     chk_Autorizada.Checked = False
                     chk_FinalAut.Checked = False
+                    chk_Revisadas.Checked = False
                     ddlRolFilter.Visible = False
+                    div_Fechas.Visible = False
                 End If
             Case 2
                 If chk_Pendiente.Checked Then
@@ -2885,7 +2947,9 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_Autorizada.Checked = False
                     chk_Rechazadas.Checked = False
                     chk_FinalAut.Checked = False
+                    chk_Revisadas.Checked = False
                     ddlRolFilter.Visible = True
+                    div_Fechas.Visible = False
                 End If
             Case 3
                 If chk_Autorizada.Checked Then
@@ -2894,7 +2958,9 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_Pendiente.Checked = False
                     chk_Rechazadas.Checked = False
                     chk_FinalAut.Checked = False
+                    chk_Revisadas.Checked = False
                     ddlRolFilter.Visible = True
+                    div_Fechas.Visible = False
                 End If
             Case 4
                 If chk_Rechazadas.Checked Then
@@ -2903,7 +2969,9 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_Pendiente.Checked = False
                     chk_Autorizada.Checked = False
                     chk_FinalAut.Checked = False
+                    chk_Revisadas.Checked = False
                     ddlRolFilter.Visible = False
+                    div_Fechas.Visible = True
                 End If
             Case 5
                 If chk_FinalAut.Checked Then
@@ -2912,7 +2980,20 @@ Partial Class Siniestros_FirmasElectronicas
                     chk_PorRevisar.Checked = False
                     chk_Pendiente.Checked = False
                     chk_Autorizada.Checked = False
+                    chk_Revisadas.Checked = False
                     ddlRolFilter.Visible = False
+                    div_Fechas.Visible = True
+                End If
+            Case 6
+                If chk_Revisadas.Checked Then
+                    chk_Rechazadas.Checked = False
+                    chk_Todas.Checked = False
+                    chk_PorRevisar.Checked = False
+                    chk_Pendiente.Checked = False
+                    chk_Autorizada.Checked = False
+                    chk_FinalAut.Checked = False
+                    ddlRolFilter.Visible = False
+                    div_Fechas.Visible = True
                 End If
         End Select
 
@@ -2958,6 +3039,25 @@ Partial Class Siniestros_FirmasElectronicas
 
     End Sub
 
+    Protected Sub chk_Revisadas_CheckedChanged(sender As Object, e As EventArgs)
+        VerificaRadios(Cons.TipoFiltro.Revisadas)
+    End Sub
 
+    Private Sub btn_SelTodos_Click(sender As Object, e As EventArgs) Handles btn_SelTodos.Click
+        Try
 
+            For Each row In grdOrdenPago.Rows
+                Dim chkImp As CheckBox = TryCast(row.FindControl("chk_Print"), CheckBox)
+                If chkImp.Enabled = True Then
+                    chkImp.Checked = True
+                Else
+                    chkImp.Checked = False
+                End If
+            Next
+
+        Catch ex As Exception
+            Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
+            Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_Todas_Click: " & ex.Message)
+        End Try
+    End Sub
 End Class

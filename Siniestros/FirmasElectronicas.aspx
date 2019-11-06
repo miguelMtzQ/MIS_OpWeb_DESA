@@ -334,15 +334,16 @@
                         <div class="col-md-12">
                             <div class="cuadro-subtitulo">
 
-                                <table style="width:60%">
+                                <table style="width:80%">
                                     <tr>
                                         <td><asp:label runat="server" class="etiqueta-control">Estatus Firma Electrónica:</asp:label></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_Todas" Text="Todas" CssClass="etiqueta-control" OnCheckedChanged="chk_Todas_CheckedChanged" AutoPostBack="true" /></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_PorRevisar" Text="Por Revisar" CssClass="etiqueta-control" OnCheckedChanged="chk_PorRevisar_CheckedChanged" AutoPostBack="true" /></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged" AutoPostBack="true" /></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_Autorizada"  Text="Firmada por" CssClass="etiqueta-control" OnCheckedChanged="chk_Autorizada_CheckedChanged" AutoPostBack="true" /></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_Rechazadas" Text="Rechazadas" CssClass="etiqueta-control" OnCheckedChanged="chk_Rechazadas_CheckedChanged" AutoPostBack="true" /></td>
-                                        <td><asp:RadioButton runat="server" ID="chk_FinalAut" Text="Autorizadas" CssClass="etiqueta-control" OnCheckedChanged="chk_FinalAut_CheckedChanged" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Todas" Text="Todas" CssClass="etiqueta-control" OnCheckedChanged="chk_Todas_CheckedChanged" Width="80px" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_PorRevisar" Text="Por Revisar" CssClass="etiqueta-control" OnCheckedChanged="chk_PorRevisar_CheckedChanged" Width="100px" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Revisadas" Text="Revisadas" CssClass="etiqueta-control" OnCheckedChanged="chk_Revisadas_CheckedChanged" Width="100px" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Pendiente" Text="Pendientes" CssClass="etiqueta-control" OnCheckedChanged="chk_Pendiente_CheckedChanged"  Width="100px" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Autorizada"  Text="Firmada por" CssClass="etiqueta-control" OnCheckedChanged="chk_Autorizada_CheckedChanged" Width="100px" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Rechazadas" Text="Rechazadas" CssClass="etiqueta-control" OnCheckedChanged="chk_Rechazadas_CheckedChanged" Width="100px" AutoPostBack="true" /></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_FinalAut" Text="Autorizadas" CssClass="etiqueta-control" OnCheckedChanged="chk_FinalAut_CheckedChanged" Width="100px" AutoPostBack="true" /></td>
                                     </tr>
                                 </table>
                                 
@@ -368,6 +369,12 @@
 
                                         </asp:DropDownList>
                                         <%-- <td style="width:14.28%;"><asp:CheckBox runat="server" ID="chk_Contabilidad"   Enabled="false"   Text="Contabilidad" CssClass="etiqueta-control" /></td>--%>
+                                         <div class="col-md-6" runat="server" id="div_Fechas" visible="false" >
+                                            <asp:label runat="server" class="col-md-1 etiqueta-control" Width="25%">Fecha filtro:</asp:label>
+                                            <asp:TextBox runat="server" ID="fecFilter_De" CssClass="col-md-1 estandar-control Fecha Centro" Width="33.2%" ></asp:TextBox>
+                                            <asp:label runat="server" class="col-md-1 etiqueta-control">A</asp:label>
+                                            <asp:TextBox runat="server" ID="fecFilter_Hasta" CssClass="estandar-control Fecha Centro" Width="33.2%" ></asp:TextBox>
+                                        </div>
                                      </tr>
                                  </table>
                             </div>
@@ -417,6 +424,8 @@
                             <td style="width:36%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid"></td>
                             <td style="width:35%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">PAGAR A</td>
                             <td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MONTO</td>
+                            <td style="width:3%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid"><img src="../Images/print_mini.png" /></td>
+
                             <%--<td style="width:14%;border-radius:0px 0px 10px 10px;" class="cuadro-seccion-grid">MOTIVO RECH</td>--%>
                         </tr>
                      </table>
@@ -463,6 +472,7 @@
                                                         <td style="width:35%;"><asp:Label runat="server" ID="lblMoneda" Text='<%# Eval("txt_cheque_a_nom") %>' CssClass="Derecha" Width="100%"  ></asp:Label></td>
                                                         <td style="width:11%;"> <asp:Label runat="server" ID="lblMonto" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%" CssClass="Monto"></asp:Label></td>
                                                         <%--<td style="width:11%;"> <asp:Label runat="server" ID="Label1" Text='<%# String.Format("{0:#,#0.00}", CDbl(Eval("imp_total")))  %>' Width="100%"></asp:Label></td>--%>
+                                                        <td style="width:2%; text-align:right"><asp:CheckBox runat="server"  ID="chk_Print" Checked='false' TextAlign="Right"/></td>
                                                     </tr>
                                                 </table>
 
@@ -910,6 +920,12 @@
                                 <span>
                                     <img class="btn-imprimir"/>
                                     Imprimir
+                                </span>
+                            </asp:LinkButton>
+                           <asp:LinkButton id="btn_SelTodos" runat="server" class="btn botones">
+                                <span>
+                                    <img class="btn-todos"/>
+                                    Imp.Todas
                                 </span>
                             </asp:LinkButton>
                         </div>
