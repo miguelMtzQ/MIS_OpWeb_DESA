@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            Master.cod_usuario = "AMEZA"
+            'Master.cod_usuario = "CBASURTO"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -135,9 +135,11 @@ Partial Class Siniestros_FirmasElectronicas
         If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Or Master.cod_usuario = "MMQUINTERO" Then
             chk_Todas.Visible = True
             chk_PorRevisar.Visible = True
+            chk_Revisadas.Visible = True
         Else
             chk_Todas.Visible = False
             chk_PorRevisar.Visible = False
+            chk_Revisadas.Visible = False
         End If
     End Sub
 
