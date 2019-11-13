@@ -1748,8 +1748,8 @@ Partial Class Siniestros_OrdenPago
                     oImpuestos.AppendFormat("<CodItem>{0}</CodItem>", CInt(oFila.Item("CodItem")))
                     oImpuestos.AppendFormat("<CodIndCob>{0}</CodIndCob>", CInt(oFila.Item("CodIndCob")))
                     oImpuestos.AppendFormat("<NumeroCorrelaPagos>{0}</NumeroCorrelaPagos>", iNumeroCorrelaPagos)
-                    'oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("CodigoConcepto")))'Esto se comento por que el codigo de concepto no tenia el mismo nombre
-                    oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("ConceptoPago")))
+                    oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("CodigoConcepto"))) 'Esto se comento por que el codigo de concepto no tenia el mismo nombre
+                    'oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("ConceptoPago")))
                     oImpuestos.AppendFormat("<CodigoImpuesto>{0}</CodigoImpuesto>", CInt(oDetalle("CodigoImpuesto")))
                     oImpuestos.AppendFormat("<CodigoGrupo>{0}</CodigoGrupo>", CInt(oDetalle("CodigoGrupo")))
                     oImpuestos.AppendFormat("<CodigoCondicion>{0}</CodigoCondicion>", CInt(oDetalle("CodigoCondicion")))
@@ -2337,7 +2337,14 @@ Partial Class Siniestros_OrdenPago
                                 Else
                                     dTotalAutorizacion += dPago
                                     dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteImpuesto, 0)
+                                    If dImporteImpuesto = -1 Then 'Se agrego por que estaba restando un menos uno
+                                        dTotalImpuestos = dTotalImpuestos + 1
+                                    End If
                                     dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteRetencion, 0)
+                                    If dImporteRetencion = -1 Then  'Se agrego por que estaba restando un menos uno
+                                        dTotalRetenciones = dTotalRetenciones + 1
+                                    End If
+
                                     If dTotalImpuestos = -1 Then
                                         dTotalImpuestos = 0
                                     End If
@@ -2492,8 +2499,8 @@ Partial Class Siniestros_OrdenPago
                 dImpuesto = CDbl(oDatos.Tables(0).Rows(0).Item("TotalImpuestos"))
                 dRetencion = CDbl(oDatos.Tables(0).Rows(0).Item("TotalRetenciones"))
             Else
-                dImpuesto = -1
-                dRetencion = -1
+                dImpuesto = -1 'lo cambio por que esta descontando un menos uno 
+                dRetencion = -1 'lo cambio por que esta descontando un menos uno
             End If
 
         Catch ex As Exception
