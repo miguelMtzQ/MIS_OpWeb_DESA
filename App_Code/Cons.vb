@@ -67,6 +67,7 @@ Public Class Cons
         Firmadas = 3
         Rechazadas = 4
         Autorizadas = 5
+        Revisadas = 6
     End Enum
 
 
