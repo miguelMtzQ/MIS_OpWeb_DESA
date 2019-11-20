@@ -494,7 +494,7 @@ Partial Class Siniestros_OrdenPago
 
                     If Not oSelector Is Nothing Then
                         oSelector.SelectedValue = "F"
-                        oSelector.Enabled = False
+                        'oSelector.Enabled = False' ffuentes 20191120 se agrega este codigo por que aun sea final siempre puede cambiar
                     End If
 
                     oGrdOrden.Rows(iIndex)("TipoPago") = 2
