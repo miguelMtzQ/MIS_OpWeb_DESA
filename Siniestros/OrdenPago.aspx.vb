@@ -494,7 +494,7 @@ Partial Class Siniestros_OrdenPago
 
                     If Not oSelector Is Nothing Then
                         oSelector.SelectedValue = "F"
-                        oSelector.Enabled = False
+                        'oSelector.Enabled = False' ffuentes 20191120 se agrega este codigo por que aun sea final siempre puede cambiar
                     End If
 
                     oGrdOrden.Rows(iIndex)("TipoPago") = 2
@@ -1748,7 +1748,8 @@ Partial Class Siniestros_OrdenPago
                     oImpuestos.AppendFormat("<CodItem>{0}</CodItem>", CInt(oFila.Item("CodItem")))
                     oImpuestos.AppendFormat("<CodIndCob>{0}</CodIndCob>", CInt(oFila.Item("CodIndCob")))
                     oImpuestos.AppendFormat("<NumeroCorrelaPagos>{0}</NumeroCorrelaPagos>", iNumeroCorrelaPagos)
-                    oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("CodigoConcepto")))
+                    oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("CodigoConcepto"))) 'Esto se comento por que el codigo de concepto no tenia el mismo nombre
+                    'oImpuestos.AppendFormat("<CodigoConcepto>{0}</CodigoConcepto>", CInt(oDetalle("ConceptoPago")))
                     oImpuestos.AppendFormat("<CodigoImpuesto>{0}</CodigoImpuesto>", CInt(oDetalle("CodigoImpuesto")))
                     oImpuestos.AppendFormat("<CodigoGrupo>{0}</CodigoGrupo>", CInt(oDetalle("CodigoGrupo")))
                     oImpuestos.AppendFormat("<CodigoCondicion>{0}</CodigoCondicion>", CInt(oDetalle("CodigoCondicion")))
@@ -1758,11 +1759,27 @@ Partial Class Siniestros_OrdenPago
                     oImpuestos.AppendFormat("<Base>{0}</Base>", IIf(iMonedaPoliza = 0, (CDbl(oFila("Pago")) - CDbl(oFila("Descuentos"))), Math.Round(CDbl(oFila("Pago") - CDbl(oFila("Descuentos"))) / CDbl(Me.txtTipoCambio.Text), 2)))
                     oImpuestos.AppendFormat("<ImporteNoGravado>{0}</ImporteNoGravado>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("ImporteNoGravado")), Math.Round(CDbl(oDetalle("ImporteNoGravado")) / CDbl(Me.txtTipoCambio.Text), 2)))
                     'oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("ImporteImpuesto")), Math.Round(CDbl(oDetalle("ImporteImpuesto")) / CDbl(Me.txtTipoCambio.Text), 2)))
-                    oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")), Math.Round(CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")) / CDbl(Me.txtTipoCambio.Text), 2)))
+                    If chkVariosConceptos.Checked = True Then
+                        If cmbMonedaPago.SelectedValue = 1 Then
+                            oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(0).Item("ImporteImpuesto")), Math.Round(CDbl(oDatos.Tables(0).Rows(0).Item("ImporteImpuesto")), 2)))
+                        Else
+                            oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(0).Item("ImporteImpuesto")), Math.Round(CDbl(oDatos.Tables(0).Rows(0).Item("ImporteImpuesto")) / CDbl(Me.txtTipoCambio.Text), 2)))
+                        End If
+                    Else
+                        If cmbMonedaPago.SelectedValue = 1 Then
+                            oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")), Math.Round(CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")), 2)))
+                        Else
+                            oImpuestos.AppendFormat("<ImporteImpuesto>{0}</ImporteImpuesto>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")), Math.Round(CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteImpuesto")) / CDbl(Me.txtTipoCambio.Text), 2)))
+                        End If
+                    End If
                     oImpuestos.AppendFormat("<PjeRetencion>{0}</PjeRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("PjeRetencion")), Math.Round(CDbl(oDetalle("PjeRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
                     'oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDetalle("ImporteRetencion")), Math.Round(CDbl(oDetalle("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
-                    oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteRetencion")), Math.Round(CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
 
+                    If chkVariosConceptos.Checked = True Then
+                        oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(0).Item("ImporteRetencion")), Math.Round(CDbl(oDatos.Tables(0).Rows(0).Item("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
+                    Else
+                        oImpuestos.AppendFormat("<ImporteRetencion>{0}</ImporteRetencion>", IIf(iMonedaPoliza = 0, CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteRetencion")), Math.Round(CDbl(oDatos.Tables(0).Rows(inum_impuesto).Item("ImporteRetencion")) / CDbl(Me.txtTipoCambio.Text), 2)))
+                    End If
                     oImpuestos.AppendFormat("<CodigoTratamiento>{0}</CodigoTratamiento>", CInt(oDetalle("CodigoTratamiento")))
                     oImpuestos.AppendFormat("<Subsiniestro>{0}</Subsiniestro>", CInt(oFila.Item("Subsiniestro")))
 
@@ -2336,7 +2353,14 @@ Partial Class Siniestros_OrdenPago
                                 Else
                                     dTotalAutorizacion += dPago
                                     dTotalImpuestos += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteImpuesto, 0)
+                                    If dImporteImpuesto = -1 Then 'Se agrego por que estaba restando un menos uno
+                                        dTotalImpuestos = dTotalImpuestos + 1
+                                    End If
                                     dTotalRetenciones += IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, dImporteRetencion, 0)
+                                    If dImporteRetencion = -1 Then  'Se agrego por que estaba restando un menos uno
+                                        dTotalRetenciones = dTotalRetenciones + 1
+                                    End If
+
                                     If dTotalImpuestos = -1 Then
                                         dTotalImpuestos = 0
                                     End If
@@ -2491,8 +2515,8 @@ Partial Class Siniestros_OrdenPago
                 dImpuesto = CDbl(oDatos.Tables(0).Rows(0).Item("TotalImpuestos"))
                 dRetencion = CDbl(oDatos.Tables(0).Rows(0).Item("TotalRetenciones"))
             Else
-                dImpuesto = -1
-                dRetencion = -1
+                dImpuesto = -1 'lo cambio por que esta descontando un menos uno 
+                dRetencion = -1 'lo cambio por que esta descontando un menos uno
             End If
 
         Catch ex As Exception
