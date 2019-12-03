@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            'Master.cod_usuario = "CBASURTO"
+            'Master.cod_usuario = "CLOPEZ"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -931,16 +931,16 @@ Partial Class Siniestros_FirmasElectronicas
                 contadorIni = 0
             Case 1
                 contador = 0
-                contadorIni = 20
+                contadorIni = 17
             Case 2
                 contador = 0
-                contadorIni = 40
+                contadorIni = 37
             Case 3
                 contador = 0
-                contadorIni = 60
+                contadorIni = 57
             Case 4
                 contador = 0
-                contadorIni = 80
+                contadorIni = 77
         End Select
 
         For Each row In dtAutorizaciones.Rows
@@ -1025,7 +1025,7 @@ Partial Class Siniestros_FirmasElectronicas
                         If OPCompletada = False Then
 
                             If sn_proceso = True Then
-                                If Master.cod_usuario = "CLOPEZ" Then
+                                If Master.cod_usuario = "CLOPEZ" And Master.cod_usuario = "CREYES" And Master.cod_usuario = "AMEZA" Then
                                     fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",-2")
                                     'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                     Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
