@@ -745,7 +745,7 @@
                                                                        </div>
                                                                         <div class="col-md-4">
                                                                            <asp:label runat="server" ID="lnk_SelMotivo" Text="MOTIVO DE RECHAZO" visible="false"  Width="50%"></asp:label>
-                                                                            <asp:DropDownList runat="server" ID="txt_Motivo" Visible="false" width="80%" AutoPostBack="true">
+                                                                            <asp:DropDownList runat="server" ID="txt_Motivo" Visible="false" width="80%" AutoPostBack="true" OnSelectedIndexChanged="txt_Motivo_SelectedIndexChanged">
                                                                                 <asp:ListItem Value="0" Text="--Seleccione--"></asp:ListItem>
                                                                                 <asp:ListItem Value="1" Text="Importe incorrecto"></asp:ListItem>
                                                                                 <asp:ListItem Value="2" Text="Error en la cuenta bancaria"></asp:ListItem>

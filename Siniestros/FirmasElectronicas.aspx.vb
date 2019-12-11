@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            'Master.cod_usuario = "CLOPEZ"
+            ' Master.cod_usuario = "CLOPEZ"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -173,6 +173,7 @@ Partial Class Siniestros_FirmasElectronicas
         Dim ws As New ws_OrdenPago.OrdenPagoClient
 
         FiltroOP = IIf(Len(txt_NroOP.Text) > 0, txt_NroOP.Text, 0)
+
 
         'JJIMENEZ
         'FiltroBrokerCia = Funciones.ObtieneElementos(gvd_Broker, "Bro", False)
@@ -281,7 +282,7 @@ Partial Class Siniestros_FirmasElectronicas
 
         Dim FiltroNatOP As String = ""
 
-        Dim ws As New ws_OrdenPago.OrdenPagoClient
+        '   Dim ws As New ws_OrdenPago.OrdenPagoClient
 
         Try
 
@@ -951,7 +952,13 @@ Partial Class Siniestros_FirmasElectronicas
 
                 Dim chk_Impresion As Boolean = DirectCast(grdOrdenPago.Rows(contador).FindControl("chkImpresion"), CheckBox).Checked
                 Dim chk_Rechazo As Boolean = DirectCast(grdOrdenPago.Rows(contador).FindControl("chk_Rechazo"), CheckBox).Checked
+                Dim ddlMotivo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList)
+
                 Dim txtJustif As String = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
+
+                If ddlMotivo.SelectedValue = 11 Then
+
+                End If
 
                 strOP = row("nro_op")
 
@@ -2039,6 +2046,7 @@ Partial Class Siniestros_FirmasElectronicas
             Else
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("lnk_SelMotivo"), Label).Visible = False
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).Visible = False
+                TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txtOtros"), TextBox).Visible = False
                 TryCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList).SelectedIndex = 0
                 chkImp.Checked = False
             End If
@@ -2641,9 +2649,9 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim ws As New ws_Generales.GeneralesClient
 
-            server = ws.ObtieneParametro(3)
+            server = ws.ObtieneParametro(8)
             server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-            server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
+            server = Replace(server, "ReportesGMX", "ReportesOPSiniestros")
             server = Replace(server, "OrdenPago", "OrdenPago_stro")
 
             For Each row In grdOrdenPago.Rows
@@ -3061,5 +3069,26 @@ Partial Class Siniestros_FirmasElectronicas
             Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_Todas_Click: " & ex.Message)
         End Try
+
     End Sub
+
+    Protected Sub txt_Motivo_SelectedIndexChanged(sender As Object, e As EventArgs)
+
+
+        Dim gr As GridViewRow = DirectCast(DirectCast(DirectCast(sender, DropDownList).Parent.Parent, DataControlFieldCell).Parent, GridViewRow)
+
+        Dim ddlRechazo = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txt_Motivo"), DropDownList)
+        Dim txtOtros = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txtOtros"), TextBox)
+
+        If ddlRechazo.SelectedValue = 11 Then
+            'Mensaje.MuestraMensaje(Master.Titulo, "hola mundo", TipoMsg.Falla)
+            txtOtros.Visible = True
+        Else
+            txtOtros.Visible = False
+            txtOtros.Text = ""
+        End If
+
+    End Sub
+
+
 End Class
