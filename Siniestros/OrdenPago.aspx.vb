@@ -507,6 +507,7 @@ Partial Class Siniestros_OrdenPago
                     oSelector = BuscarControlPorClase(e.Row, "estandar-control tipo_pago")
 
                     If Not oSelector Is Nothing Then
+                        oSelector.SelectedValue = oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() 'se agrego para cargar desde la tabla intermedia si es parcial/final aseurados terceros 
                         oSelector.Enabled = True
                     End If
 
@@ -699,7 +700,8 @@ Partial Class Siniestros_OrdenPago
                                 cmbTipoComprobante.DataValueField = "CodigoComprobante"
                                 cmbTipoComprobante.DataBind()
 
-                            End If
+                                    cmbTipoComprobante.SelectedValue = oDatos.Tables(0).Rows(0).Item("Id_Tipo_Doc")
+                                End If
 
                             'Onbase.Style("display") = ""
                             pnlProveedor.Style("display") = ""
@@ -832,6 +834,8 @@ Partial Class Siniestros_OrdenPago
                                         cmbTipoComprobante.DataValueField = "Id_Tipo_Doc"
                                         cmbTipoComprobante.DataBind()
 
+                                        cmbTipoComprobante.SelectedValue = oDatos.Tables(0).Rows(0).Item("Id_Tipo_Doc")
+
                                     End If
 
                                     Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", ObtenerTipoCambio.ToString())
@@ -935,6 +939,7 @@ Partial Class Siniestros_OrdenPago
                                     cmbTipoComprobante.DataValueField = "Id_Tipo_Doc"
                                     cmbTipoComprobante.DataBind()
 
+                                    cmbTipoComprobante.SelectedValue = oDatos.Tables(0).Rows(0).Item("Id_Tipo_Doc")
                                 End If
 
                                 Me.txtTipoCambio.Text = IIf(Me.txtMonedaPoliza.Text = "NACIONAL", "1.00", ObtenerTipoCambio.ToString())
