@@ -43,6 +43,9 @@ Public Class Cons
     Public Const StrosTradicional = 1
     Public Const StrosFondos = 3
 
+    Public Const SubModFirmasFondos = 94
+
+
     Public Const SubModMesaControl As Integer = 11
     Public Const SubModTableroControl As Integer = 12
     Public Const SubModMemoriaCalculo As Integer = 13
