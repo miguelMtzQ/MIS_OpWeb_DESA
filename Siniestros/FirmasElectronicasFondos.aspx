@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Pages/SiteMaster.master" AutoEventWireup="true" CodeFile="FirmasElectronicas.aspx.vb" Inherits="Siniestros_FirmasElectronicas" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Pages/SiteMaster.master" AutoEventWireup="true" CodeFile="FirmasElectronicasFondos.aspx.vb" Inherits="Siniestros_FirmasElectronicas" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 <%@ MasterType VirtualPath="~/Pages/SiteMaster.master" %>
@@ -17,7 +17,7 @@
         <div class="cuadro-titulo panel-encabezado">
             <input type="image" src="../Images/contraer_mini_inv.png" id="coVentana0" class="contraer"  />
             <input type="image" src="../Images/expander_mini_inv.png"   id="exVentana0" class="expandir"  />
-            Filtros - Autorizaciones Electrónicas Tradicional
+            Filtros - Autorizaciones Electrónicas de Fondos
         </div>
 
         <div class="panel-contenido ventana0" >

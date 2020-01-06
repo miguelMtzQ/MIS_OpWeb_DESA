@@ -99,8 +99,8 @@ Partial Class Siniestros_FirmasElectronicas
         Try
             If Not IsPostBack Then
                 Master.Titulo = "Autorizaciones Electrónicas"
-                Master.cod_modulo = Cons.ModuloRea
-                Master.cod_submodulo = Cons.SubModFirmas
+                Master.cod_modulo = Cons.ModuloStrosTec
+                Master.cod_submodulo = Cons.SubModFirmasFondos
 
                 Master.InformacionGeneral()
                 Master.EvaluaPermisosModulo()
@@ -154,10 +154,12 @@ Partial Class Siniestros_FirmasElectronicas
     End Sub
 
 
+
     Private Function ConsultaOrdenesPagoSiniestros(ByVal iTipoModulo As Integer) As DataTable
 
         Dim oParametros As New Dictionary(Of String, Object)
 
+        Dim oDatos As DataSet
 
         Dim sFiltroOP As String = String.Empty
         Dim sFiltroPoliza As String = String.Empty
@@ -173,11 +175,12 @@ Partial Class Siniestros_FirmasElectronicas
         Dim sFiltroFecHasta As String = String.Empty
 
         Dim FiltroBrokerCia As String = ""
-
+        'Dim FiltroRamoContable As String = ""
 
         Dim intFirmas As Integer = 0
 
         Dim FiltroNatOP As String = ""
+
 
 
         Try
@@ -246,7 +249,7 @@ Partial Class Siniestros_FirmasElectronicas
 
             'Cambiar SP por original (usp_ObtenerOrdenPago_stro)
             fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}'",
-                                              Cons.StrosTradicional,
+                                              Cons.StrosFondos,
                                               sFiltroOP,
                                               sFiltroMonto,
                                               sFiltroFechaGeneracion,
@@ -470,7 +473,7 @@ Partial Class Siniestros_FirmasElectronicas
             'If cmbModuloOP.SelectedValue > 0 Then
             If ValidaRadios() Then
                 'Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
-                Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(Cons.StrosTradicional))
+                Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(Cons.StrosFondos))
 
                 If grdOrdenPago.Rows.Count > 0 Then
                     grdOrdenPago.PageIndex = 0
@@ -912,15 +915,15 @@ Partial Class Siniestros_FirmasElectronicas
 
                             If sn_proceso = True Then
                                 If Master.cod_usuario = "CLOPEZ" And Master.cod_usuario = "CREYES" And Master.cod_usuario = "AMEZA" Then
-                                    fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",-2")
+                                    fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosFondos & ",-2")
                                     'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                     Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
                                 Else
 
                                     If fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",-1,'" & codRol & "'") = 1 Then
-                                        fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",0")
+                                        fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosFondos & ",0")
 
-                                        fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosTradicional & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                                        fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosFondos & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                         Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron las firmas correspondientes", Mensaje.TipoMsg.Confirma)
                                     End If
                                 End If
@@ -1051,13 +1054,13 @@ Partial Class Siniestros_FirmasElectronicas
             If sn_proceso = True Then
                 If Master.cod_usuario <> "CLOPEZ" Then
 
-                    Funciones.fn_Consulta("mis_ObtieneOpEnvioFirma 0,''," & Cons.StrosTradicional, dtEnvios)
+                    Funciones.fn_Consulta("mis_ObtieneOpEnvioFirma 0,''," & Cons.StrosFondos, dtEnvios)
 
                     For Each item In dtEnvios.Rows
                         fn_Ejecuta("mis_EmailsOPStros '" & item("Ops") & "','" & item("tipomodulo") & "','" & item("cod_usuario") & "','" & Master.usuario & "','" & codRol & "'")
-                        fn_Ejecuta("mis_ActualizaStsOpsEnv '" & item("Ops") & "','" & item("cod_usuario") & "'," & Cons.StrosTradicional & ",1")
+                        fn_Ejecuta("mis_ActualizaStsOpsEnv '" & item("Ops") & "','" & item("cod_usuario") & "'," & Cons.StrosFondos & ",1")
                     Next
-                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosTradicional & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                    fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosFondos & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                     Mensaje.MuestraMensaje("Autorizaciones", "Se realizaron las acciones correctamente", Mensaje.TipoMsg.Confirma)
 
                 End If
@@ -2247,7 +2250,7 @@ Partial Class Siniestros_FirmasElectronicas
     Private Sub grdOrdenPago_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles grdOrdenPago.PageIndexChanging
         Try
             grdOrdenPago.PageIndex = e.NewPageIndex
-            Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(Cons.StrosTradicional))
+            Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(Cons.StrosFondos))
             ' Funciones.LlenaGrid(grdOrdenPago, ActualizaDataOP)
             'ListaRamosContables()
             'DesHabilitaChecksFirma()
