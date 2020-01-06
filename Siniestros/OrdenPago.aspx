@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Pages/SiteMaster.master" AutoEventWireup="false" CodeFile="OrdenPago.aspx.vb" Inherits="Siniestros_OrdenPago" %>
+﻿<%@ Page Title="OpSiniestros" Language="VB" MasterPageFile="~/Pages/SiteMaster.master" AutoEventWireup="true" CodeFile="OrdenPago.aspx.vb" Inherits="Siniestros_OrdenPago" %>
 <%@ MasterType VirtualPath="~/Pages/SiteMaster.master" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cph_principal" runat="Server">
