@@ -125,7 +125,7 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
             EstadoDetalleOrden()
-            Master.cod_usuario = "CLOPEZ"
+            'Master.cod_usuario = "CLOPEZ"
             ValidaUsrFiltros()
         Catch ex As Exception
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "OrdenPago_FirmasElectronicas_Load: " & ex.Message)
@@ -1104,7 +1104,7 @@ Partial Class Siniestros_FirmasElectronicas
             If dtToken.Rows.Count > 0 Then hid_Token.Value = dtToken(0).ItemArray(0).ToString
 
         Catch ex As Exception
-
+            Mensaje.MuestraMensaje(Master.Titulo, String.Format("Token Error: {0}", ex.Message), TipoMsg.Falla)
         End Try
 
     End Sub
@@ -2529,9 +2529,9 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim ws As New ws_Generales.GeneralesClient
 
-            server = ws.ObtieneParametro(3)
+            server = ws.ObtieneParametro(8)
             server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-            server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
+            server = Replace(server, "ReportesGMX", "ReportesOPSiniestros")
             server = Replace(server, "OrdenPago", "OrdenPago_stro")
 
             For Each row In grdOrdenPago.Rows
