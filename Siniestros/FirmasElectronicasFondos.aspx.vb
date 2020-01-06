@@ -837,9 +837,10 @@ Partial Class Siniestros_FirmasElectronicas
                 Dim ddlMotivo = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList)
 
                 Dim txtJustif As String = DirectCast(grdOrdenPago.Rows(contador).FindControl("txt_Motivo"), DropDownList).SelectedItem.Text
+                Dim txtOtros As String = DirectCast(grdOrdenPago.Rows(contador).FindControl("txtOtros"), TextBox).Text
 
                 If ddlMotivo.SelectedValue = 11 Then
-
+                    txtJustif = txtOtros
                 End If
 
                 strOP = row("nro_op")
