@@ -509,10 +509,13 @@ Partial Class Siniestros_OrdenPago
                     If Not oSelector Is Nothing Then
                         oSelector.SelectedValue = oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() 'se agrego para cargar desde la tabla intermedia si es parcial/final aseurados terceros 
                         oSelector.Enabled = True
+                        If oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() = "P" Then
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 1
+                        Else
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 2
+                        End If
                     End If
-
                 End If
-
             End If
 
         Catch ex As Exception
@@ -700,7 +703,7 @@ Partial Class Siniestros_OrdenPago
                                 cmbTipoComprobante.DataValueField = "CodigoComprobante"
                                 cmbTipoComprobante.DataBind()
 
-                                    cmbTipoComprobante.SelectedValue = oDatos.Tables(0).Rows(0).Item("Id_Tipo_Doc")
+                                    'cmbTipoComprobante.SelectedValue = oDatos.Tables(0).Rows(0).Item("Id_Tipo_Doc")
                                 End If
 
                             'Onbase.Style("display") = ""
