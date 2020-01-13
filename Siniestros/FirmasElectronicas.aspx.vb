@@ -2529,9 +2529,9 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim ws As New ws_Generales.GeneralesClient
 
-            server = ws.ObtieneParametro(8)
+            server = ws.ObtieneParametro(9)
             server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-            server = Replace(server, "ReportesGMX", "ReportesOPSiniestros")
+            server = Replace(server, "ReportesGMX_UAT", "ReportesOPSiniestros")
             server = Replace(server, "OrdenPago", "OrdenPago_stro")
 
             For Each row In grdOrdenPago.Rows
@@ -2905,8 +2905,6 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
 
             End If
-
-
 
         Catch ex As Exception
             Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
