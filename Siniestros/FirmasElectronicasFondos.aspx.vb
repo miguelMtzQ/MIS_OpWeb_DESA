@@ -953,7 +953,7 @@ Partial Class Siniestros_FirmasElectronicas
 
 
                         If ddlMotivo.SelectedValue = 11 Then
-                            txtJustif = txtOtros
+                            strMotivoRechazo = txtOtros
                         End If
 
                         If sn_proceso = True Then
