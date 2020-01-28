@@ -493,10 +493,21 @@ Partial Class Siniestros_OrdenPago
                     oSelector = BuscarControlPorClase(e.Row, "estandar-control tipo_pago")
 
                     If Not oSelector Is Nothing Then
-                        oSelector.SelectedValue = "F"
+                        'oSelector.SelectedValue = "F"'Se comento para cargue por default el tipo de pago
                         'oSelector.Enabled = False' ffuentes 20191120 se agrega este codigo por que aun sea final siempre puede cambiar
+                        oSelector.SelectedValue = oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() 'se agrego para cargar desde la tabla intermedia si es parcial/final aseurados terceros 
+                        oSelector.Enabled = True
+                        If oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() = "P" Then
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 1
+                        Else
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 2
+                        End If
                     End If
-
+                    If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                        If oGrdOrden.Rows(iIndex)("ClasePago") <> "26" Then
+                            cmbOrigenOP.SelectedValue = 6
+                        End If
+                    End If
                     oGrdOrden.Rows(iIndex)("TipoPago") = 2
 
 
@@ -509,10 +520,13 @@ Partial Class Siniestros_OrdenPago
                     If Not oSelector Is Nothing Then
                         oSelector.SelectedValue = oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() 'se agrego para cargar desde la tabla intermedia si es parcial/final aseurados terceros 
                         oSelector.Enabled = True
+                        If oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() = "P" Then
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 1
+                        Else
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 2
+                        End If
                     End If
-
                 End If
-
             End If
 
         Catch ex As Exception
@@ -700,7 +714,7 @@ Partial Class Siniestros_OrdenPago
                                 cmbTipoComprobante.DataValueField = "CodigoComprobante"
                                 cmbTipoComprobante.DataBind()
 
-                                    cmbTipoComprobante.SelectedValue = oDatos.Tables(0).Rows(0).Item("Id_Tipo_Doc")
+                                    'cmbTipoComprobante.SelectedValue = oDatos.Tables(0).Rows(0).Item("Id_Tipo_Doc")
                                 End If
 
                             'Onbase.Style("display") = ""
