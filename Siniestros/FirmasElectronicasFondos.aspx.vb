@@ -953,7 +953,7 @@ Partial Class Siniestros_FirmasElectronicas
 
 
                         If ddlMotivo.SelectedValue = 11 Then
-                            txtJustif = txtOtros
+                            strMotivoRechazo = txtOtros
                         End If
 
                         If sn_proceso = True Then
@@ -2535,9 +2535,9 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim ws As New ws_Generales.GeneralesClient
 
-            server = ws.ObtieneParametro(3)
+            server = ws.ObtieneParametro(9)
             server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-            server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
+            server = Replace(server, "ReportesGMX_UAT", "ReportesOPSiniestros")
             server = Replace(server, "OrdenPago", "OrdenPago_stro")
 
             For Each row In grdOrdenPago.Rows
