@@ -497,6 +497,9 @@ Partial Class Siniestros_OrdenPago
                         'oSelector.Enabled = False' ffuentes 20191120 se agrega este codigo por que aun sea final siempre puede cambiar
                         oSelector.SelectedValue = oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() 'se agrego para cargar desde la tabla intermedia si es parcial/final aseurados terceros 
                         oSelector.Enabled = True
+                        If oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() = " " Then
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 1
+                        End If
                         If oSeleccionActual.Rows(0).Item("Id_Pagos").ToString() = "P" Then
                             oGrdOrden.Rows(iIndex)("TipoPago") = 1
                         Else
@@ -508,10 +511,6 @@ Partial Class Siniestros_OrdenPago
                             cmbOrigenOP.SelectedValue = 6
                         End If
                     End If
-                    oGrdOrden.Rows(iIndex)("TipoPago") = 2
-
-
-
                 Else
 
                     oSelector = New DropDownList
