@@ -1021,8 +1021,10 @@ Partial Class Siniestros_FirmasElectronicas
                             End If
 
                             fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','Usuario: " & Master.usuario & " /Motivo: " & strMotivoRechazo & "'")
-                            fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
-                            fn_Ejecuta("mis_UpdExpOP " & intFolioOnBase, True)
+                            'fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo)
+                            'fn_Ejecuta("mis_UpdExpOP " & intFolioOnBase, True)
+                            fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo & "," & intFolioOnBase)
+                            ' fn_Ejecuta("mis_UpdExpOP " & intFolioOnBase, True)
                             fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
                             fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
                         Else
