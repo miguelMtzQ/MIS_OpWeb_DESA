@@ -501,8 +501,6 @@ Partial Class Siniestros_OrdenPago
 
                     oGrdOrden.Rows(iIndex)("TipoPago") = 2
 
-
-
                 Else
 
                     oSelector = New DropDownList
@@ -510,6 +508,10 @@ Partial Class Siniestros_OrdenPago
 
                     If Not oSelector Is Nothing Then
                         oSelector.Enabled = True
+                        If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                            oSelector.SelectedValue = "F"
+                            oGrdOrden.Rows(iIndex)("TipoPago") = 2
+                        End If
                     End If
 
                 End If
