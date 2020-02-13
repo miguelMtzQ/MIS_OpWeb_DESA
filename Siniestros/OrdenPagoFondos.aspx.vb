@@ -833,81 +833,22 @@ Partial Class Siniestros_OrdenPago
                     Select Case Me.cmbTipoUsuario.SelectedValue
                         Case eTipoUsuario.Asegurado, eTipoUsuario.Tercero
 
-                            ''''oParametros.Add("Accion", 3)
-                            ''''oParametros.Add("Folio_OnBase", Me.txtSiniestro.Text.Trim)
+                            oParametros.Add("Accion", 2)
+                            oParametros.Add("Folio_OnBase", Me.txtSiniestro.Text.Trim)
 
-                            ''''oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_Catalogos_Fondos", oParametros)
+                            oDatos = Funciones.ObtenerDatos("MIS_sp_cir_op_stro_Catalogos_Fondos", oParametros)
 
-                            ''''Me.cmbSubsiniestro.Items.Clear()
-                            ''''Me.cmbOrigenOP.Items.Clear()
+                            oSeleccionActual = oDatos.Tables(0)
 
-                            ''''If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
+                            If Not oDatos.Tables(2) Is Nothing AndAlso oDatos.Tables(2).Rows.Count > 0 Then
 
-                            ''''    oSeleccionActual = oDatos.Tables(0)
+                                oOrigenesPago = IIf(oOrigenesPago Is Nothing OrElse oOrigenesPago.Rows.Count = 0, oDatos.Tables(2), oOrigenesPago)
+                                cmbOrigenOP.Items.Clear()
+                                For Each fila In oDatos.Tables(2).Rows
+                                    Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
+                                Next
 
-                            ''''    With oDatos.Tables(0).Rows(0)
-                            ''''        Me.txtSiniestro.Text = .Item("nro_stro")
-                            ''''        Me.txtRFC.Text = IIf(Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado, .Item("RFC"), String.Empty)
-                            ''''        Me.txtPoliza.Text = .Item("poliza")
-                            ''''        Me.txtMonedaPoliza.Text = .Item("txt_desc")
-                            ''''        Me.txtBeneficiario.Text = String.Format("{0} {1} {2}", .Item("txt_apellido1"), .Item("txt_apellido2"), .Item("txt_nombre")).ToUpper
-
-                            ''''        If Me.cmbTipoUsuario.SelectedValue = eTipoUsuario.Asegurado Then
-                            ''''            Me.txtBeneficiario_stro.Text = Me.txtBeneficiario.Text.Trim
-                            ''''            Me.txtCodigoBeneficiario_stro.Text = .Item("cod_aseg")
-                            ''''        Else
-                            ''''            Me.txtBeneficiario_stro.Text = String.Empty
-                            ''''            Me.txtCodigoBeneficiario_stro.Text = String.Empty
-                            ''''            Me.txtBeneficiario.Text = String.Empty
-                            ''''        End If
-
-                            ''''    End With
-
-                            ''''    oClavesPago = IIf(oDatos.Tables(1) Is Nothing OrElse oDatos.Tables(1).Rows.Count = 0, Nothing, oDatos.Tables(1))
-
-                            ''''    If Not oDatos.Tables(2) Is Nothing AndAlso oDatos.Tables(2).Rows.Count > 0 Then
-
-                            ''''        oOrigenesPago = IIf(oOrigenesPago Is Nothing OrElse oOrigenesPago.Rows.Count = 0, oDatos.Tables(2), oOrigenesPago)
-
-                            ''''        If Me.cmbOrigenOP.Items.Count > 0 Then
-                            ''''            Me.cmbOrigenOP.Items.Clear()
-                            ''''        End If
-
-                            ''''        For Each fila In oDatos.Tables(2).Rows
-                            ''''            Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
-                            ''''        Next
-
-                            ''''    End If
-
-                            ''''    For Each fila In oDatos.Tables(0).Rows
-                            ''''        Me.cmbSubsiniestro.Items.Add(New ListItem(String.Format("Subsiniestro {0}", fila.Item("id_substro")).ToUpper, fila.Item("id_substro")))
-                            ''''    Next
-                            ''''    'CARGO LOS TIPOS DE CODUMENTOS PARA ASEGURADOS Y TERCEROS
-                            ''''    cmbTipoComprobante.Items.Clear()
-                            ''''    If cmbTipoComprobante.Items.Count = 0 Then
-
-                            ''''        cmbTipoComprobante.DataSource = oDatos.Tables(4)
-                            ''''        cmbTipoComprobante.DataTextField = "Descripcion_Doc"
-                            ''''        cmbTipoComprobante.DataValueField = "Id_Tipo_Doc"
-                            ''''        cmbTipoComprobante.DataBind()
-
-                            ''''    End If
-
-                            ''''    Me.txtTipoCambio.Text = IIf(cmbMonedaPago.SelectedValue = 0, "1.00", ObtenerTipoCambio.ToString())
-
-                            ''''Else
-
-                            ''''    oSeleccionActual = Nothing
-
-                            ''''    Me.txtOnBase.Text = String.Empty
-                            ''''    Me.txtSiniestro.Text = String.Empty
-                            ''''    Me.txtRFC.Text = String.Empty
-                            ''''    Me.txtPoliza.Text = String.Empty
-                            ''''    Me.txtMonedaPoliza.Text = String.Empty
-                            ''''End If
-
-                            '''''Onbase.Style("display") = "none" 'FFUENTES none
-                            ''''pnlProveedor.Style("display") = "none"
+                            End If
 
                         Case Else
 
@@ -1101,12 +1042,12 @@ Partial Class Siniestros_OrdenPago
                             Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Siniestro y/o subsiniestro vacío", TipoMsg.Falla)
                             Return
                         End If
-
+                        '}).Where(Function(s) s.Siniestro = txtSiniestro.Text.Trim() AndAlso s.Subsiniestro = cmbSubsiniestro.SelectedValue.ToString()).FirstOrDefault()
                         oRegistro = oGrdOrden.AsEnumerable().[Select](Function(x) New With {
                                     Key .Siniestro = x.Field(Of String)("Siniestro"),
                                     Key .Subsiniestro = x.Field(Of String)("Subsiniestro"),
                                     Key .Poliza = x.Field(Of String)("Poliza")
-                          }).Where(Function(s) s.Siniestro = txtSiniestro.Text.Trim() AndAlso s.Subsiniestro = cmbSubsiniestro.SelectedValue.ToString()).FirstOrDefault()
+                            }).Where(Function(s) s.Siniestro = txtSiniestro.Text.Trim()).FirstOrDefault()
 
 
                     Case eTipoUsuario.Proveedor
@@ -1202,7 +1143,7 @@ Partial Class Siniestros_OrdenPago
 
                         'oFila("IdSiniestro") = oFilaSeleccion(0).Item("id_stro")'se comenta por tema de fondos 
                         oFila("IdSiniestro") = 1
-                        If eTipoUsuario.Proveedor Then
+                        If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
                             oFila("IdPersona") = oFilaSeleccion(0).Item("id_persona")
                         Else
                             oFila("IdPersona") = txtCodigoBeneficiario_stro.Text
@@ -1295,7 +1236,7 @@ Partial Class Siniestros_OrdenPago
 
                             Next
                             'lo comente pero si debe de ir
-                            txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim.ToString(), oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc").ToString())
+                            'txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim.ToString(), oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc").ToString())
                         End If
 
                         If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
@@ -2718,16 +2659,24 @@ Partial Class Siniestros_OrdenPago
 
                             Else
                                 InicializarValores()
-                                'Impresión reporte
-                                Dim ws As New ws_Generales.GeneralesClient
-                                Dim server As String = ws.ObtieneParametro(3)
-                                server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-                                server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros")
-                                server = Replace(server, "OrdenPago", "OrdenPago_stro")
-                                'Funciones.EjecutaFuncion("fn_ImprimirOrden('" & server & "','" & "234777" & "');")
-                                Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');",
-                                                                       server,
-                                                                       CStr(oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("OrdenPago"))))
+                                'Impresion Solicitud de Pago
+                                Dim wssp As New ws_Generales.GeneralesClient
+                                Dim serversp As String = wssp.ObtieneParametro(9)
+                                serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&P_varios_op=@nro_op"
+                                serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
+                                serversp = Replace(serversp, "OrdenPago", "SolicitudPago")
+
+                                Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", serversp, oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("SolicitudPago")), "sp")
+
+                                'Impresión reporte de numero de op 
+                                serversp = vbNullString
+                                serversp = wssp.ObtieneParametro(9)
+                                serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
+                                serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
+                                serversp = Replace(serversp, "OrdenPago", "OrdenPago_stro")
+
+                                Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", serversp, CStr(oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("OrdenPago"))), "op")
+
 
                                 Mensaje.MuestraMensaje("SINIESTROS", String.Format("Solicitud de pago: {0} \n Orden de pago: {1}",
                                                                                         oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("SolicitudPago"),
