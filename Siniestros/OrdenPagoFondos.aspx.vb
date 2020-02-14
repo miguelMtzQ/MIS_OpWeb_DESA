@@ -476,8 +476,9 @@ Partial Class Siniestros_OrdenPago
                 Else
                     'If cerrado_open_stro = 0 Then
                     CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"), 0)
-                    oGrdOrden.Rows(iIndex)("ClasePago") = oSelector.SelectedValue
                     oGrdOrden.Rows(iIndex)("ConceptoPago") = oSelectorcpto.SelectedValue
+                    CargarClasePago(e.Row, iIndex, txtCodigoBeneficiario_stro.Text, oSelectorcpto.SelectedValue)
+                    oGrdOrden.Rows(iIndex)("ClasePago") = oSelector.SelectedValue
                     'Else
                     '    oGrdOrden.Rows(iIndex)("ClasePago") = ""
                     '    oGrdOrden.Rows(iIndex)("ConceptoPago") = ""
