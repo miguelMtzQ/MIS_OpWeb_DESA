@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cph_principal" runat="Server">
     <asp:HiddenField runat="server" ID="hid_Ventanas" Value="1|0" />
-    <script src="../Scripts/Siniestros/OrdenPago.js"></script>
+    <script src="../Scripts/Siniestros/OrdenPagoFondos.js"></script>
     <style>
         .table>tbody>tr>td{
             padding: 0px;
