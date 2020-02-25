@@ -2616,16 +2616,19 @@ Partial Class Siniestros_OrdenPago
                                                                                             errorcuentacontable), TipoMsg.Falla)
 
                             Else
-                                InicializarValores()
+
                                 'Impresion Solicitud de Pago
                                 Dim wssp As New ws_Generales.GeneralesClient
                                 Dim serversp As String = wssp.ObtieneParametro(9)
-                                serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&P_varios_op=@nro_op"
-                                serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
-                                serversp = Replace(serversp, "OrdenPago", "SolicitudPago")
+                                'impresion de la solicitud de pago
+                                If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                                    serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&P_varios_op=@nro_op"
+                                    serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
+                                    serversp = Replace(serversp, "OrdenPago", "SolicitudPago")
+                                    Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", serversp, oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("SolicitudPago")), "sp")
 
-                                Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", serversp, oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("SolicitudPago")), "sp")
-
+                                End If
+                                InicializarValores()
                                 'Impresión reporte de numero de op 
                                 serversp = vbNullString
                                 serversp = wssp.ObtieneParametro(9)
