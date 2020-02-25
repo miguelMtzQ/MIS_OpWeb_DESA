@@ -420,6 +420,8 @@ Partial Class Siniestros_OrdenPago
                     CargarClasePago(e.Row, iIndex, txtCodigoBeneficiario_stro.Text, oSelectorcpto.SelectedValue)
                     'Dim clase_pago_default As Int16 = oSelector.SelectedValue
                     'Dim cpto_default As Int16 = oSelectorcpto.SelectedValue
+                    txtConceptoOP.Text = ""
+                    txtConceptoOP.Text = oSelectorcpto.SelectedValue.ToString() + ": " + oSelectorcpto.SelectedItem.ToString()
                 Else
                     'If cerrado_open_stro = 0 Then
                     CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"), 0)
