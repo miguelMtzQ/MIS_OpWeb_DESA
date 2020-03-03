@@ -339,16 +339,16 @@ Partial Class Siniestros_OrdenPago
                     'voy a ingresat este codigo para cargar la clase de pago en la descripcion de la op
                     txtConceptoOP.Text = ""
 
-                    For Each oFila In oGrdOrden.Rows
+                    'For Each oFila In oGrdOrden.Rows
 
-                        If txtConceptoOP.Text.Trim = String.Empty Then
-                            txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
-                        Else
-                            txtConceptoOP.Text = String.Format("{0}, {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
-                        End If
+                    '    If txtConceptoOP.Text.Trim = String.Empty Then
+                    '        txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
+                    '    Else
+                    '        txtConceptoOP.Text = String.Format("{0}, {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
+                    '    End If
 
-                    Next
-                    txtConceptoOP.Text = String.Format("{0} {1}", cmb.SelectedValue.Trim.ToString(), cmb.SelectedItem.ToString()) ' + " " + cmbClasePago.SelectedValue + ": " + cmbClasePago.SelectedItem.ToString())
+                    'Next
+                    txtConceptoOP.Text = txtSiniestro.Text + " " + cmb.SelectedItem.ToString() ' + " " + cmbClasePago.SelectedValue + ": " + cmbClasePago.SelectedItem.ToString())
 
                 Case "tipo_pago"
                     oGrdOrden.Rows(iFila)("TipoPago") = IIf(cmb.SelectedValue = "P", 1, 2)
@@ -421,7 +421,7 @@ Partial Class Siniestros_OrdenPago
                     'Dim clase_pago_default As Int16 = oSelector.SelectedValue
                     'Dim cpto_default As Int16 = oSelectorcpto.SelectedValue
                     txtConceptoOP.Text = ""
-                    txtConceptoOP.Text = oSelectorcpto.SelectedValue.ToString() + ": " + oSelectorcpto.SelectedItem.ToString()
+                    txtConceptoOP.Text = txtSiniestro.Text + " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
                 Else
                     'If cerrado_open_stro = 0 Then
                     CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"), 0)
@@ -430,7 +430,7 @@ Partial Class Siniestros_OrdenPago
                     oGrdOrden.Rows(iIndex)("ClasePago") = oSelector.SelectedValue
 
                     txtConceptoOP.Text = ""
-                    txtConceptoOP.Text = oSelectorcpto.SelectedValue.ToString() + ": " + oSelectorcpto.SelectedItem.ToString() ' + " " + oSelector.SelectedValue + ":" + oSelector.SelectedItem.ToString()
+                    txtConceptoOP.Text = txtSiniestro.Text + " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
 
 
 
@@ -1440,10 +1440,10 @@ Partial Class Siniestros_OrdenPago
                 oSolicitudPago.AppendLine("<SolicitudPago>")
                 oSolicitudPago.AppendFormat("<UsuarioSII>{0}</UsuarioSII>", IIf(Master.cod_usuario = String.Empty, "JJIMENEZ", Master.cod_usuario))
                 oSolicitudPago.AppendFormat("<NumeroSiniestro>{0}</NumeroSiniestro>", txtSiniestro.Text.Trim)
-                oSolicitudPago.AppendFormat("<TotalPagoMoneda>{0}</TotalPagoMoneda>", CDbl(iptxtTotal.Text))
-                oSolicitudPago.AppendFormat("<TotalPagoNacional>{0}</TotalPagoNacional>", IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, CDbl(iptxtTotal.Text), CDbl(iptxtTotal.Text)))
+                oSolicitudPago.AppendFormat("<TotalPagoMoneda>{0}</TotalPagoMoneda>", CDbl(iptxtTotalAutorizacion.Text))
+                oSolicitudPago.AppendFormat("<TotalPagoNacional>{0}</TotalPagoNacional>", IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, CDbl(iptxtTotalAutorizacion.Text), CDbl(iptxtTotalAutorizacion.Text)))
                 oSolicitudPago.AppendFormat("<TotalIVA>{0}</TotalIVA>", CDbl(iptxtTotalImpuestos.Text))
-                oSolicitudPago.AppendFormat("<TotalPago>{0}</TotalPago>", CDbl(iptxtTotal.Text))
+                oSolicitudPago.AppendFormat("<TotalPago>{0}</TotalPago>", CDbl(iptxtTotalAutorizacion.Text))
                 oSolicitudPago.AppendFormat("<VariasFacturas>{0}</VariasFacturas>", IIf(chkVariasFacturas.Checked, "Y", "N"))
 
                 Select Case cmbTipoUsuario.SelectedValue
@@ -2105,12 +2105,15 @@ Partial Class Siniestros_OrdenPago
                             'se agrego este filtro para varios conceptos
                             If chkVariosConceptos.Checked = False Then
                                 Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
-                                txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                                txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'Se Limpia los importes de la factura en ceros y se habilitan para su ingreso manual
+                                'txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
                                 txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
                                 txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                                txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                                txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'se habilitan
+
                                 If dcod_clase_pago = 26 AndAlso dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
                                     txtTotalAutorizacion.Text = dPago
                                     txtTotalImpuestos.Text = 0
