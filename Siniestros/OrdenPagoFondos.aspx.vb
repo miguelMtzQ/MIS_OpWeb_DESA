@@ -348,7 +348,7 @@ Partial Class Siniestros_OrdenPago
                     '    End If
 
                     'Next
-                    txtConceptoOP.Text = txtSiniestro.Text + " " + cmb.SelectedItem.ToString() ' + " " + cmbClasePago.SelectedValue + ": " + cmbClasePago.SelectedItem.ToString())
+                    txtConceptoOP.Text = txtSiniestro.Text '+ " " + cmb.SelectedItem.ToString() ' + " " + cmbClasePago.SelectedValue + ": " + cmbClasePago.SelectedItem.ToString())
 
                 Case "tipo_pago"
                     oGrdOrden.Rows(iFila)("TipoPago") = IIf(cmb.SelectedValue = "P", 1, 2)
@@ -421,7 +421,7 @@ Partial Class Siniestros_OrdenPago
                     'Dim clase_pago_default As Int16 = oSelector.SelectedValue
                     'Dim cpto_default As Int16 = oSelectorcpto.SelectedValue
                     txtConceptoOP.Text = ""
-                    txtConceptoOP.Text = txtSiniestro.Text + " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
+                    txtConceptoOP.Text = txtSiniestro.Text '+ " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
                 Else
                     'If cerrado_open_stro = 0 Then
                     CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"), 0)
@@ -430,7 +430,7 @@ Partial Class Siniestros_OrdenPago
                     oGrdOrden.Rows(iIndex)("ClasePago") = oSelector.SelectedValue
 
                     txtConceptoOP.Text = ""
-                    txtConceptoOP.Text = txtSiniestro.Text + " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
+                    txtConceptoOP.Text = txtSiniestro.Text '+ " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
 
 
 
