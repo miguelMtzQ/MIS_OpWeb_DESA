@@ -339,16 +339,22 @@ Partial Class Siniestros_OrdenPago
                     'voy a ingresat este codigo para cargar la clase de pago en la descripcion de la op
                     txtConceptoOP.Text = ""
 
-                    For Each oFila In oGrdOrden.Rows
+                    'For Each oFila In oGrdOrden.Rows
 
-                        If txtConceptoOP.Text.Trim = String.Empty Then
-                            txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
-                        Else
-                            txtConceptoOP.Text = String.Format("{0}, {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
-                        End If
+                    '    If txtConceptoOP.Text.Trim = String.Empty Then
+                    '        txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
+                    '    Else
+                    '        txtConceptoOP.Text = String.Format("{0}, {1}", txtConceptoOP.Text.Trim, oFila("Siniestro"))
+                    '    End If
 
-                    Next
-                    txtConceptoOP.Text = String.Format("{0} {1}", cmb.SelectedValue.Trim.ToString(), cmb.SelectedItem.ToString()) ' + " " + cmbClasePago.SelectedValue + ": " + cmbClasePago.SelectedItem.ToString())
+                    'Next
+                    If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                        CargarOrigenPago(10, cmb.SelectedValue)
+                    Else
+                        CargarOrigenPago(8, cmb.SelectedValue)
+                    End If
+
+                    txtConceptoOP.Text = txtSiniestro.Text + " " + cmbOrigenOP.SelectedItem.ToString() '+ " " + cmb.SelectedItem.ToString() ' + " " + cmbClasePago.SelectedValue + ": " + cmbClasePago.SelectedItem.ToString())
 
                 Case "tipo_pago"
                     oGrdOrden.Rows(iFila)("TipoPago") = IIf(cmb.SelectedValue = "P", 1, 2)
@@ -420,8 +426,9 @@ Partial Class Siniestros_OrdenPago
                     CargarClasePago(e.Row, iIndex, txtCodigoBeneficiario_stro.Text, oSelectorcpto.SelectedValue)
                     'Dim clase_pago_default As Int16 = oSelector.SelectedValue
                     'Dim cpto_default As Int16 = oSelectorcpto.SelectedValue
+                    CargarOrigenPago(10, oSelectorcpto.SelectedValue)
                     txtConceptoOP.Text = ""
-                    txtConceptoOP.Text = oSelectorcpto.SelectedValue.ToString() + ": " + oSelectorcpto.SelectedItem.ToString()
+                    txtConceptoOP.Text = txtSiniestro.Text + " " + cmbOrigenOP.SelectedItem.ToString() '+ " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
                 Else
                     'If cerrado_open_stro = 0 Then
                     CargarConceptosPagodefault(e.Row, iIndex, oGrdOrden.Rows(iIndex)("ClasePago"), 0)
@@ -429,8 +436,9 @@ Partial Class Siniestros_OrdenPago
                     CargarClasePago(e.Row, iIndex, txtCodigoBeneficiario_stro.Text, oSelectorcpto.SelectedValue)
                     oGrdOrden.Rows(iIndex)("ClasePago") = oSelector.SelectedValue
 
+                    CargarOrigenPago(8, oSelectorcpto.SelectedValue)
                     txtConceptoOP.Text = ""
-                    txtConceptoOP.Text = oSelectorcpto.SelectedValue.ToString() + ": " + oSelectorcpto.SelectedItem.ToString() ' + " " + oSelector.SelectedValue + ":" + oSelector.SelectedItem.ToString()
+                    txtConceptoOP.Text = txtSiniestro.Text + " " + cmbOrigenOP.SelectedItem.ToString() '+ " " + oSelector.SelectedValue.ToString() + " " + oSelector.SelectedItem.ToString()
 
 
 
@@ -1440,10 +1448,10 @@ Partial Class Siniestros_OrdenPago
                 oSolicitudPago.AppendLine("<SolicitudPago>")
                 oSolicitudPago.AppendFormat("<UsuarioSII>{0}</UsuarioSII>", IIf(Master.cod_usuario = String.Empty, "JJIMENEZ", Master.cod_usuario))
                 oSolicitudPago.AppendFormat("<NumeroSiniestro>{0}</NumeroSiniestro>", txtSiniestro.Text.Trim)
-                oSolicitudPago.AppendFormat("<TotalPagoMoneda>{0}</TotalPagoMoneda>", CDbl(iptxtTotal.Text))
-                oSolicitudPago.AppendFormat("<TotalPagoNacional>{0}</TotalPagoNacional>", IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, CDbl(iptxtTotal.Text), CDbl(iptxtTotal.Text)))
+                oSolicitudPago.AppendFormat("<TotalPagoMoneda>{0}</TotalPagoMoneda>", CDbl(iptxtTotalAutorizacion.Text))
+                oSolicitudPago.AppendFormat("<TotalPagoNacional>{0}</TotalPagoNacional>", IIf(cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor, CDbl(iptxtTotalAutorizacion.Text), CDbl(iptxtTotalAutorizacion.Text)))
                 oSolicitudPago.AppendFormat("<TotalIVA>{0}</TotalIVA>", CDbl(iptxtTotalImpuestos.Text))
-                oSolicitudPago.AppendFormat("<TotalPago>{0}</TotalPago>", CDbl(iptxtTotal.Text))
+                oSolicitudPago.AppendFormat("<TotalPago>{0}</TotalPago>", CDbl(iptxtTotalAutorizacion.Text))
                 oSolicitudPago.AppendFormat("<VariasFacturas>{0}</VariasFacturas>", IIf(chkVariasFacturas.Checked, "Y", "N"))
 
                 Select Case cmbTipoUsuario.SelectedValue
@@ -1494,6 +1502,7 @@ Partial Class Siniestros_OrdenPago
                 oSolicitudPago.AppendFormat("<FechaIngreso>{0}</FechaIngreso>", Convert.ToDateTime(txtFechaContable.Text.Trim).ToString("yyyyMMdd"))
                 oSolicitudPago.AppendFormat("<FechaEstimadoPago>{0}</FechaEstimadoPago>", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
                 oSolicitudPago.AppendFormat("<Analista_Fondos>{0}</Analista_Fondos>", cmbAnalistaSolicitante.SelectedValue)
+                oSolicitudPago.AppendFormat("<Sn_FondosSinIva>{0}</Sn_FondosSinIva>", IIf(chkFondosSinIVA.Checked, "Y", "N"))
 
                 For Each oFila In oGrdOrden.Rows
 
@@ -2105,12 +2114,15 @@ Partial Class Siniestros_OrdenPago
                             'se agrego este filtro para varios conceptos
                             If chkVariosConceptos.Checked = False Then
                                 Mensaje.MuestraMensaje("Calculo de totales", "No se encontro información para el cálculo de impuestos", TipoMsg.Falla)
-                                txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                                txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'Se Limpia los importes de la factura en ceros y se habilitan para su ingreso manual
+                                'txtTotalAutorizacionNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'txtTotalAutorizacionFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
                                 txtTotalImpuestosFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
                                 txtTotalRetencionesFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                                txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
-                                txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'txtTotalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'txtTotalNacionalFac.Text = String.Format("{0:0,0.00}", Math.Round(0, 2))
+                                'se habilitan
+
                                 If dcod_clase_pago = 26 AndAlso dImporteImpuesto = -1 AndAlso dImporteRetencion = -1 Then
                                     txtTotalAutorizacion.Text = dPago
                                     txtTotalImpuestos.Text = 0
@@ -2139,6 +2151,10 @@ Partial Class Siniestros_OrdenPago
                                 'varios conceptos
                                 iptxtTotalAutorizacion.Text = dPago + iptxtTotalAutorizacion.Text
                                 iptxtTotalImpuestos.Text = dImporteImpuesto + iptxtTotalImpuestos.Text
+                                If chkFondosSinIVA.Checked = True Then
+                                    dImporteImpuesto = iptxtTotalImpuestos.Text + 1
+                                End If
+                                'iptxtTotalImpuestos.Text = txtTotalImpuestosFac.Text
                                 iptxtTotalRetenciones.Text = dImporteRetencion + iptxtTotalRetenciones.Text
                                 iptxtTotal.Text = dPago + iptxtTotal.Text
                                 iptxtTotalNacional.Text = dPago + iptxtTotalNacional.Text
@@ -2460,6 +2476,7 @@ Partial Class Siniestros_OrdenPago
         cmbTipoUsuario.Enabled = True
         chkVariasFacturas.Checked = False
         chkVariosConceptos.Checked = False
+        chkFondosSinIVA.Checked = False
     End Sub
     Public Sub LimpiarOrdenPago() Handles btnLimpiar.Click
         Limpiartodo()
@@ -2683,6 +2700,66 @@ Partial Class Siniestros_OrdenPago
 
         Catch ex As Exception
             Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("CargarCatalogosCuentasBancarias error: {0}", ex.Message), TipoMsg.Falla)
+        End Try
+
+    End Sub
+    Public Sub CargarOrigenPago(ByVal TipoUsuario As Integer, ByVal scpto As Integer)
+
+        Dim oParametros As New Dictionary(Of String, Object)
+
+        ' Dim cmbConceptoPago As DropDownList
+        'Dim cmbClasePago As DropDownList
+
+        Dim oDatos As DataSet
+
+        Try
+
+            oParametros = New Dictionary(Of String, Object)
+
+            oDatos = New DataSet
+
+            '  cmbConceptoPago = New DropDownList
+            '  cmbClasePago = New DropDownList
+
+            '  cmbConceptoPago = BuscarControlPorClase(oRegistro, "estandar-control concepto_pago")
+            '  cmbClasePago = BuscarControlPorClase(oRegistro, "estandar-control clase_pago")
+
+            ' If Not cmbConceptoPago Is Nothing Then
+            oParametros.Add("tipoModulo", 3)
+            If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+                oParametros.Add("tipoAbona", 10)
+            Else
+                oParametros.Add("tipoAbona", 8)
+            End If
+
+            oParametros.Add("cod_cpto", scpto)
+            'oParametros.Add("cod_cpto", scpto)
+            '    oParametros.Add("folioonbase", txtOnBase.Text) 'Folios onbase
+
+            oDatos = Funciones.ObtenerDatos("mis_ObtieneOrigenPago", oParametros)
+
+            If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
+
+                If cmbOrigenOP.Items.Count > 0 Then
+                    cmbOrigenOP.Items.Clear()
+                End If
+                cmbOrigenOP.DataSource = oDatos
+                cmbOrigenOP.DataTextField = "desc_origen_pago"
+                cmbOrigenOP.DataValueField = "cod_origen_pago"
+                cmbOrigenOP.DataBind()
+
+                'Dim sss As String = cmbOrigenOP.SelectedValue
+            Else
+                'Mensaje.MuestraMensaje("Orden de pago de siniestros", String.Format("El PROVEEDOR NO TIENE HABILITADO ESTA CLASE DE CLASE DE PAGO", "COD_CLASE_PAGO:" + sValor, "CODIGO DE PROVEEDOR" + Me.txtCodigoBeneficiario_stro.Text), TipoMsg.Advertencia)
+                'oGrdOrden.Rows(iFila)("ConceptoPago") = ""
+                'cmbConceptoPago.Items.Clear()
+                'cmbClasePago.Items.Clear()
+            End If
+
+            ' End If
+
+        Catch ex As Exception
+            Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("Clase de pago no habilitada: {0}", ex.Message), TipoMsg.Falla)
         End Try
 
     End Sub
