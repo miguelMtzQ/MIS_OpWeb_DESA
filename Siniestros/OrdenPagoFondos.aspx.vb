@@ -1502,6 +1502,7 @@ Partial Class Siniestros_OrdenPago
                 oSolicitudPago.AppendFormat("<FechaIngreso>{0}</FechaIngreso>", Convert.ToDateTime(txtFechaContable.Text.Trim).ToString("yyyyMMdd"))
                 oSolicitudPago.AppendFormat("<FechaEstimadoPago>{0}</FechaEstimadoPago>", Convert.ToDateTime(txtFechaEstimadaPago.Text.Trim).ToString("yyyyMMdd"))
                 oSolicitudPago.AppendFormat("<Analista_Fondos>{0}</Analista_Fondos>", cmbAnalistaSolicitante.SelectedValue)
+                oSolicitudPago.AppendFormat("<Sn_FondosSinIva>{0}</Sn_FondosSinIva>", IIf(chkFondosSinIVA.Checked, "Y", "N"))
 
                 For Each oFila In oGrdOrden.Rows
 
@@ -2150,6 +2151,10 @@ Partial Class Siniestros_OrdenPago
                                 'varios conceptos
                                 iptxtTotalAutorizacion.Text = dPago + iptxtTotalAutorizacion.Text
                                 iptxtTotalImpuestos.Text = dImporteImpuesto + iptxtTotalImpuestos.Text
+                                If chkFondosSinIVA.Checked = True Then
+                                    dImporteImpuesto = iptxtTotalImpuestos.Text + 1
+                                End If
+                                'iptxtTotalImpuestos.Text = txtTotalImpuestosFac.Text
                                 iptxtTotalRetenciones.Text = dImporteRetencion + iptxtTotalRetenciones.Text
                                 iptxtTotal.Text = dPago + iptxtTotal.Text
                                 iptxtTotalNacional.Text = dPago + iptxtTotalNacional.Text
@@ -2471,6 +2476,7 @@ Partial Class Siniestros_OrdenPago
         cmbTipoUsuario.Enabled = True
         chkVariasFacturas.Checked = False
         chkVariosConceptos.Checked = False
+        chkFondosSinIVA.Checked = False
     End Sub
     Public Sub LimpiarOrdenPago() Handles btnLimpiar.Click
         Limpiartodo()
