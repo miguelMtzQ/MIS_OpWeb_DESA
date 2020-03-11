@@ -156,6 +156,11 @@
                             <div class="form-check Centrado">
                                 <asp:CheckBox runat="server" ID="chkVariosConceptos" Text="Varios conceptos" CssClass="etiqueta-control" />
                             </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <div class="form-check Centrado">
+                                <asp:CheckBox runat="server" ID="chkFondosSinIVA" Text="Fondos Sin IVA" CssClass="etiqueta-control" />
+                            </div>
                         </div>                        
                     </div>     
                                                       
