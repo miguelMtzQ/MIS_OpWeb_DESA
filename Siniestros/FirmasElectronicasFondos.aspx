@@ -690,6 +690,7 @@
                                                         <div class="row" style="border-style: inset; border-width: 1px;">
                                                             <div style="width: 100%; border-bottom: inset; border-width: 1px; text-align: left;">
                                                                 <asp:Label runat="server" Font-Bold="true">CONTABILIDAD EN TRANSITO</asp:Label>
+                                                                 <asp:Label runat="server" id="lblSolPago" class="col-md-4" Visible="false" Text='<%# Eval("SolicitudPago") %>'></asp:Label>
                                                             </div>
                                                             <asp:Panel runat="server" ID="Panel1" Width="100%" ScrollBars="None">
                                                                 <asp:GridView runat="server" ID="grdContabilidadTransito" AutoGenerateColumns="false"
@@ -920,6 +921,12 @@
                                 <span>
                                     <img class="btn-imprimir"/>
                                     Imprimir
+                                </span>
+                            </asp:LinkButton>
+                            <asp:LinkButton id="btn_impSol" runat="server" class="btn botones">
+                                <span>
+                                    <img class="btn-imprimir"/>
+                                    Solicitud
                                 </span>
                             </asp:LinkButton>
                            <asp:LinkButton id="btn_SelTodos" runat="server" class="btn botones">
