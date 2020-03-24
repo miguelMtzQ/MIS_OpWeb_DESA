@@ -329,6 +329,7 @@ Partial Class Siniestros_FirmasElectronicas
                 btn_Ninguna.Visible = True
 
                 btn_Imprimir.Visible = True
+                btn_impSol.Visible = True
                 btn_SelTodos.Visible = True
 
                 btn_Firmar.Visible = True
@@ -416,6 +417,7 @@ Partial Class Siniestros_FirmasElectronicas
                 btn_Ninguna.Visible = False
 
                 btn_Imprimir.Visible = False
+                btn_impSol.Visible = False
                 btn_SelTodos.Visible = False
                 btn_Firmar.Visible = False
                 btn_BuscaOP.Visible = True
@@ -2537,7 +2539,7 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim ws As New ws_Generales.GeneralesClient
 
-            server = ws.ObtieneParametro(9)
+                server = ws.ObtieneParametro(9)
             server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
             server = Replace(server, "ReportesGMX_UAT", "ReportesOPSiniestros")
             server = Replace(server, "OrdenPago", "OrdenPago_stro")
@@ -2546,6 +2548,7 @@ Partial Class Siniestros_FirmasElectronicas
 
                 If TryCast(row.FindControl("chk_Print"), CheckBox).Checked Then
                     strOrdenPago = String.Format("{0}, {1}", strOrdenPago, DirectCast(row.FindControl("lblOrdenPago"), Label).Text.Trim)
+
                 End If
 
             Next
@@ -2718,6 +2721,8 @@ Partial Class Siniestros_FirmasElectronicas
                 If Not dtConsulta Is Nothing AndAlso dtConsulta.Rows.Count > 0 Then
                     Funciones.LlenaGrid(TryCast(e.Row.FindControl("grdContabilidadTransito"), GridView), dtConsulta)
                 End If
+
+
 
                 dtConsulta = Nothing
 
@@ -2978,5 +2983,31 @@ Partial Class Siniestros_FirmasElectronicas
 
     End Sub
 
+    Private Sub btn_impSol_Click(sender As Object, e As EventArgs) Handles btn_impSol.Click
+        'Solicitud
 
+        'Impresion Solicitud de Pago
+        Dim wssp As New ws_Generales.GeneralesClient
+        Dim serversp As String = wssp.ObtieneParametro(9)
+        'impresion de la solicitud de pago
+        'If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+        serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&P_varios_op=@nro_op"
+        serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
+        serversp = Replace(serversp, "OrdenPago", "SolicitudPago")
+
+
+        For Each row In grdOrdenPago.Rows
+
+            If TryCast(row.FindControl("chk_Print"), CheckBox).Checked Then
+
+                'obtiene el numero de pago
+
+
+                'Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", serversp, DirectCast(row.FindControl("lblSolPago"), Label).Text.Trim), "sp")
+                Funciones.EjecutaFuncion(String.Format("fn_Imprime_OP('{0}','{1}');", serversp, DirectCast(row.FindControl("lblSolPago"), Label).Text.Trim))
+            End If
+
+        Next
+        'End If
+    End Sub
 End Class
