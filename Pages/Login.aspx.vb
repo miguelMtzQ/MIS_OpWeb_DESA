@@ -64,6 +64,7 @@ Partial Class Pages_Login
         Try
             Dim ws As New ws_Generales.GeneralesClient
             Dim dtUsuario As New DataTable
+            Dim MenuUsuStr As String
 
             'Validadción en Active Directory
             If Funciones.IsAuthenticated("GMX.COM.MX", txt_usuario.Text, txt_contraseña.Text) = True Then
@@ -75,7 +76,10 @@ Partial Class Pages_Login
                     Funciones.fn_InsertaBitacora(Cons.ModuloRea, 0, dtUsuario.Rows(0)("cod_usuario"), "Accceso a SIR")
 
                     Session.Timeout = 360
-                    If dtUsuario.Rows(0)("cod_usuario") = "CLOPEZ" Or dtUsuario.Rows(0)("cod_usuario") = "AMEZA" Or dtUsuario.Rows(0)("cod_usuario") = "CREYES" Or dtUsuario.Rows(0)("cod_usuario") = "FFUENTES" Then
+                    MenuUsuStr = ws.ObtieneParametro(31)
+
+                    'If dtUsuario.Rows(0)("cod_usuario") = "CLOPEZ" Or dtUsuario.Rows(0)("cod_usuario") = "JALOPEZ" Or dtUsuario.Rows(0)("cod_usuario") = "CREYES" Or dtUsuario.Rows(0)("cod_usuario") = "FFUENTES" Then
+                    If InStr(MenuUsuStr, dtUsuario.Rows(0)("cod_usuario")) Then
                         Session.Add("Menu", ArmaMenu(Funciones.Lista_A_Datatable(ws.ObtieneMenu(dtUsuario.Rows(0)("cod_usuario"), Cons.ModuloStrosAdmon).ToList)))
                     Else
                         Session.Add("Menu", ArmaMenu(Funciones.Lista_A_Datatable(ws.ObtieneMenu(dtUsuario.Rows(0)("cod_usuario"), Cons.ModuloStrosTec).ToList)))
@@ -106,6 +110,7 @@ Partial Class Pages_Login
             Else
                 Mensaje.MuestraMensaje("Login", "Usuario y/o Contraseña incorrectos", TipoMsg.Falla)
             End If
+
         Catch ex As Exception
             Mensaje.MuestraMensaje("Login", ex.Message, TipoMsg.Falla)
             Funciones.fn_InsertaExcepcion(Cons.ModuloRea, 0, txt_usuario.Text, "btn_Aceptar_Click: " & ex.Message)

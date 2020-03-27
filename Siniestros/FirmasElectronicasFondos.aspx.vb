@@ -132,7 +132,14 @@ Partial Class Siniestros_FirmasElectronicas
         End Try
     End Sub
     Private Sub ValidaUsrFiltros()
-        If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Or Master.cod_usuario = "MMQUINTERO" Then
+        Dim ws As New ws_Generales.GeneralesClient
+
+        Dim FiltrosUsuStr As String
+
+        FiltrosUsuStr = ws.ObtieneParametro(30)
+
+        If InStr(FiltrosUsuStr, Master.cod_usuario) Then
+            'If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Or Master.cod_usuario = "MMQUINTERO" Then
             chk_Todas.Visible = True
             chk_PorRevisar.Visible = True
             chk_Revisadas.Visible = True
@@ -2539,9 +2546,9 @@ Partial Class Siniestros_FirmasElectronicas
 
             Dim ws As New ws_Generales.GeneralesClient
 
-                server = ws.ObtieneParametro(9)
+            server = ws.ObtieneParametro(8)
             server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-            server = Replace(server, "ReportesGMX_UAT", "ReportesOPSiniestros")
+            server = Replace(server, "ReportesGMX", "ReportesOPSiniestros")
             server = Replace(server, "OrdenPago", "OrdenPago_stro")
 
             For Each row In grdOrdenPago.Rows
@@ -2988,11 +2995,11 @@ Partial Class Siniestros_FirmasElectronicas
 
         'Impresion Solicitud de Pago
         Dim wssp As New ws_Generales.GeneralesClient
-        Dim serversp As String = wssp.ObtieneParametro(9)
+        Dim serversp As String = wssp.ObtieneParametro(8)
         'impresion de la solicitud de pago
         'If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
         serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&P_varios_op=@nro_op"
-        serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
+        serversp = Replace(serversp, "ReportesGMX", "ReportesOPSiniestros")
         serversp = Replace(serversp, "OrdenPago", "SolicitudPago")
 
 
