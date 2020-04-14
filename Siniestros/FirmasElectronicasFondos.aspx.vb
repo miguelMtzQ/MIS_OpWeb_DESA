@@ -924,21 +924,29 @@ Partial Class Siniestros_FirmasElectronicas
                         If OPCompletada = False Then
 
                             If sn_proceso = True Then
-                                If Master.cod_usuario = "CLOPEZ" And Master.cod_usuario = "CREYES" And Master.cod_usuario = "AMEZA" Then
+
+                                Dim ws As New ws_Generales.GeneralesClient
+
+                                Dim AdminUsuStr As String
+                                AdminUsuStr = ws.ObtieneParametro(30)
+
+                                If InStr(AdminUsuStr, Master.cod_usuario) Then
+
+                                    'If Master.cod_usuario = "CLOPEZ" And Master.cod_usuario = "CREYES" And Master.cod_usuario = "AMEZA" Then
                                     fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosFondos & ",-2")
-                                    'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
-                                    Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
-                                Else
+                                        'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                                        Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
+                                    Else
 
-                                    If fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",-1,'" & codRol & "'") = 1 Then
-                                        fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosFondos & ",0")
+                                        If fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",-1,'" & codRol & "'") = 1 Then
+                                            fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosFondos & ",0")
 
-                                        fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosFondos & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
-                                        Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron las firmas correspondientes", Mensaje.TipoMsg.Confirma)
+                                            fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & Cons.StrosFondos & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
+                                            Mensaje.MuestraMensaje("Autorizaciones", "Se aplicaron las firmas correspondientes", Mensaje.TipoMsg.Confirma)
+                                        End If
                                     End If
                                 End If
                             End If
-                        End If
                         dtAutoriza.Rows.Add(strOP)
 
                     Else 'rechazo
@@ -2164,7 +2172,15 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
 
-                If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Then
+
+            Dim ws As New ws_Generales.GeneralesClient
+
+            Dim AdminUsuStr As String
+            AdminUsuStr = ws.ObtieneParametro(30)
+
+            If InStr(AdminUsuStr, Master.cod_usuario) Then
+
+                '  If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Then
                 chk_Impresion.Enabled = True
                 chkRech.Enabled = True
             End If

@@ -734,6 +734,8 @@ Partial Class Siniestros_FirmasElectronicas
         Dim codRol As String = ""
         Dim OPCompletada As Boolean = False
 
+        Dim ws As New ws_Generales.GeneralesClient
+
         fn_Autorizaciones = False
         dtAutorizaciones = New DataTable
         dtAutorizaciones.Columns.Add("nro_op")
@@ -919,7 +921,12 @@ Partial Class Siniestros_FirmasElectronicas
                         If OPCompletada = False Then
 
                             If sn_proceso = True Then
-                                If Master.cod_usuario = "CLOPEZ" And Master.cod_usuario = "CREYES" And Master.cod_usuario = "AMEZA" Then
+                                Dim AdminUsuStr As String
+                                AdminUsuStr = ws.ObtieneParametro(30)
+
+                                If InStr(AdminUsuStr, Master.cod_usuario) Then
+
+                                    'If Master.cod_usuario = "CLOPEZ" And Master.cod_usuario = "CREYES" And Master.cod_usuario = "AMEZA" Then
                                     fn_Ejecuta("mis_InsertaOPsEnviadas " & strOP & ",'" & UsuarioFirma & "'," & Cons.StrosTradicional & ",-2")
                                     'fn_Ejecuta("mis_EmailsOPStros '" & strOP & "','" & cmbModuloOP.SelectedItem.Value & "','" & UsuarioFirma & "','" & Master.usuario & "','" & codRol & "'")
                                     Mensaje.MuestraMensaje("Autorizaciones", "Se enviarán las Ordenes de Pago en el horario parametrizado", Mensaje.TipoMsg.Confirma)
@@ -2047,6 +2054,10 @@ Partial Class Siniestros_FirmasElectronicas
 
 
     Private Sub DesHabilitaChecksFirma()
+        Dim ws As New ws_Generales.GeneralesClient
+
+        Dim AdminUsuStr As String
+
         For Each row In grdOrdenPago.Rows
 
 
@@ -2159,7 +2170,11 @@ Partial Class Siniestros_FirmasElectronicas
                 End If
             End If
 
-                If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Then
+
+            AdminUsuStr = ws.ObtieneParametro(30)
+
+            If InStr(AdminUsuStr, Master.cod_usuario) Then
+                'If Master.cod_usuario = "CLOPEZ" Or Master.cod_usuario = "AMEZA" Or Master.cod_usuario = "CREYES" Then
                 chk_Impresion.Enabled = True
                 chkRech.Enabled = True
             End If
