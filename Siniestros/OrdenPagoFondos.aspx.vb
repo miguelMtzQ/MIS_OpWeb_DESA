@@ -825,10 +825,14 @@ Partial Class Siniestros_OrdenPago
                         Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Ingrese una fecha válida", TipoMsg.Advertencia)
                     End If
                 Case "fechadepago"
-                    If Me.txtFechaEstimadaPago.Text < DateTime.Now.ToString("dd/MM/yyyy") Then
+                    If Me.txtFechaEstimadaPago.Text < Now Then
                         Mensaje.MuestraMensaje("OrdenPagoSiniestros", "No Puede ingresar una fecha menor al dia de hoy", TipoMsg.Advertencia)
-                        Me.txtFechaEstimadaPago.Text = DateTime.Now.ToString("dd/MM/yyyy")
+                        Me.txtFechaEstimadaPago.Text = Now.ToString("dd/MM/yyyy")
                     End If
+                    'If Me.txtFechaEstimadaPago.Text < DateTime.Now.ToString("dd/MM/yyyy") Then
+                    '    Mensaje.MuestraMensaje("OrdenPagoSiniestros", "No Puede ingresar una fecha menor al dia de hoy", TipoMsg.Advertencia)
+                    '    Me.txtFechaEstimadaPago.Text = DateTime.Now.ToString("dd/MM/yyyy")
+                    'End If
                 Case "RFC"
                     ObtenerRFC("0", "2", txtRFC.Text)
                 Case "Nombre"
