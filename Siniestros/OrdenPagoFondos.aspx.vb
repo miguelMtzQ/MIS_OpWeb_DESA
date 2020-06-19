@@ -825,6 +825,7 @@ Partial Class Siniestros_OrdenPago
                         Mensaje.MuestraMensaje("OrdenPagoSiniestros", "Ingrese una fecha válida", TipoMsg.Advertencia)
                     End If
                 Case "fechadepago"
+                    'MMQ Se corrigio la validación
                     If Me.txtFechaEstimadaPago.Text < Now Then
                         Mensaje.MuestraMensaje("OrdenPagoSiniestros", "No Puede ingresar una fecha menor al dia de hoy", TipoMsg.Advertencia)
                         Me.txtFechaEstimadaPago.Text = Now.ToString("dd/MM/yyyy")
