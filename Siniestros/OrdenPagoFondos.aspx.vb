@@ -826,14 +826,11 @@ Partial Class Siniestros_OrdenPago
                     End If
                 Case "fechadepago"
                     'MMQ Se corrigio la validación
-                    If Me.txtFechaEstimadaPago.Text < Now Then
+                    If Convert.ToDateTime(Me.txtFechaEstimadaPago.Text) < Now.ToShortDateString Then
                         Mensaje.MuestraMensaje("OrdenPagoSiniestros", "No Puede ingresar una fecha menor al dia de hoy", TipoMsg.Advertencia)
                         Me.txtFechaEstimadaPago.Text = Now.ToString("dd/MM/yyyy")
                     End If
-                    'If Me.txtFechaEstimadaPago.Text < DateTime.Now.ToString("dd/MM/yyyy") Then
-                    '    Mensaje.MuestraMensaje("OrdenPagoSiniestros", "No Puede ingresar una fecha menor al dia de hoy", TipoMsg.Advertencia)
-                    '    Me.txtFechaEstimadaPago.Text = DateTime.Now.ToString("dd/MM/yyyy")
-                    'End If
+
                 Case "RFC"
                     ObtenerRFC("0", "2", txtRFC.Text)
                 Case "Nombre"
@@ -1968,9 +1965,16 @@ Partial Class Siniestros_OrdenPago
                 sDia = "0" + sDia.ToString()
             End If
 
-            Me.txtFechaRegistro.Text = (sDia.ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
-            Me.txtFechaEstimadaPago.Text = ((sDia + 2).ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
+            'MMQ
+            'Me.txtFechaRegistro.Text = (sDia.ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
+            Me.txtFechaRegistro.Text = Now.ToShortDateString
+            'Me.txtFechaEstimadaPago.Text = ((sDia + 2).ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
+            Me.txtFechaEstimadaPago.Text = DateAdd("d", 2, Now.ToShortDateString)
             Me.txtFechaContable.Text = Me.txtFechaRegistro.Text 'FFUENTES
+
+            'Me.txtFechaRegistro.Text = (sDia.ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
+            'Me.txtFechaEstimadaPago.Text = ((sDia + 2).ToString() + "/" + sMes.ToString() + "/" + sAnio.ToString()).ToString()
+            'Me.txtFechaContable.Text = Me.txtFechaRegistro.Text 'FFUENTES
 
             Me.txtNumeroComprobante.Text = String.Empty
             Me.txtFechaComprobante.Text = String.Empty
