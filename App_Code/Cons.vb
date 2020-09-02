@@ -44,6 +44,7 @@ Public Class Cons
     Public Const StrosFondos = 3
 
     Public Const SubModFirmasFondos = 94
+    Public Const SubModCancelacion = 98
 
 
     Public Const SubModMesaControl As Integer = 11
