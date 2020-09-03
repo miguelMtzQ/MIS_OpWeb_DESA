@@ -170,13 +170,9 @@
                                             <asp:ListItem Value="10" Text="No autorizada en tiempo (vencida)"></asp:ListItem>
                                             <asp:ListItem Value="11" Text="Otros (especificar)"></asp:ListItem>
                                         </asp:DropDownList>
+                                          <asp:TextBox runat="server" ID="txtOtros" CssClass="estandar-control" Font-Size="Small" Width="180px" Visible="false" ></asp:TextBox>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                 <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Especificar" Visible="false">
-                                     <ItemTemplate>
-                                        <asp:TextBox runat="server" ID="txtOtros" CssClass="estandar-control" Width="180px" Visible="false" ></asp:TextBox>
-                                      </ItemTemplate>
-                                </asp:TemplateField> 
                                 <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Cancelar">
                                  <ItemTemplate>
                                         <asp:CheckBox runat="server" TextAlign="Right"  ID="chkCancel" Checked='false'/>

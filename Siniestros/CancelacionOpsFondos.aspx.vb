@@ -238,7 +238,7 @@ Partial Class Siniestros_CancelacionOpsFondos
             '"CLOPEZ", 'Master.cod_usuario,
             '0, 'iStatusFirma,
             'Cambiar SP por original (usp_ObtenerOrdenPago_stro)
-            fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}'",
+            fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}','{14}'",
                                               Cons.StrosFondos,
                                               sFiltroOP,
                                               sFiltroMonto,
@@ -252,7 +252,7 @@ Partial Class Siniestros_CancelacionOpsFondos
                                                 sFiltroStro,
                                                 sFiltroBenef,
                                                 sFiltroFecDe,
-                                                sFiltroFecHasta), dtOrdenPago)
+                                                sFiltroFecHasta, 1), dtOrdenPago)
 
             Return dtOrdenPago
 
@@ -344,10 +344,8 @@ Partial Class Siniestros_CancelacionOpsFondos
         Try
             'If cmbModuloOP.SelectedValue > 0 Then
             'If ValidaRadios() Then
-            'Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(cmbModuloOP.SelectedValue))
+
             Funciones.LlenaGrid(grdOrdenPago, ConsultaOrdenesPagoSiniestros(Cons.StrosFondos))
-            'Carga grid con conceptos
-            ' CargaGridDDL()
 
             If grdOrdenPago.Rows.Count > 0 Then
                 'grdOrdenPago.PageIndex = 0
@@ -389,20 +387,6 @@ Partial Class Siniestros_CancelacionOpsFondos
                 EdoControl(Operacion.Ninguna)
                 dtOrdenPago = Nothing
 
-
-                'Dim Params As String = Request.QueryString("NumOrds")
-                'If Params <> vbNullString Then
-                '    txt_NroOP.Text = Split(Params, "|")(0)
-                '    'cmbModuloOP.SelectedValue = Split(Params, "|")(1)
-                '    Master.cod_usuario = Split(Params, "|")(2)
-                '    chk_Todas.Checked = True
-                'End If
-
-                'If Len(txt_NroOP.Text) > 0 Then
-                '    Master.cod_usuario = Split(Context.User.Identity.Name, "|")(0)
-                '    btn_BuscaOP_Click(Me, Nothing)
-                '    Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago', false);", "Filas")
-                'End If
                 LlenaCatDDL(cmbElaborado, "UsuStro",,,,, -1)
             End If
             EstadoDetalleOrden()
@@ -432,8 +416,6 @@ Partial Class Siniestros_CancelacionOpsFondos
 
                 Dim RowIndex As Integer = Convert.ToInt32(e.CommandArgument.ToString())
 
-                'Dim nro_opsel As Label = TryCast(grdOrdenPago.Rows(RowIndex).FindControl("nro_op"), Label)
-                'ActualizaDataOP()
                 strOrdenPago = dtOrdenPago.Rows(RowIndex).ItemArray(2).ToString() 'Obtiene numero de OP
 
                 Dim ws As New ws_Generales.GeneralesClient
@@ -443,13 +425,6 @@ Partial Class Siniestros_CancelacionOpsFondos
                 server = Replace(server, "ReportesGMX_UAT", "ReportesOPSiniestros")
                 server = Replace(server, "OrdenPago", "OrdenPago_stro")
 
-                'For Each row In grdOrdenPago.Rows
-
-                '    If TryCast(row.FindControl("chk_Print"), CheckBox).Checked Then
-                '        strOrdenPago = String.Format("{0}, {1}", strOrdenPago, DirectCast(row.FindControl("lblOrdenPago"), Label).Text.Trim)
-                '    End If
-
-                'Next
 
                 If strOrdenPago <> "-1" Then
 
@@ -466,19 +441,23 @@ Partial Class Siniestros_CancelacionOpsFondos
             End Try
         End If
     End Sub
+
     Protected Sub cmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs)
-        'Dim gr As GridViewRow = DirectCast(DirectCast(DirectCast(sender, DropDownList).Parent.Parent, DataControlFieldCell).Parent, GridViewRow)
 
-        'Dim ddlRechazo = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("cmbConcepto"), DropDownList)
-        'Dim txtOtros = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txtOtros"), TextBox)
+        Dim ddl As DropDownList = DirectCast(sender, DropDownList)
+        Dim row As GridViewRow = DirectCast(ddl.Parent.Parent, GridViewRow)
+        Dim idx As Integer = row.RowIndex
 
-        'If ddlRechazo.SelectedValue = 11 Then
-        '    'Mensaje.MuestraMensaje(Master.Titulo, "hola mundo", TipoMsg.Falla)
-        '    txtOtros.Visible = True
-        'Else
-        '    txtOtros.Visible = False
-        '    txtOtros.Text = ""
-        'End If
+        Dim ddlRechazo = DirectCast(grdOrdenPago.Rows(idx).FindControl("cmbConcepto"), DropDownList)
+        Dim txtOtros = DirectCast(grdOrdenPago.Rows(idx).FindControl("txtOtros"), TextBox)
+
+        If ddlRechazo.SelectedValue = 11 Then
+            txtOtros.Visible = True
+        Else
+            txtOtros.Visible = False
+            txtOtros.Text = ""
+        End If
+
     End Sub
 
     'Private Sub lnkAceptarProc_Click(sender As Object, e As EventArgs) Handles lnkAceptarProc.Click
@@ -601,6 +580,9 @@ Partial Class Siniestros_CancelacionOpsFondos
 
         If sn_proceso = False Then
             Funciones.AbrirModal("#Resumen")
+            fn_Cancelaciones = True
+        Else
+            fn_Cancelaciones = False
         End If
 
 
@@ -629,7 +611,8 @@ Partial Class Siniestros_CancelacionOpsFondos
 
 
             If fn_Cancelaciones(True) = False Then
-                Mensaje.MuestraMensaje("se cancelo", "se cancelo", TipoMsg.Confirma)
+                Mensaje.MuestraMensaje("Confirmación de cancelación", "Se realizaron las cancelaciones correctamente", TipoMsg.Confirma)
+                Funciones.CerrarModal("#Resumen")
                 Exit Sub
             End If
 
