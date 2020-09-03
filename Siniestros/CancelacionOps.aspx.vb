@@ -240,7 +240,7 @@ Partial Class Siniestros_CancelacionOps
             '"CLOPEZ", 'Master.cod_usuario,
             '0, 'iStatusFirma,
             'Cambiar SP por original (usp_ObtenerOrdenPago_stro)
-            fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}'",
+            fn_Consulta(String.Format("usp_ObtenerOrdenPago_stro_T '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}','{14}'",
                                               Cons.StrosTradicional,
                                               sFiltroOP,
                                               sFiltroMonto,
@@ -254,7 +254,8 @@ Partial Class Siniestros_CancelacionOps
                                                 sFiltroStro,
                                                 sFiltroBenef,
                                                 sFiltroFecDe,
-                                                sFiltroFecHasta), dtOrdenPago)
+                                                sFiltroFecHasta,
+                                                1), dtOrdenPago)
 
             Return dtOrdenPago
 
@@ -474,36 +475,23 @@ Partial Class Siniestros_CancelacionOps
         End If
     End Sub
     Protected Sub cmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs)
-        'Dim gr As GridViewRow = DirectCast(DirectCast(DirectCast(sender, DropDownList).Parent.Parent, DataControlFieldCell).Parent, GridViewRow)
 
-        'Dim ddlRechazo = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("cmbConcepto"), DropDownList)
-        'Dim txtOtros = DirectCast(grdOrdenPago.Rows(gr.RowIndex).FindControl("txtOtros"), TextBox)
+        Dim ddl As DropDownList = DirectCast(sender, DropDownList)
+        Dim row As GridViewRow = DirectCast(ddl.Parent.Parent, GridViewRow)
+        Dim idx As Integer = row.RowIndex
 
-        'If ddlRechazo.SelectedValue = 11 Then
-        '    'Mensaje.MuestraMensaje(Master.Titulo, "hola mundo", TipoMsg.Falla)
-        '    txtOtros.Visible = True
-        'Else
-        '    txtOtros.Visible = False
-        '    txtOtros.Text = ""
-        'End If
+
+        Dim ddlRechazo = DirectCast(grdOrdenPago.Rows(idx).FindControl("cmbConcepto"), DropDownList)
+        Dim txtOtros = DirectCast(grdOrdenPago.Rows(idx).FindControl("txtOtros"), TextBox)
+
+        If ddlRechazo.SelectedValue = 11 Then
+            txtOtros.Visible = True
+        Else
+            txtOtros.Visible = False
+            txtOtros.Text = ""
+        End If
     End Sub
 
-    'Private Sub lnkAceptarProc_Click(sender As Object, e As EventArgs) Handles lnkAceptarProc.Click
-    '    Try
-    '        ' ActualizaDataOP()
-
-
-    '        If fn_Cancelaciones(True) = False Then
-    '            Exit Sub
-    '        End If
-
-
-
-    '    Catch ex As Exception
-    '        Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
-    '        Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_Firmar_Click: " & ex.Message)
-    '    End Try
-    'End Sub
 
     Private Function fn_Cancelaciones(ByVal sn_proceso As Boolean) As Boolean
         Dim strOP As String = ""
@@ -527,15 +515,6 @@ Partial Class Siniestros_CancelacionOps
         dtCancela = New DataTable
         dtCancela.Columns.Add("noOP")
         dtCancela.Columns.Add("Justificacion")
-
-        'Dim numPaginas As Integer
-        'Dim paginaActual As Integer
-        'Dim RowsMostrados As Integer
-
-        'numPaginas = grdOrdenPago.PageCount
-        'paginaActual = grdOrdenPago.PageIndex
-        'RowsMostrados = grdOrdenPago.Rows.Count
-        ' Dim RegTotales As Integer = dtAutorizaciones.Rows.Count
 
 
         For Each row In grdOrdenPago.Rows
@@ -604,10 +583,13 @@ Partial Class Siniestros_CancelacionOps
             gvd_Canceladas.DataBind()
 
         End If
-        fn_Cancelaciones = True
+        ' fn_Cancelaciones = True
 
         If sn_proceso = False Then
             Funciones.AbrirModal("#Resumen")
+            fn_Cancelaciones = True
+        Else
+            fn_Cancelaciones = False
         End If
 
 
@@ -615,8 +597,6 @@ Partial Class Siniestros_CancelacionOps
 
     Private Sub btn_Firmar_Click(sender As Object, e As EventArgs) Handles btn_Firmar.Click
         Try
-            ' ActualizaDataOP()
-
 
             If fn_Cancelaciones(False) = False Then
                 Exit Sub
@@ -633,11 +613,11 @@ Partial Class Siniestros_CancelacionOps
     Private Sub lnkAceptarProc_Click(sender As Object, e As EventArgs) Handles lnkAceptarProc.Click
 
         Try
-            ' ActualizaDataOP()
 
 
             If fn_Cancelaciones(True) = False Then
-                Mensaje.MuestraMensaje("se cancelo", "se cancelo", TipoMsg.Confirma)
+                Mensaje.MuestraMensaje("Confirmación de cancelación", "Se realizaron las cancelaciones correctamente", TipoMsg.Confirma)
+                Funciones.CerrarModal("#Resumen")
                 Exit Sub
             End If
 
@@ -647,7 +627,7 @@ Partial Class Siniestros_CancelacionOps
             Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_Firmar_Click: " & ex.Message)
         End Try
-        'Mensaje.MuestraMensaje("se cancelo", "se cancelo", TipoMsg.Confirma)
+
     End Sub
 
     Private Sub btn_Limpiar_Click(sender As Object, e As EventArgs) Handles btn_Limpiar.Click
@@ -658,50 +638,6 @@ Partial Class Siniestros_CancelacionOps
             Funciones.fn_InsertaExcepcion(Master.cod_modulo, Master.cod_submodulo, Master.cod_usuario, "btn_Limpiar_Click: " & ex.Message)
         End Try
     End Sub
-    'Protected Sub btn_VerPDF_Click(sender As Object, e As ImageClickEventArgs)
 
-    '    Try
-    '        Dim strOrdenPago As String = "-1"
-
-    '        Dim server As String = String.Empty
-
-    '        'Dim nro_opsel As TextBox = TryCast(grdOrdenPago.Rows(CInt(hid_Clave.Value - 1)).FindControl("nro_op_"), TextBox)
-    '        'ActualizaDataOP()
-    '        Dim renglon As Integer
-    '        Dim nro_op As Label
-
-    '        renglon = grdOrdenPago.SelectedRow.RowIndex
-    '        nro_op = TryCast(grdOrdenPago.Rows(renglon).FindControl("nro_op_"), Label)
-
-    '        Dim ws As New ws_Generales.GeneralesClient
-
-    '        Server = ws.ObtieneParametro(9)
-    '        server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-    '        server = Replace(server, "ReportesGMX_UAT", "ReportesOPSiniestros")
-    '        server = Replace(server, "OrdenPago", "OrdenPago_stro")
-
-    '        For Each row In grdOrdenPago.Rows
-
-    '            If TryCast(row.FindControl("chk_Print"), CheckBox).Checked Then
-    '                strOrdenPago = String.Format("{0}, {1}", strOrdenPago, DirectCast(row.FindControl("lblOrdenPago"), Label).Text.Trim)
-    '            End If
-
-    '        Next
-
-    '        If strOrdenPago <> "-1" Then
-
-    '            strOrdenPago = Replace(strOrdenPago, "-1,", "")
-
-    '            Funciones.EjecutaFuncion(String.Format("fn_Imprime_OP('{0}','{1}');",
-    '                                                               server,
-    '                                                               strOrdenPago))
-
-    '        End If
-
-    '    Catch ex As Exception
-    '        Mensaje.MuestraMensaje("Eliminar Estatus", "Ocurrio un Error al eliminar el registro", TipoMsg.Falla)
-    '    End Try
-
-    'End Sub
 
 End Class
