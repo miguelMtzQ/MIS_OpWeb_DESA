@@ -1033,7 +1033,7 @@ Partial Class Siniestros_FirmasElectronicas
                             End If
 
                             'Aqui corria la cancelacion. se comenta por 2da fase
-                            'fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','Usuario: " & Master.usuario & " /Motivo: " & strMotivoRechazo & "'")
+                            fn_Ejecuta("usp_AplicaFirmasOP_stro " & strOP & ",0,'" & codRol & "','Usuario: " & Master.usuario & " /Motivo: " & strMotivoRechazo & "','" & Master.cod_usuario & "'")
                             'fn_Ejecuta("mis_CancelaOPStros " & strOP & ",'" & Master.cod_usuario & "'," & codMotivoRechazo & "," & intFolioOnBase)
 
                             'fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")

@@ -139,14 +139,22 @@ Public Class Funciones
             DDL.DataSource = dtDatos
             DDL.DataBind()
 
+            Dim ultimoPts As Integer
+
             If optTodas = True Then
                 Dim opcion As ListItem
                 opcion = New ListItem(". . .", "-1")
                 DDL.Items.Add(opcion)
+                ultimoPts = DDL.Items.Count
             End If
 
-            If SelCurrent <> 0 Then
+            'If SelCurrent <> 0 Then
+            '    DDL.SelectedValue = SelCurrent
+            'End If
+            If SelCurrent > 0 Then
                 DDL.SelectedValue = SelCurrent
+            ElseIf SelCurrent = -1 Then
+                DDL.SelectedIndex = ultimoPts - 1
             End If
 
         Catch ex As Exception

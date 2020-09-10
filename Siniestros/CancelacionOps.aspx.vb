@@ -185,6 +185,15 @@ Partial Class Siniestros_CancelacionOps
             sFiltroOP = IIf(Not String.IsNullOrWhiteSpace(txt_NroOP.Text.Trim), txt_NroOP.Text.Trim, 0)
             sFiltroUsuario = IIf(cmbElaborado.SelectedValue <> -1, cmbElaborado.SelectedValue, String.Empty)
 
+            If sFiltroOP <> "" Then
+                Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & sFiltroOP)
+                If Rechazada = 1 Then
+                    Mensaje.MuestraMensaje("Validación", "la Orden de Pago: " & sFiltroOP & " ya se encuentra rechazada", TipoMsg.Advertencia)
+                    ConsultaOrdenesPagoSiniestros = Nothing
+                    Exit Function
+                End If
+            End If
+
             'sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND t.cod_usuario IN ('{0}')", sFiltroUsuario), String.Empty)
 
 
@@ -194,31 +203,6 @@ Partial Class Siniestros_CancelacionOps
                 End If
             End If
 
-            'If IsDate(txtFechaPagoDesde.Text) And IsDate(txtFechaPagoHasta.Text) Then
-            '    If CDate(txtFechaPagoDesde.Text) <= CDate(txtFechaPagoHasta.Text) Then
-            '        sFiltroFechaPago = String.Format(" AND CONVERT(VARCHAR(10),mop.fec_pago,112) >= ''{0}'' AND CONVERT(VARCHAR(10),mop.fec_pago,112) <= ''{1}'' ", CDate(txtFechaPagoDesde.Text).ToString("yyyyMMdd"), CDate(txtFechaPagoHasta.Text).ToString("yyyyMMdd"))
-            '    End If
-            'End If
-
-
-            'If IsDate(fecFilter_De.Text) And IsDate(fecFilter_Hasta.Text) Then
-            '    If CDate(fecFilter_De.Text) <= CDate(fecFilter_Hasta.Text) Then
-            '        sFiltroFecDe = CDate(fecFilter_De.Text).ToString("yyyy-MM-dd")
-            '        sFiltroFecHasta = CDate(fecFilter_Hasta.Text).ToString("yyyy-MM-dd")
-            '    End If
-            'End If
-
-            'If IsNumeric(txtMontoDesde.Text.Trim) Then
-            '    sFiltroMonto = String.Format(" AND mop.imp_total >= {0}", txtMontoDesde.Text.Trim)
-            'End If
-
-            'If IsNumeric(txtMontoHasta.Text.Trim) Then
-            '    sFiltroMonto = String.Format("{0} AND mop.imp_total <= {1}", sFiltroMonto, txtMontoHasta.Text.Trim)
-            'End If
-
-            'If chk_Todas.Checked Then
-            '    iStatusFirma = Cons.TipoFiltro.Todas
-            'Else
             If chk_PorRevisar.Checked Then
                 iStatusFirma = Cons.TipoFiltro.PorRevisar
             ElseIf chk_Pendiente.Checked Then
@@ -406,7 +390,14 @@ Partial Class Siniestros_CancelacionOps
                 '    btn_BuscaOP_Click(Me, Nothing)
                 '    Funciones.EjecutaFuncion("fn_EstadoFilas('grdOrdenPago', false);", "Filas")
                 'End If
-                LlenaCatDDL(cmbElaborado, "UsuStro",,,,, -1)
+                'LlenaCatDDL(cmbElaborado, "UsuStro",,,,, -1)
+                Dim DtUsuStro As New DataTable
+                fn_Consulta("mis_UsuStroAdmin", DtUsuStro)
+                If Not DtUsuStro Is Nothing Then
+                    LlenaDDL(cmbElaborado, DtUsuStro,,, -1)
+
+                End If
+
 
             End If
             EstadoDetalleOrden()
@@ -617,6 +608,7 @@ Partial Class Siniestros_CancelacionOps
 
             If fn_Cancelaciones(True) = False Then
                 Mensaje.MuestraMensaje("Confirmación de cancelación", "Se realizaron las cancelaciones correctamente", TipoMsg.Confirma)
+                btn_Limpiar_Click(Nothing, Nothing)
                 Funciones.CerrarModal("#Resumen")
                 Exit Sub
             End If
@@ -632,6 +624,7 @@ Partial Class Siniestros_CancelacionOps
 
     Private Sub btn_Limpiar_Click(sender As Object, e As EventArgs) Handles btn_Limpiar.Click
         Try
+
             EdoControl(Operacion.Ninguna)
         Catch ex As Exception
             Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)

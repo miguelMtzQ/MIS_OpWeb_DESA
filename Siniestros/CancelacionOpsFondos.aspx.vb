@@ -183,6 +183,15 @@ Partial Class Siniestros_CancelacionOpsFondos
             sFiltroOP = IIf(Not String.IsNullOrWhiteSpace(txt_NroOP.Text.Trim), txt_NroOP.Text.Trim, 0)
             sFiltroUsuario = IIf(cmbElaborado.SelectedValue <> -1, cmbElaborado.SelectedValue, String.Empty)
 
+            If sFiltroOP <> "" Then
+                Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & sFiltroOP)
+                If Rechazada = 1 Then
+                    Mensaje.MuestraMensaje("Validación", "la Orden de Pago: " & sFiltroOP & " ya se encuentra rechazada", TipoMsg.Advertencia)
+                    ConsultaOrdenesPagoSiniestros = Nothing
+                    Exit Function
+                End If
+            End If
+
             'sFiltroUsuario = IIf(Not String.IsNullOrWhiteSpace(sFiltroUsuario), String.Format("AND t.cod_usuario IN ('{0}')", sFiltroUsuario), String.Empty)
 
 
@@ -612,6 +621,7 @@ Partial Class Siniestros_CancelacionOpsFondos
 
             If fn_Cancelaciones(True) = False Then
                 Mensaje.MuestraMensaje("Confirmación de cancelación", "Se realizaron las cancelaciones correctamente", TipoMsg.Confirma)
+                btn_Limpiar_Click(Nothing, Nothing)
                 Funciones.CerrarModal("#Resumen")
                 Exit Sub
             End If
