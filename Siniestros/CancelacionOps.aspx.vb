@@ -183,7 +183,7 @@ Partial Class Siniestros_CancelacionOps
 
 
             sFiltroOP = IIf(Not String.IsNullOrWhiteSpace(txt_NroOP.Text.Trim), txt_NroOP.Text.Trim, 0)
-            sFiltroUsuario = IIf(cmbElaborado.SelectedValue <> -1, cmbElaborado.SelectedValue, String.Empty)
+            sFiltroUsuario = IIf(cmbElaborado.SelectedValue <> "-1", cmbElaborado.SelectedValue, String.Empty)
 
             If sFiltroOP <> "" Then
                 Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & sFiltroOP)
@@ -566,8 +566,13 @@ Partial Class Siniestros_CancelacionOps
         gvd_Canceladas.DataSource = dtCancela
         gvd_Canceladas.DataBind()
 
-        If dtCancela Is Nothing Then
-            Mensaje.MuestraMensaje(Master.Titulo, "No se ha seleccionado ninguna Orden de Pago para rechazar", TipoMsg.Advertencia)
+        'If dtCancela Is Nothing Then
+        If dtCancela.Rows.Count = 0 Then
+
+            Mensaje.MuestraMensaje(Master.Titulo, "No se ha seleccionado ninguna Orden de Pago para cancelar", TipoMsg.Advertencia)
+            fn_Cancelaciones = False
+            Exit Function
+
         Else
 
             gvd_Canceladas.DataSource = dtCancela
@@ -632,5 +637,7 @@ Partial Class Siniestros_CancelacionOps
         End Try
     End Sub
 
+    Private Sub btn_BuscaOP_Command(sender As Object, e As CommandEventArgs) Handles btn_BuscaOP.Command
 
+    End Sub
 End Class
