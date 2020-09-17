@@ -181,7 +181,7 @@ Partial Class Siniestros_CancelacionOpsFondos
 
 
             sFiltroOP = IIf(Not String.IsNullOrWhiteSpace(txt_NroOP.Text.Trim), txt_NroOP.Text.Trim, 0)
-            sFiltroUsuario = IIf(cmbElaborado.SelectedValue <> -1, cmbElaborado.SelectedValue, String.Empty)
+            sFiltroUsuario = IIf(cmbElaborado.SelectedValue <> "-1", cmbElaborado.SelectedValue, String.Empty)
 
             If sFiltroOP <> "" Then
                 Dim Rechazada As Integer = fn_Ejecuta("mis_ValidaStsOp " & sFiltroOP)
@@ -577,15 +577,21 @@ Partial Class Siniestros_CancelacionOpsFondos
         gvd_Canceladas.DataSource = dtCancela
         gvd_Canceladas.DataBind()
 
-        If dtCancela Is Nothing Then
-            Mensaje.MuestraMensaje(Master.Titulo, "No se ha seleccionado ninguna Orden de Pago para rechazar", TipoMsg.Advertencia)
+        'If dtCancela Is Nothing Then
+        If dtCancela.Rows.Count = 0 Then
+
+            Mensaje.MuestraMensaje(Master.Titulo, "No se ha seleccionado ninguna Orden de Pago para cancelar", TipoMsg.Advertencia)
+            fn_Cancelaciones = False
+            Exit Function
+
         Else
 
             gvd_Canceladas.DataSource = dtCancela
             gvd_Canceladas.DataBind()
 
         End If
-        fn_Cancelaciones = True
+
+        'fn_Cancelaciones = True
 
         If sn_proceso = False Then
             Funciones.AbrirModal("#Resumen")
