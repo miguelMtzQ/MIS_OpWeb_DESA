@@ -578,7 +578,7 @@ Partial Class Siniestros_CancelacionOpsFondos
         gvd_Canceladas.DataBind()
 
         'If dtCancela Is Nothing Then
-        If dtCancela.Rows.Count = 0 Then
+        If dtCancela.Rows.Count = 0 And sn_proceso = False Then
 
             Mensaje.MuestraMensaje(Master.Titulo, "No se ha seleccionado ninguna Orden de Pago para cancelar", TipoMsg.Advertencia)
             fn_Cancelaciones = False
