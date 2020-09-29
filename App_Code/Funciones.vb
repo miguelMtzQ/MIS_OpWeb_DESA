@@ -743,4 +743,65 @@ Public Class Funciones
 
     End Function
 
+
+
+
+
+
+    'JLHERNANDEZ
+
+    Public Shared Function FormatearFecha(_fecha As String, FormatoFecha As enumFormatoFecha) As String
+        Try
+            _fecha = _fecha.Substring(0, 10)
+
+            _fecha = _fecha.Substring(0, 2) + "/" + _fecha.Substring(3, 2) + "/" + _fecha.Substring(6, 4)
+
+            Dim Fecha As DateTime = Convert.ToDateTime(_fecha)
+            Dim strFecha As String = ""
+
+
+
+
+
+            Select Case FormatoFecha
+                Case enumFormatoFecha.DDMMYYYY
+                    strFecha = String.Concat(Fecha.Day.ToString().PadLeft(2, "0"), "", Fecha.Month.ToString().PadLeft(2, "0"), "", Fecha.Year)
+                    Return strFecha
+                Case enumFormatoFecha.MMDDYYYY
+
+                    strFecha = String.Concat(Fecha.Month.ToString().PadLeft(2, "0"), "", Fecha.Day.ToString().PadLeft(2, "0"), "", Fecha.Year)
+                    Return strFecha
+                Case enumFormatoFecha.YYYYMMDD
+
+                    strFecha = String.Concat(Fecha.Year, "", Fecha.Month.ToString().PadLeft(2, "0"), "", Fecha.Day.ToString().PadLeft(2, "0"))
+                    Return strFecha
+
+                Case Else
+                    Return ""
+            End Select
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+
+
+
+
+    Enum enumFormatoFecha : int
+
+
+        YYYYMMDD = 1
+
+        MMDDYYYY
+
+        DDMMYYYY
+
+
+
+
+
+    End Enum
+
 End Class
