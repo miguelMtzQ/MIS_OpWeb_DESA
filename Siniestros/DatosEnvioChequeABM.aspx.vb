@@ -230,6 +230,7 @@ Partial Class Siniestros_DatosEnvioChequeABM
         btnBuscar.Visible = False
         btnExportar.Visible = False
         btnNuevo.Visible = False
+        btnEditar.Visible = False
 
 
     End Sub
