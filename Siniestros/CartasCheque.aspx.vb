@@ -14,7 +14,7 @@ Partial Class Siniestros_CartasCheque
     Dim folio As Integer
 
     Protected Sub btn_BuscarOP_Click(sender As Object, e As EventArgs) Handles btn_BuscarOP.Click
-        'Dim oTabla As DataTable
+
         btnSolAut.Enabled = False
         btn_Continuar.Visible = False
         limpiaTxtPresente()
