@@ -22,7 +22,7 @@ Partial Class Siniestros_CartasChequeAutorizacion
         btn_Todas.Visible = False
         btn_Ninguna.Visible = False
 
-        If Not ValidaFiltros() Then Exit Sub  'descomentar
+        If Not ValidaFiltros() Then Exit Sub
         oTabla = BuscarOP()
         'Session("dtOP") = oTabla
 
