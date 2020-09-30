@@ -1082,9 +1082,13 @@ width: 14px; height: 14px;
 .btn-contacto{
 background-image: url(../Images/user-mini.png);
 width: 14px; height: 14px;
+}
+
+.btn-excel {
+    background-image: url(../Images/excel_mini.png);
+    width: 16px;
+    height: 16px;
 } 
-
-
 
 .img-firma{
 width: 216px; height: 90px;
