@@ -448,7 +448,7 @@
                                             <asp:label runat="server" class="etiqueta-control">CUENTA BANCARIA</asp:label>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox runat="server" ID="txtCuentaBancariaT_stro" oncopy="return nocopy()" TextMode="Password" CssClass="estandar-control Tablero"  placeholder="Cuenta bancaria"></asp:TextBox>
+                                            <asp:TextBox runat="server" ID="txtCuentaBancariaT_stro" oncopy="return nocopy()"  CssClass="estandar-control Tablero"  placeholder="Cuenta bancaria" ></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -456,7 +456,7 @@
                                             <asp:label runat="server" class="etiqueta-control">CONFIRMA CUENTA</asp:label>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox runat="server" onpaste="return false" TextMode="Password" ID="txtCuentaBancariaT_stro_Confirmacion" CssClass="estandar-control Tablero" placeholder="Confirma Cuenta bancaria"></asp:TextBox>
+                                            <asp:TextBox runat="server" onpaste="return false" ID="txtCuentaBancariaT_stro_Confirmacion" CssClass="estandar-control Tablero" placeholder="Confirma Cuenta bancaria"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="row">
