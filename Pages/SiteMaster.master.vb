@@ -2271,19 +2271,60 @@ Partial Class Pages_SiteMaster
             Me.txtPlazaT_stro.Text = String.Empty
             Me.txtAbaT_stro.Text = String.Empty
 
+            'se agrega estas validaciones para fasttrack 
+            'If bTieneDatosBancarios = True Then
             If Not oValoresActuales Is Nothing Then
 
-                cmbBancoT_stro.SelectedValue = IIf(oValoresActuales("Banco") = String.Empty, cmbBancoT_stro.SelectedValue, oValoresActuales("Banco"))
-                cmbTipoCuentaT_stro.SelectedValue = IIf(oValoresActuales("TipoCuenta") = String.Empty, cmbTipoCuentaT_stro.SelectedValue, oValoresActuales("TipoCuenta"))
-                cmbMonedaT_stro.SelectedValue = IIf(oValoresActuales("Moneda") = String.Empty, cmbMonedaT_stro.SelectedValue, oValoresActuales("Moneda"))
-                Me.txtSucursalT_stro.Text = IIf(oValoresActuales("Sucursal").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Sucursal"))
-                Me.txtBeneficiarioT_stro.Text = IIf(oValoresActuales("Beneficiario").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Beneficiario"))
-                Me.txtCuentaBancariaT_stro.Text = IIf(oValoresActuales("CuentaBancaria").ToString.Trim = String.Empty, String.Empty, oValoresActuales("CuentaBancaria"))
-                Me.txtCuentaBancariaT_stro_Confirmacion.Text = IIf(oValoresActuales("CuentaBancaria").ToString.Trim = String.Empty, String.Empty, oValoresActuales("CuentaBancaria"))
-                Me.txtPlazaT_stro.Text = IIf(oValoresActuales("Plaza").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Plaza"))
-                Me.txtAbaT_stro.Text = IIf(oValoresActuales("ABA").ToString.Trim = String.Empty, String.Empty, oValoresActuales("ABA"))
-                cmbTipoCuentaT_stro.SelectedValue = 2
-            End If
+                If (oValoresActuales("Fasttrack") = "SI") Then
+                    cmbBancoT_stro.SelectedValue = CInt(oValoresActuales("Banco"))
+                Else
+                    cmbBancoT_stro.SelectedValue = IIf(oValoresActuales("Banco") = String.Empty, cmbBancoT_stro.SelectedValue, oValoresActuales("Banco"))
+                End If
+                If (oValoresActuales("Fasttrack") = "SI") Then
+                        cmbTipoCuentaT_stro.SelectedValue = CInt(oValoresActuales("TipoCuenta"))
+                    Else
+                        cmbTipoCuentaT_stro.SelectedValue = IIf(oValoresActuales("TipoCuenta") = String.Empty, cmbTipoCuentaT_stro.SelectedValue, oValoresActuales("TipoCuenta"))
+                    End If
+                    If (oValoresActuales("Fasttrack") = "SI") Then
+                        cmbMonedaT_stro.SelectedValue = CInt(oValoresActuales("Moneda"))
+                    Else
+                        cmbMonedaT_stro.SelectedValue = IIf(oValoresActuales("Moneda") = String.Empty, cmbMonedaT_stro.SelectedValue, oValoresActuales("Moneda"))
+                    End If
+                    If (oValoresActuales("Fasttrack") = "SI") Then
+                        Me.txtSucursalT_stro.Text = oValoresActuales("Sucursal")
+                    Else
+                        Me.txtSucursalT_stro.Text = IIf(oValoresActuales("Sucursal").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Sucursal"))
+                    End If
+                    If (oValoresActuales("Fasttrack") = "SI") Then
+                    Me.txtBeneficiarioT_stro.Text = oValoresActuales("Beneficiario")
+                Else
+                        Me.txtBeneficiarioT_stro.Text = IIf(oValoresActuales("Beneficiario").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Beneficiario"))
+                    End If
+                    If (oValoresActuales("Fasttrack") = "SI") Then
+                        Me.txtCuentaBancariaT_stro.Text = oValoresActuales("CuentaBancaria")
+                    Else
+                        Me.txtCuentaBancariaT_stro.Text = IIf(oValoresActuales("CuentaBancaria").ToString.Trim = String.Empty, String.Empty, oValoresActuales("CuentaBancaria"))
+                    End If
+                    If (oValoresActuales("Fasttrack") = "SI") Then
+                        Me.txtCuentaBancariaT_stro_Confirmacion.Text = oValoresActuales("CuentaBancaria")
+                    Else
+                        Me.txtCuentaBancariaT_stro_Confirmacion.Text = IIf(oValoresActuales("CuentaBancaria").ToString.Trim = String.Empty, String.Empty, oValoresActuales("CuentaBancaria"))
+                    End If
+                    If (oValoresActuales("Fasttrack") = "SI") Then
+                        Me.txtPlazaT_stro.Text = oValoresActuales("Plaza")
+                    Else
+                        Me.txtPlazaT_stro.Text = IIf(oValoresActuales("Plaza").ToString.Trim = String.Empty, String.Empty, oValoresActuales("Plaza"))
+                    End If
+                    If (oValoresActuales("Fasttrack") = "SI") Then
+                        Me.txtAbaT_stro.Text = oValoresActuales("ABA")
+                    Else
+                        Me.txtAbaT_stro.Text = IIf(oValoresActuales("ABA").ToString.Trim = String.Empty, String.Empty, oValoresActuales("ABA"))
+                    End If
+
+                    cmbTipoCuentaT_stro.SelectedValue = 2
+                End If
+            'End If
+
 
             If bTieneDatosBancarios Then
                 cmbBancoT_stro.Enabled = False
@@ -2291,7 +2332,7 @@ Partial Class Pages_SiteMaster
                 cmbMonedaT_stro.Enabled = False
                 Me.txtBeneficiarioT_stro.Enabled = False
                 Me.txtCuentaBancariaT_stro.Enabled = False
-                txtCuentaBancariaT_stro_Confirmacion.Enabled = False
+                Me.txtCuentaBancariaT_stro_Confirmacion.Enabled = False
             Else
                 cmbBancoT_stro.Enabled = True
                 cmbTipoCuentaT_stro.Enabled = True
@@ -2301,6 +2342,9 @@ Partial Class Pages_SiteMaster
                 Me.txtCuentaBancariaT_stro_Confirmacion.Enabled = True
                 Me.txtCuentaBancariaT_stro.Text = String.Empty
                 Me.txtCuentaBancariaT_stro_Confirmacion.Text = String.Empty
+                Me.txtCuentaBancariaT_stro.TextMode = TextBoxMode.Password
+                Me.txtCuentaBancariaT_stro_Confirmacion.TextMode = TextBoxMode.Password
+
                 cmbTipoCuentaT_stro.SelectedValue = 2
             End If
 
@@ -2310,7 +2354,6 @@ Partial Class Pages_SiteMaster
             Session("SubModWeb") = sn_submod_web
 
             Funciones.AbrirModal("#Transferencias_stro")
-
         Catch ex As Exception
             Throw ex
         End Try
