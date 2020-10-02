@@ -1285,19 +1285,6 @@ Partial Class Siniestros_OrdenPago
                                     oFila("Pago") = 0
                                 End If
 
-                                'Se comenta por que la validacion debe ser al final
-                                'If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor AndAlso CDbl(oFila("Pago")) > CDbl(oFilaSeleccion(0).Item("Reserva")) Then
-                                '    oFila("Pago") = 0
-                                '    Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("Límite de Reserva superado. {0} Reserva: {1} {2} Total de pagos: {3}",
-                                '                                                                Environment.NewLine,
-                                '                                                                CDbl(oFilaSeleccion(0).Item("Reserva")),
-                                '                                                                Environment.NewLine,
-                                '                                                                CDbl(oFilaSeleccion(0).Item("ImportePagosInd"))
-                                '                                                                 ), TipoMsg.Advertencia)
-                                'Else
-                                '    oFila("Pago") = Math.Round(IIf(cmbMonedaPago.SelectedValue = 0, CDbl(oFilaSeleccion(0).Item("imp_subtotal")), CDbl(oFilaSeleccion(0).Item("imp_subtotal"))), 2)
-                                'End If
-
                                 'Verificar si se queda
                                 oFila("Impuestos") = CDbl(oFilaSeleccion(0).Item("imp_impuestos"))
                                 oFila("Retenciones") = CDbl(oFilaSeleccion(0).Item("imp_retencion"))
@@ -1352,8 +1339,12 @@ Partial Class Siniestros_OrdenPago
                                     End If
 
                                 Next
-                                txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim.ToString(), oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc").ToString())
+                            txtConceptoOP.Text = String.Format("{0} {1}", txtConceptoOP.Text.Trim.ToString(), oClavesPago.Select(String.Format("cod_clase_pago = '{0}'", oTabla.Rows(0)("ClasePago")))(0)("txt_desc").ToString())
+                            'se agrega por tema fast track
+                            If (oFilaSeleccion(0).Item("Fast_track") = "SI") Then
+                                CalcularTotales()
                             End If
+                        End If
 
                             If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
                                 CalcularTotales()
