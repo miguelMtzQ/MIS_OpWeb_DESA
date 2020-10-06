@@ -507,6 +507,8 @@ Partial Class Siniestros_CancelacionOps
         dtCancela.Columns.Add("noOP")
         dtCancela.Columns.Add("Justificacion")
 
+        Dim UsrElaboro As String = ""
+        Dim UsrSolicito As String = ""
 
         For Each row In grdOrdenPago.Rows
 
@@ -552,7 +554,21 @@ Partial Class Siniestros_CancelacionOps
                     'fn_Ejecuta("Update MIS_Expediente_OP set Nro_OP = " & strOP & ", id_Estatus_Registro = 3 where Folio_Onbase_Siniestro = " & intFolioOnBase & " And Id_etiqueta_Pago = 0", True)
                     ' fn_Ejecuta("mis_UpdExpOP " & intFolioOnBase, True)
                     fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','CLOPEZ','" & Master.usuario & "'")
-                    'fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & row("NombreModifica") & "','" & Master.usuario & "'")
+
+                    UsrElaboro = ""
+                    UsrSolicito = ""
+
+                    UsrElaboro = fn_EjecutaStr("spS_CancelRemitentes " & CInt(strOP) & "," & 0) 'Usuario elaboro OP
+                    UsrSolicito = fn_EjecutaStr("spS_CancelRemitentes " & CInt(strOP) & "," & 1) 'Usuario solicito rechzo OP
+
+                    If Len(UsrSolicito) > 0 Then
+                        fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsrSolicito & "','" & Master.usuario & "'")
+                    End If
+
+                    If Len(UsrElaboro) > 0 Then
+                        fn_Ejecuta("mis_MailOpRechazo '" & strOP & "','" & UsrElaboro & "','" & Master.usuario & "'")
+                    End If
+
                 Else
                     dtCancela.Rows.Add(strOP, txtJustif)
                 End If
