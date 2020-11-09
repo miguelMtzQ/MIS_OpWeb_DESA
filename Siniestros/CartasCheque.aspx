@@ -19,19 +19,19 @@
                     <div class="padding10"></div>
                     <div class="row">
                         <div class="col-md-6">
-                            
+
                             <asp:Label runat="server" class="col-md-1 etiqueta-control" Width="20%">Num OP</asp:Label>
                             <asp:TextBox runat="server" ID="txt_nro_op" CssClass="col-md-1 estandar-control" Width="36%" onkeypress="return soloNumeros(event)" PlaceHolder="Ej: 84162"></asp:TextBox>
-                            
+
                             <asp:Label runat="server" class="col-md-1 etiqueta-control">A</asp:Label>
                             <asp:TextBox runat="server" ID="txt_nro_op_hasta" CssClass="col-md-1 estandar-control" Width="35.5%" onkeypress="return soloNumeros(event)" PlaceHolder="Núm OP hasta"></asp:TextBox>
                         </div>
 
                         <div class="col-md-6">
-                            
+
                             <asp:Label runat="server" class="col-md-1 etiqueta-control" Width="25%">Num Cheque</asp:Label>
                             <asp:TextBox runat="server" ID="txt_nro_ch_desde" CssClass="col-md-1 estandar-control" Width="33.2%" onkeypress="return soloNumeros(event)" PlaceHolder="Núm cheque desde"></asp:TextBox>
-                            
+
                             <asp:Label runat="server" class="col-md-1 etiqueta-control">A</asp:Label>
                             <asp:TextBox runat="server" ID="txt_nro_ch_hasta" CssClass="col-md-1 estandar-control" Width="33.2%" onkeypress="return soloNumeros(event)" PlaceHolder="Núm cheque hasta"></asp:TextBox>
                         </div>
@@ -41,13 +41,13 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            
+
                             <asp:Label runat="server" class="col-md-2 etiqueta-control" Width="20%">Siniestro</asp:Label>
                             <asp:TextBox runat="server" ID="txt_nro_stro" CssClass="col-md-1 estandar-control" PlaceHolder="Ej: 201308131" Width="80%" onkeypress="return soloNumeros(event)"></asp:TextBox>
                         </div>
 
                         <div class="col-md-6">
-                            
+
                             <asp:Label runat="server" class="col-md-1 etiqueta-control " Width="25%">Beneficiario</asp:Label>
                             <asp:TextBox runat="server" ID="txt_cheque_a_nom" CssClass="col-md-1 estandar-control" Width="75%" PlaceHolder="Ej: banco" OnFocusOut="convMayusculas('txt_cheque_a_nom')"></asp:TextBox>
                         </div>
@@ -63,13 +63,13 @@
         <div class="padding10">
             <asp:UpdatePanel runat="server" ID="upBusqueda">
                 <ContentTemplate>
-                    
+
                     <asp:LinkButton ID="btn_BuscarOP" runat="server" class="btn botones" BorderWidth="2" BorderColor="White" Width="105px">
                         <span>
                             <img class="btn-buscar"/>&nbsp Buscar
                         </span>
                     </asp:LinkButton>
-                    
+
                     <asp:LinkButton ID="btnLimpiar" runat="server" class="btn botones" BorderWidth="2" BorderColor="White" Width="130px">
                         <span>
                             <img class="btn-limpiar"/>&nbsp&nbsp Limpiar Filtros
@@ -81,7 +81,7 @@
     </div>
 
     <div class="padding20">
-        
+
         <asp:UpdatePanel runat="server" ID="updGrd" UpdateMode="Conditional" Width="25%">
             <ContentTemplate>
                 <asp:Panel runat="server" ID="pnlUsuario" Width="99%" Height="300" ScrollBars="Auto">
@@ -89,9 +89,12 @@
                         <Columns>
                             <asp:BoundField DataField="nro_stro" HeaderText="SINIESTRO" />
                             <asp:BoundField DataField="nro_ch" HeaderText="CHEQUE" />
+                            <asp:BoundField DataField="nro_op" HeaderText="ORDEN DE PAGO" />
                             <asp:BoundField DataField="txt_cheque_a_nom" HeaderText="BENEFICIARIO" />
-                            <asp:BoundField DataField="imp_total" HeaderText="MONTO" DataFormatString="{0:####,###,###,###,###.##}" />
-                           
+                            <asp:BoundField DataField="imp_total" HeaderText="MONTO" DataFormatString="{0:N2}">
+                                <ItemStyle HorizontalAlign="right"/>
+                            </asp:BoundField>
+
 
                             <asp:TemplateField ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
@@ -116,7 +119,7 @@
         <asp:UpdatePanel runat="server" ID="upPanelGenCartas" Width="99%" UpdateMode="Conditional">
             <ContentTemplate>
                 <asp:Panel runat="server" ID="PanelGenCartas" HorizontalAlign="Right">
-                    
+
                     <asp:LinkButton ID="btn_Continuar" runat="server" class="btn botones" Width="153px" data-toggle="modal" data-target="#modGeneraCartas" Visible="false">
                         <span>
                             <img class="btn-aceptar"/>&nbspContinuar
@@ -138,61 +141,61 @@
             <ContentTemplate>
                 <asp:Panel runat="server" ID="panDatosEntrega">
                     <div class="cuadro-titulo" style="height: 30px">
-                      
+
                         <div class="titulo-modal">DATOS PARA LA ENTREGA DE CHEQUES</div>
                     </div>
 
                     <div class="panel-contenido Centrado">
                         <div class="row align-items-center">
-                            
+
                             <div class="col-md-3" style="text-align: center">
                                 <asp:CheckBox runat="server" ID="chkEnvio" CssClass="etiqueta-control" AutoPostBack="true" Text="&nbsp&nbspEnvío" />
                             </div>
 
                             <div class="col-md-9" style="text-align: center">
-                            
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Clave </asp:Label>
                                     <asp:TextBox runat="server" ID="txt_cc_Clave" CssClass="col-md-9 estandar-control" PlaceHolder="Ejemplo: 1, 30, 540" Width="57%" onkeypress="return soloNumeros(event)" Enabled="false" AutoPostBack="true" OnTextChanged="txt_cc_Clave_TextChanged"></asp:TextBox>
                                 </div>
 
-                            
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Empresa </asp:Label>
                                     <asp:TextBox runat="server" ID="txtEmpresa" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false"></asp:TextBox>
                                 </div>
 
-                               
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Calle </asp:Label>
                                     <asp:TextBox runat="server" ID="txtCalle" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false"></asp:TextBox>
                                 </div>
 
-                                
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Colonia </asp:Label>
                                     <asp:TextBox runat="server" ID="txtColonia" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false"></asp:TextBox>
                                 </div>
 
-                               
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Delegación </asp:Label>
                                     <asp:TextBox runat="server" ID="txtDeleg" CssClass="col-md-9 estandar-control " Width="57%" Enabled="false"></asp:TextBox>
                                 </div>
 
-                               
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Entidad </asp:Label>
                                     <asp:TextBox runat="server" ID="txtEntidad" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false"></asp:TextBox>
                                 </div>
 
-                               
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">C.P. </asp:Label>
                                     <asp:TextBox runat="server" ID="txtCodPostal" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false"></asp:TextBox>
                                 </div>
 
-                            
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Atención </asp:Label>
                                     <asp:TextBox runat="server" ID="txtAtencion" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false"></asp:TextBox>
@@ -211,19 +214,19 @@
 
 
                         <div class="row align-items-center padding10">
-                            
+
                             <div class="col-md-3" style="text-align: center">
                                 <asp:CheckBox runat="server" ID="chkPresente" CssClass="etiqueta-control" AutoPostBack="true" Text="&nbsp&nbspPresente" />
                             </div>
 
                             <div class="col-md-9" style="text-align: center">
-                               
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Persona que recibe el cheque </asp:Label>
                                     <asp:TextBox runat="server" ID="txtRecibe" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false" OnFocusOut="convMayusculas('txtRecibe')"></asp:TextBox>
                                 </div>
 
-                              
+
                                 <div class="row align-items-center padding10">
                                     <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Empresa de donde viene </asp:Label>
                                     <asp:TextBox runat="server" ID="txtEmpresaRemite" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false" OnFocusOut="convMayusculas('txtEmpresaRemite')"></asp:TextBox>
@@ -234,8 +237,8 @@
 
                     <div style="width: 100%; text-align: right; border-top-style: inset; border-width: 1px; padding: 10px; border-color: #003A5D;">
                         <asp:HiddenField runat="server" ID="hid_Folio" Value="0" />
-                    
-                        <div class="row" style="width: 100%;">                          
+
+                        <div class="row" style="width: 100%;">
 
                             <div class="col-md-12" style="text-align: right;">
 
@@ -244,8 +247,8 @@
                                         <img class="btn-buscar"/>&nbspRevisar Carta
                                     </span>
                                 </asp:LinkButton>
-                                <asp:Button ID="btnSolAut" runat="server" class="botones" Width="153px" enabled="False" Text="Solicitar Autorización" BorderStyle="solid" BorderColor="#003A5D" style="border-radius:4px; Height:33px" />    
-                           
+                                <asp:Button ID="btnSolAut" runat="server" class="botones" Width="153px" Enabled="False" Text="Solicitar Autorización" BorderStyle="solid" BorderColor="#003A5D" Style="border-radius: 4px; height: 33px" />
+
                                 <asp:LinkButton ID="btnCancela" runat="server" data-dismiss="modal" class="btn botones CierraFirma" Width="120px">
                                     <span>
                                         <img class="btn-cancelar"/>&nbspCancelar
@@ -262,18 +265,19 @@
     <div id="modProcesado" class="modal-catalogo">
         <div class="cuadro-titulo-flotante">
             <button type="button" data-dismiss="modal" class="close" hidden="hidden">&times;</button>
-        <div>
-                <label id="lbl_Catalogo">Generacion de Cartas Cheque</label></div>
+            <div>
+                <label id="lbl_Catalogo">Generacion de Cartas Cheque</label>
+            </div>
         </div>
         <div class="clear padding5"></div>
         <asp:UpdatePanel runat="server" ID="upCatalogo">
             <ContentTemplate>
                 <div class="input-group">
                     <br />
-                    <asp:Label runat="server" class="col-md-12 etiqueta-control">Geneación y Solicitud de Autorización de Carta cheque exitoso.
+                    <asp:Label runat="server" class="col-md-12 etiqueta-control">Generación y Solicitud de Autorización de Carta cheque exitoso.
                     </asp:Label>
-                    <asp:Label runat="server" class="col-md-12 etiqueta-control" ID="lblFolio" Text=""/>
-                    
+                    <asp:Label runat="server" class="col-md-12 etiqueta-control" ID="lblFolio" Text="" />
+
                     <br />
                     <br />
                 </div>

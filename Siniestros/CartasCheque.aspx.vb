@@ -508,6 +508,8 @@ Partial Class Siniestros_CartasCheque
         txt_nro_stro.Text = ""
         txt_cheque_a_nom.Text = ""
     End Sub
+
+
 End Class
 
 
