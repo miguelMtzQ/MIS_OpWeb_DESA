@@ -8,6 +8,7 @@ Partial Class Siniestros_CartasChequeAutorizacion
     Dim oTabla As DataTable
     Dim bflag As Boolean
 
+
     Public Property dtToken() As DataTable
         Get
             Return Session("dtToken")
@@ -19,8 +20,8 @@ Partial Class Siniestros_CartasChequeAutorizacion
 
     Protected Sub btn_BuscarOP_Click(sender As Object, e As EventArgs) Handles btn_BuscarOP.Click
         btnAutorizar.Visible = False
-        btn_Todas.Visible = False
-        btn_Ninguna.Visible = False
+        'btn_Todas.Visible = False      'ajustes cartas 06112020
+        'btn_Ninguna.Visible = False    'ajustes cartas 06112020
 
         If Not ValidaFiltros() Then Exit Sub
         oTabla = BuscarOP()
@@ -29,8 +30,8 @@ Partial Class Siniestros_CartasChequeAutorizacion
         If Not IsNothing(oTabla) Then
             If oTabla.Rows.Count > 0 Then
                 btnAutorizar.Visible = True
-                btn_Todas.Visible = True
-                btn_Ninguna.Visible = True
+                'btn_Todas.Visible = True       'ajustes cartas 06112020
+                'btn_Ninguna.Visible = True     'ajustes cartas 06112020
 
             End If
         End If
@@ -283,38 +284,40 @@ Partial Class Siniestros_CartasChequeAutorizacion
             Return False
         End Try
     End Function
-    Private Sub btn_Todas_Click(sender As Object, e As EventArgs) Handles btn_Todas.Click
-        Try
 
-            For Each row In grd.Rows
-                Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
-                If chkImp.Enabled = True Then
-                    chkImp.Checked = True
-                End If
-            Next
-        Catch ex As Exception
+    'ajustes cartas 06112020
+    'Private Sub btn_Todas_Click(sender As Object, e As EventArgs) Handles btn_Todas.Click
+    '    Try
 
-            Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
+    '        For Each row In grd.Rows
+    '            Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
+    '            If chkImp.Enabled = True Then
+    '                chkImp.Checked = True
+    '            End If
+    '        Next
+    '    Catch ex As Exception
 
-        End Try
-    End Sub
+    '        Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
 
-    Private Sub btn_Ninguna_Click(sender As Object, e As EventArgs) Handles btn_Ninguna.Click
-        Try
-            For Each row In grd.Rows
-                Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
-                If chkImp.Enabled = True Then
-                    chkImp.Checked = False
-                End If
+    '    End Try
+    'End Sub
 
-            Next
+    'Private Sub btn_Ninguna_Click(sender As Object, e As EventArgs) Handles btn_Ninguna.Click
+    '    Try
+    '        For Each row In grd.Rows
+    '            Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
+    '            If chkImp.Enabled = True Then
+    '                chkImp.Checked = False
+    '            End If
 
-        Catch ex As Exception
-            Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
+    '        Next
 
-        End Try
+    '    Catch ex As Exception
+    '        Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
 
-    End Sub
+    '    End Try
+
+    'End Sub
 
     Protected Sub grd_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles grd.RowCommand
 
@@ -512,11 +515,19 @@ Partial Class Siniestros_CartasChequeAutorizacion
             txtRechazo.Visible = True
             txtRechazo.Focus()
             lblRechazo.Visible = True
+            chk.Checked = True
+        ElseIf ddlRechazo.SelectedValue = 2 Then
+            txtRechazo.Visible = False
+            lblRechazo.Visible = False
+            txtRechazo.Text = ""
+            chk.Checked = True
+            'chk.Focus()
         Else
             txtRechazo.Visible = False
             lblRechazo.Visible = False
             txtRechazo.Text = ""
-            chk.Focus()
+            chk.Checked = False
+            'chk.Focus()
         End If
     End Sub
 
