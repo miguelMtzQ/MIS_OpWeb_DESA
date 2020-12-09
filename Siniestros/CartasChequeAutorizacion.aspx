@@ -62,13 +62,38 @@
                             <asp:TextBox runat="server" ID="txt_cheque_a_nom" CssClass="col-md-1 estandar-control" Width="75%" PlaceHolder="Ej: banco" OnFocusOut="convMayusculas('txt_cheque_a_nom')"></asp:TextBox>
                         </div>
                     </div>
+
+                    <div class="clear padding20"></div>
+
+                    <div class="row cuadro-subtitulo"  style="text-align: center">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6" style="text-align: center">
+                                <table style="width:100%; text-align:center">
+                                    <tr>
+                                        <td></td>
+                                        <td><asp:label runat="server" class="etiqueta-control">Estatus:</asp:label></td>                                                                            
+                                        
+                                        <td><asp:RadioButton runat="server" ID="chk_Todas" Text="&nbspTodas" CssClass="etiqueta-control" Width="100px" AutoPostBack="true" OnCheckedChanged="chk_Todas_CheckedChanged"/></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Pendientes" Text="&nbspPendientes" CssClass="etiqueta-control" Width="160px" AutoPostBack="true" OnCheckedChanged="chk_Pendientes_CheckedChanged" /></td>                                      
+                                        <td><asp:RadioButton runat="server" ID="chk_Autorizadas"  Text="&nbspAutorizadas" CssClass="etiqueta-control" Width="100px" AutoPostBack="true" OnCheckedChanged="chk_Autorizadas_CheckedChanged" /></td>                                                                               
+                                        <td><asp:RadioButton runat="server" ID="chk_Rechazadas"  Text="&nbspRechazadas" CssClass="etiqueta-control" Width="100px" AutoPostBack="true" OnCheckedChanged="chk_Rechazadas_CheckedChanged" /></td>                                                                               
+                                    </tr>
+                                </table>
+                                
+                            </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
                     <div class="padding5"></div>
+
+                    
+
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
     </div>
 
-    <div style="width: 100%; text-align: right; border-top-style: inset; border-width: 1px; border-color: #003A5D">
+    <div style="width: 100%; text-align: right;">
         <div class="padding10">
             <asp:UpdatePanel runat="server" ID="upBusqueda">
                 <ContentTemplate>
@@ -118,11 +143,11 @@
                                 <ItemStyle HorizontalAlign="Right" VerticalAlign="Middle" />
                             </asp:BoundField>
                             
-                            <%--Descomentar para agregar campo empresa--%>
-                            <%--<asp:BoundField DataField="txt_empresa" HeaderText="EMPRESA">
-                                <HeaderStyle Font-Size="12px" HorizontalAlign="Center" Wrap="true" />
-                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                            </asp:BoundField>--%>
+                            
+                            <asp:BoundField DataField="txt_empresa" HeaderText="DESPACHO O EMPRESA DE DONDE VIENE" >
+                                <HeaderStyle Font-Size="12px" HorizontalAlign="Center"  Wrap="True" />
+                                <ItemStyle HorizontalAlign="Left" VerticalAlign="Middle" Wrap ="true" />
+                            </asp:BoundField>
 
                             <asp:BoundField DataField="fecha_creacion" HeaderText="FECHA GENERADA" DataFormatString="{0:dd/MM/yyyy}">
                                 <HeaderStyle Font-Size="12px" HorizontalAlign="Center" />
@@ -139,6 +164,11 @@
                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                             </asp:BoundField>
 
+                            <asp:BoundField DataField="motivo_rechazo" HeaderText="MOTIVO RECHAZO">
+                                <HeaderStyle Font-Size="12px" HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                            </asp:BoundField>
+
                             <asp:TemplateField HeaderText="ACCION">
                                 <ItemTemplate>
                                     <asp:DropDownList runat="server" ID="dropEstado" AutoPostBack="true" OnSelectedIndexChanged="dropEstado_SelectedIndexChanged" Enabled='<%# Eval("chk") %>'>
@@ -146,13 +176,15 @@
                                         <asp:ListItem Text="Autorizada" Value="2" />
                                         <asp:ListItem Text="Rechazada" Value="3" />
                                     </asp:DropDownList>
-                                    <div class="padding5"></div>
-                                    <asp:Label runat="server" ID="lbl_mot_rech" Visible="false" Text="Motivo del Rechazo" />
+                                    <div class="padding10"></div>
+                                    <asp:Label runat="server" ID="lbl_mot_rech" Visible="false" Width="100%" Text="Motivo del Rechazo" />
                                     <%--<asp:TextBox runat="server" ID="txt_mot_rech" onblur = "return txtlen ();" Visible="false" Width="250px" Height="20px" AutoPostBack="true" 
 OnTextChanged="txt_mot_rech_TextChanged"></asp:TextBox>--%>
-                                    <asp:TextBox runat="server" ID="txt_mot_rech" Visible="false" Width="250px" Height="20px"></asp:TextBox>
+                                    <div class="padding10"></div>
+                                    <asp:TextBox runat="server" ID="txt_mot_rech" Visible="false" Width="150px" Height="20px"></asp:TextBox>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
+                                <HeaderStyle Font-Size="12px" />
                             </asp:TemplateField>
 
                             <asp:ButtonField Text="" HeaderText="VER CARTA" CommandName="RepCarta" ButtonType="Image" ImageUrl="../Images/buscar_mini_inv.png" ItemStyle-HorizontalAlign="Center">

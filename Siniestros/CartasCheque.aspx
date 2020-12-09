@@ -53,13 +53,35 @@
                         </div>
                     </div>
 
-                    <div class="padding5"></div>
+                    <div class="padding5"></div>                
+
+                    <div class="row cuadro-subtitulo"  style="text-align: center">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6" style="text-align: center">
+                                <table style="width:100%; text-align:center">
+                                    <tr>
+                                        <td></td>
+                                        <td><asp:label runat="server" class="etiqueta-control">Estatus:</asp:label></td>                                                                            
+                                        
+                                        <td><asp:RadioButton runat="server" ID="chk_Todas" Text="&nbspTodas" CssClass="etiqueta-control" Width="100px" AutoPostBack="true" OnCheckedChanged="chk_Todas_CheckedChanged"/></td>
+                                        <td><asp:RadioButton runat="server" ID="chk_Pendientes" Text="&nbspPendientes" CssClass="etiqueta-control" Width="160px" AutoPostBack="true" OnCheckedChanged="chk_Pendientes_CheckedChanged" /></td>                                      
+                                        <td><asp:RadioButton runat="server" ID="chk_Elaboradas"  Text="&nbspElaboradas" CssClass="etiqueta-control" Width="100px" AutoPostBack="true" OnCheckedChanged="chk_Elaboradas_CheckedChanged" /></td>                                                                               
+                                        
+                                    </tr>
+                                </table>
+                                
+                            </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <div class="padding5"></div>                
+
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
     </div>
 
-    <div style="width: 100%; text-align: right; border-top-style: inset; border-width: 1px; border-color: #003A5D">
+    <div style="width: 100%; text-align: right; ">
         <div class="padding10">
             <asp:UpdatePanel runat="server" ID="upBusqueda">
                 <ContentTemplate>
@@ -69,6 +91,8 @@
                             <img class="btn-buscar"/>&nbsp Buscar
                         </span>
                     </asp:LinkButton>
+
+                      
 
                     <asp:LinkButton ID="btnLimpiar" runat="server" class="btn botones" BorderWidth="2" BorderColor="White" Width="130px">
                         <span>

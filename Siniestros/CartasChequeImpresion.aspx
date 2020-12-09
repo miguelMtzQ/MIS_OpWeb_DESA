@@ -155,7 +155,7 @@
                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                 </asp:BoundField>
 
-                                <asp:BoundField DataField="imp_total" DataFormatString="{0:####,###,###,###,###.##}" HeaderStyle-HorizontalAlign="Center" HeaderText="MONTO TOTAL">
+                                <asp:BoundField DataField="imp_total" DataFormatString="{0:N2}" HeaderStyle-HorizontalAlign="Center" HeaderText="MONTO TOTAL">
                                 <HeaderStyle Font-Size="12px" />
                                 <ItemStyle HorizontalAlign="Right" VerticalAlign="Middle" />
                                 </asp:BoundField>
