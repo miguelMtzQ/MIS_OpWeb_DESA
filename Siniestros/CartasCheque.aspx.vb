@@ -13,6 +13,13 @@ Partial Class Siniestros_CartasCheque
     Dim oTabla As DataTable
     Dim folio As Integer
 
+    Private Enum TipoFiltro
+        Todas = 0
+        Pendientes = 1
+        Elaboradas = 2
+
+    End Enum
+
     Protected Sub btn_BuscarOP_Click(sender As Object, e As EventArgs) Handles btn_BuscarOP.Click
 
         btnSolAut.Enabled = False
@@ -40,6 +47,9 @@ Partial Class Siniestros_CartasCheque
             oParametros.Add("nro_ch_hasta", ValidarParametros(Trim(txt_nro_ch_hasta.Text)))
             oParametros.Add("nro_stro", ValidarParametros(Trim(txt_nro_stro.Text)))
             oParametros.Add("txt_cheque_a_nom", ValidarParametros(Trim(txt_cheque_a_nom.Text)))
+            oParametros.Add("pendientes", IIf(chk_Pendientes.Checked = True, -1, 0))
+            oParametros.Add("elaboradas", IIf(chk_Elaboradas.Checked = True, -1, 0))
+
 
             oDatos = Funciones.ObtenerDatos("usp_cartas_cheque_op_web", oParametros)
             oTabla = oDatos.Tables(0)
@@ -148,9 +158,18 @@ Partial Class Siniestros_CartasCheque
                     If Trim(txt_nro_ch_hasta.Text) = "" Then
                         If Trim(txt_nro_stro.Text) = "" Then
                             If Trim(txt_cheque_a_nom.Text) = "" Then
-                                MuestraMensaje("Validación", "Debe elegir al menos un filtro para la consulta", TipoMsg.Advertencia)
-                                ValidaFiltros = False
+                                If Not chk_Todas.Checked Then
+                                    If Not chk_Pendientes.Checked Then
+                                        If Not chk_Elaboradas.Checked Then
+                                            MuestraMensaje("Validación", "Debe elegir al menos un filtro para la consulta", TipoMsg.Advertencia)
+                                            ValidaFiltros = False
+                                        End If
+                                    End If
+                                Else
+                                    ValidaFiltros = True
+                                End If
                             End If
+
                         End If
                     Else
                         MuestraMensaje("Validación", "Debe seleccionar Núm Cheque desde", TipoMsg.Advertencia)
@@ -261,6 +280,12 @@ Partial Class Siniestros_CartasCheque
                 MuestraMensaje("Validación", "Persona que recibe el cheque es un campo obligatorio", TipoMsg.Confirma)
                 Return False
             End If
+
+            If chkPresente.Checked = True And Trim(txtEmpresaRemite.Text) = "" Then
+                MuestraMensaje("Validación", "Empresa de donde viene es un campo obligatorio", TipoMsg.Confirma)
+                Return False
+            End If
+
             Return True
         End If
     End Function
@@ -454,6 +479,8 @@ Partial Class Siniestros_CartasCheque
         Try
             oParametros.Add("folio_carta", nro_folio)
             oParametros.Add("UsrSolicitante", Master.cod_usuario.ToString())
+            oParametros.Add("url", HttpContext.Current.Request.Url.AbsoluteUri.Replace("CartasCheque", "CartasChequeAutorizacion"))
+
 
             Funciones.ObtenerDatos("usp_solicitud_aut_mail", oParametros)
             'oDatos = Funciones.ObtenerDatos("usp_solicitud_aut_mail", oParametros)
@@ -508,6 +535,44 @@ Partial Class Siniestros_CartasCheque
         txt_nro_stro.Text = ""
         txt_cheque_a_nom.Text = ""
     End Sub
+
+    Protected Sub chk_Todas_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Todas.CheckedChanged
+        VerificaRadios(TipoFiltro.Todas)
+    End Sub
+    Protected Sub chk_Pendientes_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Pendientes.CheckedChanged
+        VerificaRadios(TipoFiltro.Pendientes)
+    End Sub
+
+    Protected Sub chk_Elaboradas_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Elaboradas.CheckedChanged
+        VerificaRadios(TipoFiltro.Elaboradas)
+    End Sub
+
+    Private Sub VerificaRadios(tipo As Integer)
+
+        Select Case tipo
+
+            Case 0
+                If chk_Todas.Checked Then
+                    chk_Pendientes.Checked = False
+                    chk_Elaboradas.Checked = False
+                End If
+            Case 1
+                If chk_Pendientes.Checked Then
+                    chk_Todas.Checked = False
+                    chk_Elaboradas.Checked = False
+
+                End If
+            Case 2
+                If chk_Elaboradas.Checked Then
+                    chk_Pendientes.Checked = False
+                    chk_Todas.Checked = False
+
+                End If
+
+        End Select
+
+    End Sub
+
 
 
 End Class
