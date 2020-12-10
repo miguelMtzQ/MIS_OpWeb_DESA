@@ -8,6 +8,13 @@ Partial Class Siniestros_CartasChequeAutorizacion
     Dim oTabla As DataTable
     Dim bflag As Boolean
 
+    Private Enum TipoFiltro
+        Todas = 0
+        Pendientes = 1
+        Autorizadas = 2
+        Rechazadas = 3
+    End Enum
+
     Public Property dtToken() As DataTable
         Get
             Return Session("dtToken")
@@ -17,10 +24,39 @@ Partial Class Siniestros_CartasChequeAutorizacion
         End Set
     End Property
 
+    Sub Page_Load(ByVal Sender As Object, ByVal e As EventArgs) Handles Me.Load
+
+        Dim oDatos As DataSet
+        Dim oTabla As DataTable
+        Dim oParametros As New Dictionary(Of String, Object)
+        Dim FolioCarta As String
+        'Dim Fondos As String
+
+        FolioCarta = Request.QueryString("folio")
+
+
+        If FolioCarta <> Nothing Then
+
+            oParametros.Add("folio_gmx", FolioCarta)
+            oDatos = Funciones.ObtenerDatos("usp_buscar_datos_carta_ch_autoriza", oParametros)
+
+            oTabla = oDatos.Tables(0)
+
+            grd.DataSource = oTabla
+
+            grd.DataBind()
+            txt_folio_carta.Text = FolioCarta
+        End If
+
+
+
+    End Sub
+
     Protected Sub btn_BuscarOP_Click(sender As Object, e As EventArgs) Handles btn_BuscarOP.Click
         btnAutorizar.Visible = False
-        btn_Todas.Visible = False
-        btn_Ninguna.Visible = False
+        'btn_Todas.Visible = False      'ajustes cartas 06112020
+        'btn_Ninguna.Visible = False    'ajustes cartas 06112020
+
 
         If Not ValidaFiltros() Then Exit Sub
         oTabla = BuscarOP()
@@ -29,8 +65,8 @@ Partial Class Siniestros_CartasChequeAutorizacion
         If Not IsNothing(oTabla) Then
             If oTabla.Rows.Count > 0 Then
                 btnAutorizar.Visible = True
-                btn_Todas.Visible = True
-                btn_Ninguna.Visible = True
+                'btn_Todas.Visible = True       'ajustes cartas 06112020
+                'btn_Ninguna.Visible = True     'ajustes cartas 06112020
 
             End If
         End If
@@ -53,6 +89,13 @@ Partial Class Siniestros_CartasChequeAutorizacion
             oParametros.Add("txt_cheque_a_nom", ValidarParametros(Trim(txt_cheque_a_nom.Text)))
             oParametros.Add("folio_gmx", ValidarParametros(Trim(txt_folio_carta.Text)))
 
+            oParametros.Add("pendientes", IIf(chk_Pendientes.Checked = True, -1, 0))
+            oParametros.Add("autorizadas", IIf(chk_Autorizadas.Checked = True, -1, 0))
+            oParametros.Add("rechazadas", IIf(chk_Rechazadas.Checked = True, -1, 0))
+            oParametros.Add("todas", IIf(chk_Todas.Checked = True, -1, 0))
+
+
+
             oDatos = Funciones.ObtenerDatos("usp_buscar_datos_carta_ch_autoriza", oParametros)
             oTabla = oDatos.Tables(0)
 
@@ -73,6 +116,9 @@ Partial Class Siniestros_CartasChequeAutorizacion
 
         ValidaFiltros = True
 
+
+
+
         If Trim(txt_nro_op.Text) = "" Then
             If Trim(txt_nro_op_hasta.Text) = "" Then
                 If Trim(txt_nro_ch_desde.Text) = "" Then
@@ -80,8 +126,16 @@ Partial Class Siniestros_CartasChequeAutorizacion
                         If Trim(txt_nro_stro.Text) = "" Then
                             If Trim(txt_folio_carta.Text) = "" Then
                                 If Trim(txt_cheque_a_nom.Text) = "" Then
-                                    MuestraMensaje("Validación", "Debe elegir al menos un filtro para la consulta", TipoMsg.Advertencia)
-                                    ValidaFiltros = False
+                                    If Not chk_Todas.Checked Then
+                                        If Not chk_Pendientes.Checked Then
+                                            If Not chk_Autorizadas.Checked Then
+                                                If Not chk_Rechazadas.Checked Then
+                                                    MuestraMensaje("Validación", "Debe elegir al menos un filtro para la consulta", TipoMsg.Advertencia)
+                                                    ValidaFiltros = False
+                                                End If
+                                            End If
+                                        End If
+                                    End If
                                 End If
                             End If
                         End If
@@ -213,9 +267,9 @@ Partial Class Siniestros_CartasChequeAutorizacion
                     If selecc.Checked Then
 
                         Select Case i
-                            Case 7
+                            Case 9
                                 dtAut.Rows(indexTabla)(i) = accion.Text.ToString()
-                            Case 8
+                            Case 10
                                 dtAut.Rows(indexTabla)(i) = mot_rechazo.Text.ToString()
                             Case Else
                                 dtAut.Rows(indexTabla)(i) = row.Cells(i).Text
@@ -283,38 +337,40 @@ Partial Class Siniestros_CartasChequeAutorizacion
             Return False
         End Try
     End Function
-    Private Sub btn_Todas_Click(sender As Object, e As EventArgs) Handles btn_Todas.Click
-        Try
 
-            For Each row In grd.Rows
-                Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
-                If chkImp.Enabled = True Then
-                    chkImp.Checked = True
-                End If
-            Next
-        Catch ex As Exception
+    'ajustes cartas 06112020
+    'Private Sub btn_Todas_Click(sender As Object, e As EventArgs) Handles btn_Todas.Click
+    '    Try
 
-            Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
+    '        For Each row In grd.Rows
+    '            Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
+    '            If chkImp.Enabled = True Then
+    '                chkImp.Checked = True
+    '            End If
+    '        Next
+    '    Catch ex As Exception
 
-        End Try
-    End Sub
+    '        Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
 
-    Private Sub btn_Ninguna_Click(sender As Object, e As EventArgs) Handles btn_Ninguna.Click
-        Try
-            For Each row In grd.Rows
-                Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
-                If chkImp.Enabled = True Then
-                    chkImp.Checked = False
-                End If
+    '    End Try
+    'End Sub
 
-            Next
+    'Private Sub btn_Ninguna_Click(sender As Object, e As EventArgs) Handles btn_Ninguna.Click
+    '    Try
+    '        For Each row In grd.Rows
+    '            Dim chkImp As CheckBox = TryCast(row.FindControl("CheckBox1"), CheckBox)
+    '            If chkImp.Enabled = True Then
+    '                chkImp.Checked = False
+    '            End If
 
-        Catch ex As Exception
-            Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
+    '        Next
 
-        End Try
+    '    Catch ex As Exception
+    '        Mensaje.MuestraMensaje(Master.Titulo, ex.Message, TipoMsg.Falla)
 
-    End Sub
+    '    End Try
+
+    'End Sub
 
     Protected Sub grd_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles grd.RowCommand
 
@@ -512,11 +568,19 @@ Partial Class Siniestros_CartasChequeAutorizacion
             txtRechazo.Visible = True
             txtRechazo.Focus()
             lblRechazo.Visible = True
+            chk.Checked = True
+        ElseIf ddlRechazo.SelectedValue = 2 Then
+            txtRechazo.Visible = False
+            lblRechazo.Visible = False
+            txtRechazo.Text = ""
+            chk.Checked = True
+            'chk.Focus()
         Else
             txtRechazo.Visible = False
             lblRechazo.Visible = False
             txtRechazo.Text = ""
-            chk.Focus()
+            chk.Checked = False
+            'chk.Focus()
         End If
     End Sub
 
@@ -534,7 +598,50 @@ Partial Class Siniestros_CartasChequeAutorizacion
         txt_nro_stro.Text = ""
         txt_cheque_a_nom.Text = ""
     End Sub
+    Protected Sub chk_Todas_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Todas.CheckedChanged
+        VerificaRadios(TipoFiltro.Todas)
+    End Sub
+    Protected Sub chk_Pendientes_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Pendientes.CheckedChanged
+        VerificaRadios(TipoFiltro.Pendientes)
+    End Sub
 
+    Protected Sub chk_Autorizadas_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Autorizadas.CheckedChanged
+        VerificaRadios(TipoFiltro.Autorizadas)
+    End Sub
+    Protected Sub chk_Rechazadas_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Rechazadas.CheckedChanged
+        VerificaRadios(TipoFiltro.Rechazadas)
+    End Sub
+    Private Sub VerificaRadios(tipo As Integer)
+
+        Select Case tipo
+
+            Case 0
+                If chk_Todas.Checked Then
+                    chk_Pendientes.Checked = False
+                    chk_Autorizadas.Checked = False
+                    chk_Rechazadas.Checked = False
+                End If
+            Case 1
+                If chk_Pendientes.Checked Then
+                    chk_Todas.Checked = False
+                    chk_Autorizadas.Checked = False
+                    chk_Rechazadas.Checked = False
+                End If
+            Case 2
+                If chk_Autorizadas.Checked Then
+                    chk_Pendientes.Checked = False
+                    chk_Todas.Checked = False
+                    chk_Rechazadas.Checked = False
+                End If
+            Case 3
+                If chk_Rechazadas.Checked Then
+                    chk_Pendientes.Checked = False
+                    chk_Autorizadas.Checked = False
+                    chk_Todas.Checked = False
+                End If
+        End Select
+
+    End Sub
 
 End Class
 
