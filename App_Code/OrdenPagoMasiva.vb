@@ -99,7 +99,7 @@ Public Class OrdenPagoMasiva
 
                 OP.FechaComprobante = Funciones.FormatearFecha(OP.FechaComprobante, Funciones.enumFormatoFecha.YYYYMMDD)
                 OP.FechaIngreso = Funciones.FormatearFecha(OP.FechaIngreso, Funciones.enumFormatoFecha.YYYYMMDD)
-
+                OP.Fec_pago = Funciones.FormatearFecha(OP.Fec_pago, Funciones.enumFormatoFecha.YYYYMMDD)
 
                 oParametros.Add("FechaComprobante", ValidarParametros(OP.FechaComprobante))
                 oParametros.Add("CodTipoStro", ValidarParametros(OP.CodTipoStro))
@@ -124,6 +124,7 @@ Public Class OrdenPagoMasiva
                 oParametros.Add("TipoPagoDetalle", ValidarParametros(OP.TipoPagoDetalle))
                 oParametros.Add("Cod_objeto", ValidarParametros(OP.Cod_objeto))
                 oParametros.Add("Poliza", ValidarParametros(OP.Poliza))
+                oParametros.Add("Fec_pago", ValidarParametros(OP.Fec_pago))
 
 
 
@@ -219,7 +220,8 @@ Public Class OrdenPagoMasiva
             For Each row As DataRow In oTabla.Rows
                 OP = New OrdenPagoMasivoClass
 
-                OP.Folio_Onbase = "<a href=""VisordeContenido.aspx ""  target=""_blank""><i class=""fa fa-newspaper-o""></i>&nbsp; " + row("Folio_Onbase").ToString() + "</a>"
+                'OP.Folio_Onbase = "<a href=""VisordeContenido.aspx ""  target=""_blank""><i class=""fa fa-newspaper-o""></i>&nbsp; " + row("Folio_Onbase").ToString() + "</a>"
+                OP.Folio_Onbase = Webservices(row("Folio_Onbase").ToString())
                 OP.Num_Pago = row("Num_Pago").ToString()
                 OP.Tipo_comprobante = row("Tipo_comprobante").ToString()
                 Select Case row("PagarA").ToString()
@@ -249,7 +251,7 @@ Public Class OrdenPagoMasiva
                 OP.Tipo_Pago = row("Tipo_Pago").ToString()
                 OP.Concepto2 = row("Concepto2").ToString()
                 OP.Tipo_Pago2 = row("Tipo_Pago2").ToString()
-                OP.Folio_Onbase_cuenta = row("Folio_Onbase_cuenta").ToString()
+                OP.Folio_Onbase_cuenta = Webservices(row("Folio_Onbase_cuenta").ToString())
                 OP.Cuenta_Bancaria = row("Cuenta_Bancaria").ToString()
                 OP.Confirmar_Cuenta = row("Confirmar_Cuenta").ToString()
                 OP.Solicitante = row("Solicitante").ToString()
@@ -259,6 +261,7 @@ Public Class OrdenPagoMasiva
                 OP.Cod_moneda = row("Cod_moneda").ToString()
                 OP.Cod_moneda_pago = row("Cod_moneda_pago").ToString()
                 OP.FolioOnbaseHidden = row("Folio_Onbase").ToString()
+                OP.Folio_Onbase_cuentaHidden = row("Folio_Onbase_cuenta").ToString()
                 OP.Id_Persona = row("id_persona").ToString()
                 OP.CodigoSucursal = row("CodigoSucursal").ToString()
                 OP.TipoMovimiento = row("TipoMovimiento").ToString()
@@ -293,7 +296,7 @@ Public Class OrdenPagoMasiva
                 OP.Cod_clas_pago = row("Cod_clas_pago").ToString()
                 OP.Cod_tipo_pago = row("Cod_tipo_pago").ToString()
                 OP.Poliza = row("Poliza").ToString()
-
+                OP.Fec_pago = row("fec_pago").ToString()
                 lstOp.Add(OP)
 
 
@@ -360,4 +363,28 @@ Public Class OrdenPagoMasiva
 
     End Function
 
+
+
+    Public Function Webservices(Folio_Onbase As String) As String
+
+
+        Dim oDatos As DataSet
+        Dim oTabla As DataTable
+        Dim oParametros As New Dictionary(Of String, Object)
+        Dim url As String
+        Dim salida As String
+        url = ""
+        oParametros.Add("strCatalogo", "WebServices")
+        oDatos = Funciones.ObtenerDatos("[sp_Catalogos_OPMasivas]", oParametros)
+        oTabla = oDatos.Tables(0)
+
+        For Each row As DataRow In oTabla.Rows
+            url = row("url").ToString()
+            url = url.Replace("@Folio", Folio_Onbase)
+
+        Next
+        salida = "<a href=""" + url + """  target=""_blank""><i class=""fa fa-newspaper-o""></i>&nbsp; " + Folio_Onbase + "</a>"
+        Return salida
+
+    End Function
 End Class

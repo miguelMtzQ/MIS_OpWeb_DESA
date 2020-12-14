@@ -32,7 +32,7 @@ Public Class Prueba : Implements IHttpHandler
             Case "ClasePago"
 
                 oParametros.Add("strCatalogo", "ClasePago")
-                oDatos = Funciones.ObtenerDatos("[spS_CatalogosSIR]", oParametros)
+                oDatos = Funciones.ObtenerDatos("[sp_Catalogos_OPMasivas]", oParametros)
                 oTabla = oDatos.Tables(0)
             Case "ConceptoPago"
 

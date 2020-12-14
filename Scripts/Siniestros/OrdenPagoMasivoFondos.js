@@ -14,8 +14,8 @@
   
         $("#btn_Guardar").addClass("hidden");
         $("[id*=btn_Enviar]").addClass("hidden");
-        $("[id*=btn_Revisar]").addClass("hidden");
-        $("[id*=btn_Enviar]").prop("disabled", true);
+        $("[id*=btn_Revisar]").addClass("hidden");  
+    
         
         var txt_fecha_ini = $("[id*=txt_fecha_ini]").val();
 
@@ -125,6 +125,7 @@
 
 
         var txt_NumLote = $("[id*=txt_NumLote]").val();
+        var Fec_pago = $("[id*=txtFechaEstimadaPago]").val();
         ////var selectedRowId = myGrid.jqGrid("getGridParam", 'selrow');
         ////var selectedRowData = myGrid.getRowData(selectedRowId);
         ////var selectedRowIds = myGrid.jqGrid("getGridParam", 'selarrrow');
@@ -172,7 +173,8 @@
 
             var myRow = myGrid.jqGrid('getRowData', myIDs[i]);
             myRow.Folio_Onbase = myRow.FolioOnbaseHidden
-
+            myRow.Folio_Onbase_cuenta = myRow.Folio_Onbase_cuentaHidden
+            myRow.Fec_pago = Fec_pago;
             if (myRow.Concepto_Pago.indexOf('input') > 0)
             {
                 myRow.Concepto_Pago = "";
@@ -224,8 +226,9 @@
                 $("[id*=txt_NumLote]").val(data.d);
                 $("#loading").addClass("hidden");
                 $("#loading2").addClass("hidden");
-                
-                $("[id*=btn_Enviar]").prop("disabled", false);
+                $("[id*=btn_Revisar]").removeClass("hidden");
+                $("[id*=btn_Enviar]").removeClass("hidden");
+           
             },
             error: function (response) {
 
@@ -252,7 +255,7 @@
         $("#btn_Guardar").addClass("hidden");
         $("[id*=btn_Enviar]").addClass("hidden");
         $("[id*=btn_Revisar]").addClass("hidden");        
-        $("[id*=btn_Enviar]").prop("disabled", true);
+       
 
         
 
@@ -287,11 +290,11 @@
               
 
                 var mydata = $.parseJSON(result.d);
-                
+                $("[id*=txtFechaEstimadaPago]").val(mydata[0].Fec_pago);
                 LoadGrid(mydata);
 
-                $("[id*=btn_Enviar]").prop("disabled", false);
-
+                $("[id*=btn_Enviar]").removeClass("hidden");
+                $("[id*=btn_Revisar]").removeClass("hidden");
 
 
             },
@@ -325,7 +328,7 @@
             width: 1024,
             rowNum: 8000,
             rowList: [10, 20, 30],           
-            colNames: ['Folio Onbase', 'Num Pago', 'Tipo de comprobante', 'Pagar A', 'Codigo', 'RFC', 'Nombre /Razon Social', 'Siniestro', 'Subsinientro', 'Moneda', 'Tipo de Cambio', 'Reserva', 'Moneda de Pago', 'Importe', 'Deducible', 'Importe del concepto', 'Concepto Facturado', 'cod_concepto_pago', 'Concepto de pago','cod_clas_Pago' ,'Clase de Pago', 'cod_tipo_pago','Tipo de Pago', 'Concepto 2', 'Tipo de Pago', 'Folio Onbase Estado de cuenta', 'Cuenta Bancaria', 'Confirmar Cuenta', 'Solicitante', 'Notas', 'Observaciones', 'id_tipo_Doc', 'moneda', 'moneda pago', 'FolioOnbaseHidden', 'Id_persona', '', '', , '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','Poliza','Accion'],
+            colNames: ['Folio Onbase', 'Num Pago', 'Tipo de comprobante', 'Pagar A', 'Codigo', 'RFC', 'Nombre /Razon Social', 'Siniestro', 'Subsinientro', 'Moneda', 'Tipo de Cambio', 'Reserva', 'Moneda de Pago', 'Importe', 'Deducible', 'Importe del concepto', 'Concepto Facturado', 'cod_concepto_pago', 'Concepto de pago', 'cod_clas_Pago', 'Clase de Pago', 'cod_tipo_pago', 'Tipo de Pago', 'Concepto 2', 'Tipo de Pago', 'Folio Onbase Estado de cuenta', 'Cuenta Bancaria', 'Confirmar Cuenta', 'Solicitante', 'Notas', 'Observaciones', 'id_tipo_Doc', 'moneda', 'moneda pago', 'FolioOnbaseHidden','Folio_Onbase_cuentaHidden', 'Id_persona', '', '', , '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','Poliza','Fec_pago','Accion'],
             colModel: [
                 
                 { name: 'Folio_Onbase', index: 'Folio_Onbase', width: 100, frozen: false },
@@ -495,7 +498,7 @@
                 { name: 'Tipo_Pago', index: 'Tipo_Pago', width: 180 },
                 { name: 'Concepto2', index: 'Concepto2', width: 180, editable: true, hidden: true, editoptions: { size: "30", maxlength: "100" } },
                 { name: 'Tipo_Pago2', index: 'Tipo_Pago2', width: 90, hidden: true },
-                { name: 'Folio_Onbase_Cuenta', index: 'Folio_Onbase_Cuenta', width: 90 },
+                { name: 'Folio_Onbase_cuenta', index: 'Folio_Onbase_cuenta', width: 90 },
                 { name: 'Cuenta_Bancaria', index: 'Cuenta_Bancaria', width: 180, editable: false, editoptions: { size: "30", maxlength: "18" }, editrules: { custom: true, custom_func: Validar, required: true } },
                 { name: 'Confirmar_Cuenta', index: 'Confirmar_Cuenta', width: 180, editable: false, editoptions: { size: "30", maxlength: "18" }, editrules: { custom: true, custom_func: Validar, required: true } },
                 { name: 'Solicitante', index: 'Solicitante', width: 90 },
@@ -505,6 +508,7 @@
                 { name: 'Cod_moneda', index: 'Cod_moneda', width: 90, hidden: true },
                 { name: 'Cod_moneda_pago', index: 'Cod_moneda_pago', width: 90, hidden: true },
                 { name: 'FolioOnbaseHidden', index: 'FolioOnbaseHidden', width: 90, hidden: true },
+                { name: 'Folio_Onbase_cuentaHidden', index: 'Folio_Onbase_cuentaHidden', width: 90, hidden: true },
                 { name: 'Id_Persona', index: 'Id_Persona', width: 90, hidden: true },
 
                 { name: 'CodigoSucursal', index: 'CodigoSucursal', width: 90, hidden: true },
@@ -535,7 +539,7 @@
                 { name: 'TipoPagoDetalle', index: 'TipoPagoDetalle', width: 90, hidden: true },
                 { name: 'Cod_objeto', index: 'Cod_objeto', width: 90, hidden: true },
                 { name: 'Poliza', index: 'Poliza', width: 90, hidden: true },
-
+                { name: 'Fec_pago', index: 'Fec_pago', width: 180, hidden: true },
 
 
 
@@ -626,8 +630,8 @@
 
         $("#loading").addClass("hidden");
         $("#btn_Guardar").removeClass("hidden");
-        $("[id*=btn_Enviar]").removeClass("hidden");
-        $("[id*=btn_Revisar]").removeClass("hidden");
+ 
+
         
 
 

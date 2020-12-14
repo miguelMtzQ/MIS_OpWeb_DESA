@@ -187,7 +187,7 @@
 
                         <div class="form-group col-md-2">
                             <div class="form-check Centrado">
-                                <asp:CheckBox runat="server" ID="chkVariasFacturas" Text="Varias facturas" CssClass="etiqueta-control" />
+                                <asp:CheckBox runat="server" ID="chkVariasFacturas" Text="Varias facturas" CssClass="etiqueta-control hidden" />
                             </div>
                         </div>
                         <%--<div class="form-group col-md-2">
@@ -197,9 +197,14 @@
                         </div>--%>
                         <div class="form-group col-md-2">
                             <div class="form-check Centrado">
-                                <asp:CheckBox runat="server" ID="chkFondosSinIVA" Text="Fondos Sin IVA" CssClass="etiqueta-control" />
+                                <asp:CheckBox runat="server" ID="chkFondosSinIVA" Text="Fondos Sin IVA" CssClass="etiqueta-control hidden" />
                             </div>
-                        </div>                        
+                        </div>  
+                     
+                                             <div class="form-group col-md-2">
+                            <asp:Label runat="server" class="etiqueta-control">Fecha estimada de pago</asp:Label>
+                            <asp:TextBox ID="txtFechaEstimadaPago" AutoPostBack="True" OnTextChanged="txt_TextChanged" runat="server" CssClass="estandar-control fechadepago Tablero Fecha Centro" autocomplete="off" placeholder="DD/MM/YYYY"></asp:TextBox>
+                        </div>
                     
                  </div>
 
@@ -266,7 +271,7 @@
                     
 
 
-            <a id="btn_Enviar" runat="server" class="btn botones pull-right hidden" data-toggle="modal" data-target="#Modal"  disabled>
+            <a id="btn_Enviar" runat="server" class="btn botones pull-right hidden" data-toggle="modal" data-target="#Modal">
                                    <span>
                                         <i class="fa fa-arrow-circle-up"></i>&nbsp;
                                         Generar

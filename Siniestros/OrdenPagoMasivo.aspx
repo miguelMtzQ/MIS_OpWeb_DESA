@@ -55,6 +55,8 @@
                                                                 <img class="btn-buscar"/>
                                     </span></button>
                          </div>
+
+
                      </div>
 
                     <div class="row">
@@ -101,7 +103,7 @@
 
                             <div class="form-group col-md-2">
                                 
-                                <asp:TextBox AutoPostBack="True"   ID="txt_folio_onbase_Desde" runat="server"   CssClass="estandar-control Monto  Centro" placeholder="Folio Onbase Desde"></asp:TextBox>
+                                <asp:TextBox    ID="txt_folio_onbase_Desde" runat="server"   CssClass="estandar-control Monto  Centro" placeholder="Folio Onbase Desde"></asp:TextBox>
                             </div>
 
                            <div class="col-md-1">
@@ -110,7 +112,7 @@
 
                             <div class="form-group col-md-2">
                                 
-                                <asp:TextBox AutoPostBack="True" OnBlur="__doPostBack(this.id, '');"  ID="txt_folio_onbase_Hasta" runat="server"   CssClass="estandar-control onbase  Centro" placeholder="Folio Onbase Hasta"></asp:TextBox>
+                                <asp:TextBox   ID="txt_folio_onbase_Hasta" runat="server"   CssClass="estandar-control onbase  Centro" placeholder="Folio Onbase Hasta"></asp:TextBox>
                             </div>
 
                         </div>
@@ -172,7 +174,10 @@
                                 <asp:ListItem Value="10">10</asp:ListItem>
                                 </asp:DropDownList>
                            </div>
-
+                        <div class="form-group col-md-2">
+                            <asp:Label runat="server" class="etiqueta-control">Fecha estimada de pago</asp:Label>
+                            <asp:TextBox ID="txtFechaEstimadaPago" AutoPostBack="True" OnTextChanged="txt_TextChanged" runat="server" CssClass="estandar-control fechadepago Tablero Fecha Centro" autocomplete="off" placeholder="DD/MM/YYYY"></asp:TextBox>
+                        </div>
 
                      </div>
 
@@ -239,7 +244,7 @@
                     
 
 
-            <a id="btn_Enviar" runat="server" class="btn botones pull-right hidden" data-toggle="modal" data-target="#Modal"  disabled>
+            <a id="btn_Enviar" runat="server" class="btn botones pull-right hidden" data-toggle="modal" data-target="#Modal">
                                    <span>
                                         <i class="fa fa-arrow-circle-up"></i>&nbsp;
                                         Generar
