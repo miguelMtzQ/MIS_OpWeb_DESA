@@ -18,12 +18,11 @@ Partial Class Siniestros_DatosEnvioChequeABM
 
         If Not IsPostBack Then
             LlenaDDLEstado()
+            Session("codPostalS") = 0
         End If
 
 
     End Sub
-
-
 
     Private Sub LlenaDDLEstado()
         Dim dt As New DataTable
@@ -153,7 +152,14 @@ Partial Class Siniestros_DatosEnvioChequeABM
 
         cod_colonia = drColonia.SelectedValue
 
-        codPostal = Funciones.fn_EjecutaStr("usp_obtener_cat_direccion @catalogo = 'CodPostal', @cod_colonia = " & cod_colonia.ToString())
+        'codPostal = Funciones.fn_EjecutaStr("usp_obtener_cat_direccion @catalogo = 'CodPostal', @cod_colonia = " & cod_colonia.ToString())
+
+        codPostal = Funciones.fn_EjecutaStr("usp_obtener_cat_direccion @catalogo = 'CodPostal', @cod_colonia = " & cod_colonia.ToString() & ", @cod_dpto = " & drEstado.SelectedValue & ", @cod_ciudad = " & drCiudad.SelectedValue & ", @cod_municipio = " & drDeleg.SelectedValue
+        )
+
+
+
+
 
         'For Each row As DataRow In dtResult.Rows
         '    If row("cod_colonia") = cod_colonia Then
@@ -161,43 +167,50 @@ Partial Class Siniestros_DatosEnvioChequeABM
         '    End If
         'Next
 
+        ''fjcp falta corregir
+
         txt_cod_postal.Text = codPostal
     End Sub
 
     Protected Sub drColonia_SelectedIndexChanged(sender As Object, e As EventArgs) Handles drColonia.SelectedIndexChanged
-        ObtenerCP()
+        'If Session("codPostalS") = 0 Then
+        'ObtenerCP()
+        'Else
+
+        Dim a As String
+        a = drColonia.SelectedItem.ToString()
+        cargarDDLxColonia(drColonia.SelectedValue, txt_cod_postal.Text.Trim, drColonia.SelectedItem.ToString())
+        'MuestraMensaje("s", "ffffff", TipoMsg.Advertencia)
+        '   Session("codPostalS") = 0
+        'End If
+
     End Sub
 
     Protected Sub txt_cod_postal_TextChanged(sender As Object, e As EventArgs) Handles txt_cod_postal.TextChanged
         Dim cod_postal As String
         cod_postal = Trim(txt_cod_postal.Text)
+        Dim dt As New DataTable
 
         If cod_postal <> "" Then
-            Dim dt As New DataTable
-            'Dim cod_pais As Integer
-            Dim cod_dpto As Integer
-            Dim cod_municipio As Integer
-            Dim cod_ciudad As Integer
-            Dim cod_colonia As Integer
 
-            Funciones.fn_Consulta("usp_obtener_cat_direccion @catalogo = 'RecuperaTodos', @cod_postal = '" & cod_postal & "'", dtResult)
+            'Dim cod_pais As Integer
+
+
+            'Funciones.fn_Consulta("usp_obtener_cat_direccion @catalogo = 'RecuperaTodos', @cod_postal = '" & cod_postal & "'", dtResult)
+            Funciones.fn_Consulta("usp_obtener_cat_direccion @catalogo = 'RecuperaColonias', @cod_postal = '" & cod_postal & "'", dtResult)
+
 
             If dtResult.Rows.Count > 0 Then
+                dt = agregaSeleccionar(dtResult)
+                Funciones.LlenaDDL(drColonia, dt, "cod_colonia", "txt_desc", 0, False)
 
-                'cod_pais = dtResult.Rows(0)("cod_pais")
-                cod_dpto = dtResult.Rows(0)("cod_dpto")
-                cod_municipio = dtResult.Rows(0)("cod_municipio")
-                cod_ciudad = dtResult.Rows(0)("cod_ciudad")
-                cod_colonia = dtResult.Rows(0)("cod_colonia")
+                'Funciones.LlenaDDL(drColonia, dtResult, "cod_colonia", "txt_desc", 0, False)
 
-                drEstado.SelectedValue = cod_dpto
-                LlenaDDLCiudad(cod_dpto)
-                drCiudad.SelectedValue = cod_ciudad
-                LlenaDDLMunicipio(cod_dpto)
-                drDeleg.SelectedValue = cod_municipio
-                LlenaDDLColonia(cod_dpto, cod_ciudad, cod_municipio, cod_postal)
-                drColonia.SelectedValue = cod_colonia
-
+                Session("codPostalS") = 1
+                drColonia.SelectedValue = -1
+                drEstado.SelectedValue = -1
+                drCiudad.SelectedValue = -1
+                drDeleg.SelectedValue = -1
             Else
                 MuestraMensaje("Valida CP", "Las colonias con el C.P. ingresado no están actualmente activas", TipoMsg.Advertencia)
                 drDeleg.SelectedValue = -1
@@ -402,6 +415,30 @@ Partial Class Siniestros_DatosEnvioChequeABM
         Response.Redirect("DatosEnvioChequeABM.aspx")
     End Sub
 
+    Private Sub cargarDDLxColonia(codColonia As Integer, codPostal As String, colDesc As String)
+
+        Dim cod_dpto As Integer
+        Dim cod_municipio As Integer
+        Dim cod_ciudad As Integer
+        Dim cod_colonia As Integer
+
+        Funciones.fn_Consulta("usp_obtener_cat_direccion @catalogo = 'ColoniaSel', @cod_colonia = " & codColonia & " ,@cod_postal = '" & codPostal & "', @coloniaDesc = '" & colDesc & "'", dtResult)
+
+
+        cod_dpto = dtResult.Rows(0)("cod_dpto")
+        cod_municipio = dtResult.Rows(0)("cod_municipio")
+        cod_ciudad = dtResult.Rows(0)("cod_ciudad")
+        cod_colonia = dtResult.Rows(0)("cod_colonia")
+
+
+        drEstado.SelectedValue = cod_dpto
+        LlenaDDLCiudad(cod_dpto)
+        drCiudad.SelectedValue = cod_ciudad
+        LlenaDDLMunicipio(cod_dpto)
+        drDeleg.SelectedValue = cod_municipio
+        'LlenaDDLColonia(cod_dpto, cod_ciudad, cod_municipio, codPostal)
+        'drColonia.SelectedValue = cod_colonia
+    End Sub
 
     'Protected Sub txt_clave_TextChanged(sender As Object, e As EventArgs) Handles txt_clave.TextChanged
     '    If Trim(txt_clave.Text) = "0" Then
