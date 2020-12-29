@@ -157,7 +157,7 @@
         </asp:UpdatePanel>
     </div>
 
-
+     <div class="padding53"></div>
 
     <!-- M O D A L  -->
     <div id="modGeneraCartas" style="width: 50%; left: 600px;" class="modal-catalogo fade">
@@ -246,8 +246,8 @@
                             <div class="col-md-9" style="text-align: center">
 
                                 <div class="row align-items-center padding10">
-                                    <asp:Label runat="server" class="col-md-3 etiqueta-control text-right padding10" Width="35%">Persona que recibe el cheque </asp:Label>
-                                    <asp:TextBox runat="server" ID="txtRecibe" CssClass="col-md-9 estandar-control" Width="57%" Enabled="false" OnFocusOut="convMayusculas('txtRecibe')"></asp:TextBox>
+                                    <asp:Label runat="server" class="col-md-4 etiqueta-control text-right padding10" Width="40%">Persona que recibe el cheque </asp:Label>
+                                    <asp:TextBox runat="server" ID="txtRecibe" CssClass="col-md-9 estandar-control" Width="52%" Enabled="false" OnFocusOut="convMayusculas('txtRecibe')"></asp:TextBox>
                                 </div>
 
 
