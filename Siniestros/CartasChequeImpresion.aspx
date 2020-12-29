@@ -128,9 +128,9 @@
     <div class="padding5">
         <asp:UpdatePanel runat="server" ID="updGrd" UpdateMode="Conditional" Width="25%">
             <ContentTemplate>
-                <asp:Panel runat="server" ID="pnlUsuario" Width="99%" Height="280" ScrollBars="Auto">
-                    <div style="width: 100%; text-align: right;" class="padding10">
-                        <asp:GridView ID="grd" runat="server" AutoGenerateColumns="False" CssClass="table-condensed table-hover" Font-Size="11px" GridLines="Vertical" HeaderStyle-CssClass="header" Height="35px" HorizontalAlign="Center" ShowHeaderWhenEmpty="True">
+                <asp:Panel runat="server" ID="pnlUsuario" Width="99%" Height="280" ScrollBars="Auto" >
+                    <div style="width: 99%; text-align: right;" class="padding10" >
+                        <asp:GridView ID="grd" runat="server" AutoGenerateColumns="False" CssClass="table grid-view table-condensed" Font-Size="11px" GridLines="Vertical" HeaderStyle-CssClass="header" Height="35px" HorizontalAlign="Center" ShowHeaderWhenEmpty="True" AlternatingRowStyle-CssClass="altern">                          
                             <Columns>
 
                                 
@@ -181,10 +181,10 @@
                                 <asp:TemplateField HeaderText="FECHA ENTREGA">
                                     <ItemTemplate>
                                        <%-- <asp:TextBox ID="txt_fec_entrega" runat="server"  CssClass="col-md-1 estandar-control Fecha Centro" Height="20px" Width="90px" Text='<%# Eval("fecha_entrega_ch") %>' Enabled='<%# Eval("chk") %>'></asp:TextBox> --%>
-                                        <asp:TextBox ID="txt_fec_entrega" runat="server"  CssClass="col-md-1 estandar-control Fecha Centro" Height="20px" Width="90px" Text='<%# Eval("fecha_entrega_ch") %>' Enabled='false'></asp:TextBox>
+                                        <asp:TextBox ID="txt_fec_entrega" runat="server"  CssClass="col-md-1 estandar-control Fecha Centro" Height="85%" Width="100%" Text='<%# Eval("fecha_entrega_ch") %>' Enabled='false'></asp:TextBox>
                                        
                                     </ItemTemplate>
-                                    <HeaderStyle Font-Size="12px" />
+                                    <HeaderStyle Font-Size="12px" Width="10%" />
                                     <ItemStyle HorizontalAlign="Center" />
                                 </asp:TemplateField>
                             </Columns>
@@ -255,6 +255,8 @@
             </Triggers>
         </asp:UpdatePanel>
     </div>
+
+     <div class="padding53"></div>
 
     <div id="ModConfirmar" class="modal-catalogo" >
         <div class="cuadro-titulo-flotante">

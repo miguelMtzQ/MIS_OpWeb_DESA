@@ -116,9 +116,10 @@
         <asp:UpdatePanel runat="server" ID="updGrd" UpdateMode="Conditional" Width="25%">
             <ContentTemplate>
                 <asp:Panel runat="server" ID="pnlUsuario" Width="99%" Height="280" ScrollBars="Auto">
-                    <%--<asp:GridView ID="grd" runat="server" AutoGenerateColumns="False" CssClass="table-condensed table-hover" HeaderStyle-CssClass="header" GridLines="Vertical" ShowHeaderWhenEmpty="True" OnRowCommand="grd_RowCommand" DataKeyNames="folio_carta" HorizontalAlign="Center" Font-Size="11px" Height="35px" >--%>
-                  
-                    <asp:GridView ID="grd" runat="server" AutoGenerateColumns="False" CssClass="table-condensed grid-view" HeaderStyle-CssClass="header" GridLines="Vertical" ShowHeaderWhenEmpty="True" OnRowCommand="grd_RowCommand" DataKeyNames="folio_carta" HorizontalAlign="Center" AlternatingRowStyle-CssClass="altern" Font-Size="11px" Height="35px" >
+                   <%-- <asp:GridView ID="grd" runat="server" AutoGenerateColumns="False" CssClass="table-condensed table-hover" HeaderStyle-CssClass="header" GridLines="Vertical" ShowHeaderWhenEmpty="True" OnRowCommand="grd_RowCommand" DataKeyNames="folio_carta" HorizontalAlign="Center" Font-Size="11px" Height="35px" >
+                  --%>
+                    <asp:GridView ID="grd" runat="server" AutoGenerateColumns="False" CssClass="table grid-view table-condensed" HeaderStyle-CssClass="header" GridLines="Vertical" ShowHeaderWhenEmpty="True" OnRowCommand="grd_RowCommand" DataKeyNames="folio_carta" HorizontalAlign="Center" AlternatingRowStyle-CssClass="altern" Font-Size="11px" Height="35px" >
+                         
                         <Columns>
                             <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center" ShowHeader="False">
                                 <ItemTemplate>
