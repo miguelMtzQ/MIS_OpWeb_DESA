@@ -26,8 +26,8 @@ Partial Class Siniestros_CartasChequeAutorizacion
 
     Sub Page_Load(ByVal Sender As Object, ByVal e As EventArgs) Handles Me.Load
 
-        Dim oDatos As DataSet
-        Dim oTabla As DataTable
+        'Dim oDatos As DataSet
+        'Dim oTabla As DataTable
         Dim oParametros As New Dictionary(Of String, Object)
         Dim FolioCarta As String
         'Dim Fondos As String
@@ -35,9 +35,16 @@ Partial Class Siniestros_CartasChequeAutorizacion
         FolioCarta = Request.QueryString("folio")
 
         If Not IsPostBack Then
+            Master.InformacionGeneral()
             If FolioCarta <> Nothing Then
 
                 'oParametros.Add("folio_gmx", FolioCarta)
+                'Dim usuario As String
+                'usuario = Master.cod_usuario
+
+                ''Dim DetalleUsuario() As String
+                ''DetalleUsuario = Split(Context.User.Identity.Name, "|")
+
                 'oParametros.Add("cod_usuario", Master.cod_usuario)
                 'oDatos = Funciones.ObtenerDatos("usp_buscar_datos_carta_ch_autoriza", oParametros)
 
