@@ -34,7 +34,7 @@ Public Class OrdenPagoMasivo : Implements IHttpHandler
         Dim cod_analista As String
         Dim VariasFacturas As String
         Dim aux_pagaA As String
-
+        Dim ID As Int32
 
         Dim funciones As Funciones
 
@@ -113,7 +113,7 @@ Public Class OrdenPagoMasivo : Implements IHttpHandler
             oDatos = Funciones.ObtenerDatos("sp_op_stro_consulta_folio_OnBase_Masivo", oParametros)
             oTabla = oDatos.Tables(0)
 
-
+            ID = 1
             For Each row As DataRow In oTabla.Rows
 
                 OP = New OrdenPagoMasivoClass
@@ -198,10 +198,10 @@ Public Class OrdenPagoMasivo : Implements IHttpHandler
                 OP.TipoPagoDetalle = row("TipoPagoDetalle").ToString()
                 OP.Cod_objeto = row("Cod_objeto").ToString()
                 OP.Poliza = row("Poliza").ToString()
+                OP.AltaTercero = "<input class=""btn btn-primary"" type=""button""  id=""" + ID.ToString() + "_row"" OnClick=""Terceros(" + ID.ToString() + ")"" value=""..."">"
 
 
-
-
+                ID = ID + 1
 
 
                 lstOp.Add(OP)

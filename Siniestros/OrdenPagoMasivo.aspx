@@ -122,7 +122,7 @@
                         <div class="form-group col-md-2">
                             <asp:Label runat="server" class="etiqueta-control">Pagar a</asp:Label>
                             <asp:DropDownList  ID="cmbPagarA" runat="server" ClientIDMode="Static" CssClass="estandar-control tipoUsuario ">
-                                <asp:ListItem Value="9">TODOS</asp:ListItem> <%--A--%>
+                                <%--<asp:ListItem Value="9">TODOS</asp:ListItem> <%--A--%>
                                 <asp:ListItem Value="7">ASEGURADO</asp:ListItem> <%--A--%>
                                 <asp:ListItem Value="8">TERCERO</asp:ListItem>   <%--T--%>
                                 <asp:ListItem Value="10">PROVEEDOR</asp:ListItem> <%--P--%>
@@ -298,7 +298,138 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div> 
+            <%--FCRUZ 10290 - Registro de terceros Datos Mínimos--%>
+        <div id="RegistroTerceros" style="width: 250px; height: 400px" class="modal-catalogo">
+            <div class="cuadro-titulo-flotante" style="height: 30px">
+                <button type="button" id="btnClosemTer" class="close" hidden="hidden">&times;</button>
+                <div>
+                    <label id="lbl_RegTercero">Registro de terceros</label>
+                </div>
+            </div>
+            <div class="modal-body" style="height: 450px">
+                <asp:UpdatePanel runat="server" ID="UpdatePanel1">
+                    <ContentTemplate>
+                        <asp:HiddenField runat="server" ID="HiddenField7" Value="" />
+                        <asp:HiddenField runat="server" ID="HiddenField8" Value="" />
+                        <asp:HiddenField runat="server" ID="HiddenField9" Value="" />
+                        <asp:Panel runat="server" ID="Panel1" Width="700px" Height="230px">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <b><u>
+                                            <asp:Label runat="server" class="col-md-12 etiqueta-control">DATOS DEL TERCERO</asp:Label></u></b>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label runat="server" class="etiqueta-control">Tipo Persona</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:DropDownList runat="server" ID="drTipoPers" AutoPostBack="true" CssClass="estandar-control Tablero">
+                                                <asp:ListItem Text="FÍSICA" Value="F" Selected="true" />
+                                                <asp:ListItem Text="MORAL" Value="J" />
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label runat="server" class="etiqueta-control">RFC</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:TextBox runat="server" ID="txtRFCmTer" CssClass="estandar-control Tablero" OnFocusOut="convMayusculas('txtRFCmTer')"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label runat="server" class="etiqueta-control">Apellido paterno/Razón Social</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:TextBox runat="server" ID="txt_apPatmTer" CssClass="estandar-control Tablero" OnFocusOut="convMayusculas('txt_apPatmTer')"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label runat="server" class="etiqueta-control">Apellido materno</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:TextBox runat="server" ID="txt_apMatmTer" CssClass="estandar-control Tablero" OnFocusOut="convMayusculas('txt_apMatmTer')"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label runat="server" class="etiqueta-control">Nombre(s)</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:TextBox runat="server" ID="txt_nombresmTer" CssClass="estandar-control Tablero" OnFocusOut="convMayusculas('txt_nombresmTer')"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label runat="server" class="etiqueta-control">Fecha Nacimiento</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:TextBox runat="server" ID="txt_fecNacmTer" CssClass="estandar-control Tablero Fecha Centro" placeholder="dd/mm/aaaa" OnFocusOut="obtenerEdad()"></asp:TextBox>
+                                            <asp:HiddenField runat="server" ID="hidEdadmTer" Value="0" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label runat="server" class="etiqueta-control ">Sexo</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:DropDownList runat="server" ID="drSexo" CssClass="estandar-control Tablero" Enabled="True">
+                                                <asp:ListItem Text="FEMENINO" Value="F" />
+                                                <asp:ListItem Text="MASCULINO" Value="M" Selected="true" />
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 padding20">
+                                            <asp:HiddenField runat="server" ID="hidCodTercero" Value="0" />
+                                            <asp:HiddenField runat="server" ID="hidNomTercero" Value="" />
+                                            <asp:HiddenField runat="server" ID="hidrfcTercero" Value="" />
+                                             <asp:HiddenField runat="server" ID="ID_row" Value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </asp:Panel>
+                        <div style="width: 100%; text-align: right;">
+                            <asp:Button runat="server" ID="btnAcepmTer" class="btn botones" Text="Aceptar"  />
+                            <asp:Button runat="server" id="btnCancTer" class="btn botones" Text="Cancelar"  data-dismiss="modal"/>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </div>
 
+
+
+
+            <div id="CatalogoTerceros"  class="modal-catalogo" >
+                <div class="cuadro-titulo-flotante">
+                    <button type="button" data-dismiss="modal" class="close">&times;</button>
+                    <div><label>Terceros</label></div>
+                </div>
+                <div class="clear padding5"></div>
+
+
+                    <div class="row">
+
+                        <table id="grdTercero" >
+                        </table>
+                        <div id="pgrdTercero"></div>
+                    </div>
+
+
+                    <div style="width:100%; text-align:right;">
+                            <button type="button"  class="btn botones" id="btn_Nuevo" ><span>Nuevo</span></button>
+                            <asp:Button runat="server" id="Button1" class="btn botones" Text="Aceptar"  />
+                            <asp:Button runat="server" id="Button2" class="btn botones" Text="Cancelar"  data-dismiss="modal"/>
+                    </div>
+
+
+            </div>
 
    <br />
     <br />
