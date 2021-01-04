@@ -26,33 +26,48 @@ Partial Class Siniestros_CartasChequeAutorizacion
 
     Sub Page_Load(ByVal Sender As Object, ByVal e As EventArgs) Handles Me.Load
 
-        Dim oDatos As DataSet
-        Dim oTabla As DataTable
+        'Dim oDatos As DataSet
+        'Dim oTabla As DataTable
         Dim oParametros As New Dictionary(Of String, Object)
         Dim FolioCarta As String
         'Dim Fondos As String
 
         FolioCarta = Request.QueryString("folio")
 
+        If Not IsPostBack Then
+            Master.InformacionGeneral()
+            If FolioCarta <> Nothing Then
 
-        If FolioCarta <> Nothing Then
+                'oParametros.Add("folio_gmx", FolioCarta)
+                'Dim usuario As String
+                'usuario = Master.cod_usuario
 
-            oParametros.Add("folio_gmx", FolioCarta)
-            oDatos = Funciones.ObtenerDatos("usp_buscar_datos_carta_ch_autoriza", oParametros)
+                ''Dim DetalleUsuario() As String
+                ''DetalleUsuario = Split(Context.User.Identity.Name, "|")
 
-            oTabla = oDatos.Tables(0)
+                'oParametros.Add("cod_usuario", Master.cod_usuario)
+                'oDatos = Funciones.ObtenerDatos("usp_buscar_datos_carta_ch_autoriza", oParametros)
 
-            grd.DataSource = oTabla
+                'oTabla = oDatos.Tables(0)
 
-            grd.DataBind()
-            txt_folio_carta.Text = FolioCarta
+                'grd.DataSource = oTabla
+
+                'grd.DataBind()
+                txt_folio_carta.Text = FolioCarta
+                Buscar()
+            End If
         End If
+
+
 
 
 
     End Sub
 
     Protected Sub btn_BuscarOP_Click(sender As Object, e As EventArgs) Handles btn_BuscarOP.Click
+        Buscar()
+    End Sub
+    Private Sub Buscar()
         btnAutorizar.Visible = False
         'btn_Todas.Visible = False      'ajustes cartas 06112020
         'btn_Ninguna.Visible = False    'ajustes cartas 06112020
@@ -72,8 +87,6 @@ Partial Class Siniestros_CartasChequeAutorizacion
         End If
         grd.DataSource = oTabla
         grd.DataBind()
-
-
     End Sub
 
     Private Function BuscarOP() As DataTable
@@ -93,6 +106,7 @@ Partial Class Siniestros_CartasChequeAutorizacion
             oParametros.Add("autorizadas", IIf(chk_Autorizadas.Checked = True, -1, 0))
             oParametros.Add("rechazadas", IIf(chk_Rechazadas.Checked = True, -1, 0))
             oParametros.Add("todas", IIf(chk_Todas.Checked = True, -1, 0))
+            oParametros.Add("cod_usuario", Master.cod_usuario)
 
 
 
@@ -597,6 +611,10 @@ Partial Class Siniestros_CartasChequeAutorizacion
         txt_nro_op_hasta.Text = ""
         txt_nro_stro.Text = ""
         txt_cheque_a_nom.Text = ""
+        chk_Todas.Checked = False
+        chk_Rechazadas.Checked = False
+        chk_Autorizadas.Checked = False
+        chk_Pendientes.Checked = False
     End Sub
     Protected Sub chk_Todas_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Todas.CheckedChanged
         VerificaRadios(TipoFiltro.Todas)

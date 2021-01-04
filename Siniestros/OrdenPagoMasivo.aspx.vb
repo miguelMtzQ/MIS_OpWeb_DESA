@@ -4,6 +4,7 @@ Imports System.Web.Script.Services
 Imports System.Web.Services
 
 Imports System.IO
+Imports Mensaje
 
 Partial Class Siniestros_OrdenPagoMasivo
     Inherits System.Web.UI.Page
@@ -13,7 +14,9 @@ Partial Class Siniestros_OrdenPagoMasivo
 
         cmbTipoComprobante.Items.Clear()
         Dim dt As New DataTable
-        Funciones.fn_Consulta("spS_CatalogosSIR 'COMPROBANTE','',''", dt)
+        Funciones.fn_Consulta("sp_Catalogos_OPMasivas 'COMPROBANTE','',''", dt)
+
+
 
         If cmbTipoComprobante.Items.Count = 0 Then
 
@@ -24,6 +27,10 @@ Partial Class Siniestros_OrdenPagoMasivo
 
 
         End If
+        If Not IsPostBack Then
+            Me.txtFechaEstimadaPago.Text = FechaEstimPago()
+        End If
+
 
     End Sub
 
@@ -98,4 +105,50 @@ Partial Class Siniestros_OrdenPagoMasivo
         Response.Redirect("OrdenPagoMasivo.aspx")
 
     End Sub
+
+    Public Sub txt_TextChanged(sender As Object, e As EventArgs)
+
+
+        If Convert.ToDateTime(Me.txtFechaEstimadaPago.Text) < Now.ToShortDateString Then
+            Mensaje.MuestraMensaje("OrdenPagoSiniestros", "No Puede ingresar una fecha menor al dia de hoy", TipoMsg.Advertencia)
+            Me.txtFechaEstimadaPago.Text = Now.ToString("dd/MM/yyyy")
+        End If
+
+
+
+
+    End Sub
+
+    Private Function FechaEstimPago() As String
+        Dim oParametros As New Dictionary(Of String, Object)
+        Dim oDatos As DataSet
+        Dim dt As DataTable
+        Dim result As String
+        Try
+            oParametros = New Dictionary(Of String, Object)
+
+
+
+
+
+
+
+            oDatos = New DataSet
+
+            oDatos = Funciones.ObtenerDatos("usp_Obtener_fecha_estimada_pago", oParametros)
+
+            If Not oDatos Is Nothing AndAlso oDatos.Tables(0).Rows.Count > 0 Then
+                result = oDatos.Tables(0).Rows(0).Item(0)
+            Else
+                result = ""
+            End If
+
+
+        Catch ex As Exception
+
+            Mensaje.MuestraMensaje("OrdenPagoSiniestros", String.Format("ObtenerTipoCambio error: {0}", ex.Message), TipoMsg.Falla)
+        End Try
+
+        FechaEstimPago = result
+    End Function
 End Class

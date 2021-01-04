@@ -534,6 +534,9 @@ Partial Class Siniestros_CartasCheque
         txt_nro_ch_hasta.Text = ""
         txt_nro_stro.Text = ""
         txt_cheque_a_nom.Text = ""
+        chk_Elaboradas.Checked = False
+        chk_Todas.Checked = False
+        chk_Pendientes.Checked = False
     End Sub
 
     Protected Sub chk_Todas_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Todas.CheckedChanged

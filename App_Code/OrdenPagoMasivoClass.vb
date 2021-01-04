@@ -52,7 +52,7 @@ Public Class OrdenPagoMasivoClass
     Private _CodigoBancoTransferencia As String
 
     Private _FolioOnbaseHidden As String
-
+    Private _Folio_Onbase_cuentaHidden As String
     Private _IdSiniestro As String
     Private _CodigoTercero As String
     Private _Subtotal As String
@@ -72,6 +72,7 @@ Public Class OrdenPagoMasivoClass
     Private _Cod_clas_pago As String
     Private _Cod_tipo_pago As String
     Private _Poliza As String
+    Private _Fec_pago As String
 
 
 
@@ -670,6 +671,24 @@ Public Class OrdenPagoMasivoClass
         End Get
         Set(value As String)
             _Poliza = value
+        End Set
+    End Property
+
+    Public Property Folio_Onbase_cuentaHidden As String
+        Get
+            Return _Folio_Onbase_cuentaHidden
+        End Get
+        Set(value As String)
+            _Folio_Onbase_cuentaHidden = value
+        End Set
+    End Property
+
+    Public Property Fec_pago As String
+        Get
+            Return _Fec_pago
+        End Get
+        Set(value As String)
+            _Fec_pago = value
         End Set
     End Property
 End Class

@@ -119,7 +119,8 @@ Public Class OrdenPagoMasivo : Implements IHttpHandler
                 OP = New OrdenPagoMasivoClass
 
                 OP.ID = row("ID").ToString()
-                OP.Folio_Onbase = "<a href=""http://172.16.40.66/AppNet/docpop/docpop.aspx?KT1419_0_0_0=" + row("Folio_Onbase").ToString() + "&clienttype=html&cqid=203""  target=""_blank""><i class=""fa fa-newspaper-o""></i>&nbsp; " + row("Folio_Onbase").ToString() + "</a>"
+                ' OP.Folio_Onbase = "<a href=""http://172.16.40.66/AppNet/docpop/docpop.aspx?KT1419_0_0_0=" + row("Folio_Onbase").ToString() + "&clienttype=html&cqid=203""  target=""_blank""><i class=""fa fa-newspaper-o""></i>&nbsp; " + row("Folio_Onbase").ToString() + "</a>"
+                OP.Folio_Onbase = Webservices(row("Folio_Onbase").ToString())
                 OP.Num_Pago = row("Num_Pago").ToString()
                 OP.Tipo_comprobante = row("Tipo_comprobante").ToString()
 
@@ -157,7 +158,8 @@ Public Class OrdenPagoMasivo : Implements IHttpHandler
                 OP.Concepto2 = row("Concepto2").ToString()
                 OP.Cod_tipo_pago = row("Cod_tipo_pago").ToString()
                 OP.Tipo_Pago2 = row("Tipo_Pago2").ToString()
-                OP.Folio_Onbase_cuenta = row("Folio_Onbase_cuenta").ToString()
+                OP.Folio_Onbase_cuenta = Webservices(row("Folio_Onbase_cuenta").ToString())
+                OP.Folio_Onbase_cuentaHidden = row("Folio_Onbase_cuenta").ToString()
                 OP.Cuenta_Bancaria = row("Cuenta_Bancaria").ToString()
                 OP.Confirmar_Cuenta = row("Confirmar_Cuenta").ToString()
                 OP.Solicitante = row("Solicitante").ToString()
@@ -235,5 +237,28 @@ Public Class OrdenPagoMasivo : Implements IHttpHandler
             Return False
         End Get
     End Property
+
+    Public Function Webservices(Folio_Onbase As String) As String
+
+
+        Dim oDatos As DataSet
+        Dim oTabla As DataTable
+        Dim oParametros As New Dictionary(Of String, Object)
+        Dim url As String
+        Dim salida As String
+        url = ""
+        oParametros.Add("strCatalogo", "WebServices")
+        oDatos = Funciones.ObtenerDatos("[sp_Catalogos_OPMasivas]", oParametros)
+        oTabla = oDatos.Tables(0)
+
+        For Each row As DataRow In oTabla.Rows
+            url = row("url").ToString()
+            url = url.Replace("@Folio", Folio_Onbase)
+
+        Next
+        salida = "<a href=""" + url + """  target=""_blank""><i class=""fa fa-newspaper-o""></i>&nbsp; " + Folio_Onbase + "</a>"
+        Return salida
+
+    End Function
 
 End Class
