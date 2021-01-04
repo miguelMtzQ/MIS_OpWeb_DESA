@@ -202,11 +202,11 @@ Public Class OrdenPagoMasiva
 
         Dim lstOp As New List(Of OrdenPagoMasivoClass)
         Dim OP As New OrdenPagoMasivoClass
+        Dim ID As Int32
 
 
 
-
-
+        ID = 1
 
         serializer.MaxJsonLength = 500000000
 
@@ -297,8 +297,10 @@ Public Class OrdenPagoMasiva
                 OP.Cod_tipo_pago = row("Cod_tipo_pago").ToString()
                 OP.Poliza = row("Poliza").ToString()
                 OP.Fec_pago = row("fec_pago").ToString()
+                OP.AltaTercero = "<input class=""btn btn-primary"" type=""button""  id=""" + ID.ToString() + "_row"" OnClick=""Terceros(" + ID.ToString() + ")"" value=""..."">"
                 lstOp.Add(OP)
 
+                ID = ID + 1
 
             Next
 
@@ -387,4 +389,59 @@ Public Class OrdenPagoMasiva
         Return salida
 
     End Function
+
+
+    <WebMethod()>
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)>
+    Public Function RecuperaTercero(ByVal Nombre As String, ByVal RFC As String, ByVal Codigo As String) As String
+
+
+
+        Dim oDatos As DataSet
+            Dim oTabla As DataTable
+            Dim oParametros As New Dictionary(Of String, Object)
+            Dim serializer As New JavaScriptSerializer
+
+
+        Try
+
+
+
+
+
+
+
+            serializer.MaxJsonLength = 500000000
+            oParametros.Add("strCatalogo", "Tercero")
+
+            If Nombre.Length > 0 Then
+                oParametros.Add("Condicion", Nombre)
+            End If
+
+            If RFC.Length > 0 Then
+                oParametros.Add("rfc", RFC)
+            End If
+
+            If Codigo.Length > 0 Then
+                oParametros.Add("cod_tercero", Codigo)
+            End If
+
+
+
+
+
+
+            oDatos = Funciones.ObtenerDatos("[sp_Catalogos_OPMasivas]", oParametros)
+
+            oTabla = oDatos.Tables(0)
+
+            Return JsonConvert.SerializeObject(oTabla)
+        Catch ex As Exception
+            Return JsonConvert.SerializeObject(oTabla)
+        End Try
+
+
+    End Function
+
+
 End Class

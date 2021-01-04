@@ -53,7 +53,10 @@ Public Class Prueba : Implements IHttpHandler
 
                 oParametros.Add("TipoUsuario", TipoUsuario)
                 oParametros.Add("id_tipo_pago", id_tipo_pago)
-                oParametros.Add("CodigoPres", CodigoPres)
+                If String.IsNullOrEmpty(CodigoPres) = False Then
+                    oParametros.Add("CodigoPres", CodigoPres)
+                End If
+
 
 
                 oDatos = Funciones.ObtenerDatos("usp_ObtenerConceptosPagoMasivo_stro", oParametros)

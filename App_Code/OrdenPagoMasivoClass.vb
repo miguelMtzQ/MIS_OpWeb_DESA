@@ -73,6 +73,7 @@ Public Class OrdenPagoMasivoClass
     Private _Cod_tipo_pago As String
     Private _Poliza As String
     Private _Fec_pago As String
+    Private _AltaTercero As String
 
 
 
@@ -689,6 +690,15 @@ Public Class OrdenPagoMasivoClass
         End Get
         Set(value As String)
             _Fec_pago = value
+        End Set
+    End Property
+
+    Public Property AltaTercero As String
+        Get
+            Return _AltaTercero
+        End Get
+        Set(value As String)
+            _AltaTercero = value
         End Set
     End Property
 End Class
