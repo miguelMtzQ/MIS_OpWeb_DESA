@@ -1130,9 +1130,8 @@ Partial Class Siniestros_OrdenPago
             If grd.Rows.Count > 0 AndAlso cmbTipoPagoOP.SelectedValue = "T" Then
 
                 'FJCP 10290 MEJORAS Cuentas bancarias en pagos a asegurados y terceros FAST TRACK ini
-                'If Not cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
+
                 folioOnBase = txtOnBase.Text.Trim
-                'ctaClabe = Funciones.fn_EjecutaStr("EXECUTE usp_obtenerNroCta_FolioOnBase " + folioOnBase.ToString())
                 oDatos = New DataSet
 
                 oParametros = New Dictionary(Of String, Object)
@@ -1229,6 +1228,7 @@ Partial Class Siniestros_OrdenPago
                     oParametros.Add("CuentaBancaria", oCuentaBancariaT_stro.Value)
                     oParametros.Add("Plaza", oPlazaT_stro.Value)
                     oParametros.Add("ABA", oAbaT_stro.Value)
+                    oParametros.Add("Fasttrack", oGrdOrden.Rows(0).Item("FastTrack")) 'se agrega por proyecto de inter
 
                     bTieneDatosBancarios = False
 
