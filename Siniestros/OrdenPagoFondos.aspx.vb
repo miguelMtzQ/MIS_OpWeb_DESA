@@ -590,12 +590,8 @@ Partial Class Siniestros_OrdenPago
 
                 Case "onbase"
 
-                    'si tiene más de un pago no se manda llamar el método solamente se carga combo num pago 
-
                     If validaNumeroPago() = False Then 'FJCP MEJORAS FASE II NUMERO PAGO
                         Exit Sub
-                        'Else
-                        '    MuestraMensaje("Titulo", "correcto", TipoMsg.Advertencia)
                     End If
 
                 Case "siniestro"
@@ -948,8 +944,8 @@ Partial Class Siniestros_OrdenPago
                         oFila("Moneda") = cmbMonedaPago.SelectedValue
                         'SE VA AGREGAR EL METODO PARA CARGAR LOS CONCEPTOS POR DEFAULT FFUENTES
                         ''JLC Mejoras Clase de Pago -Inicio
-                        ''oFila("ClasePago") = "26"
-                        oFila("ClasePago") = txt_clase.Text
+                        oFila("ClasePago") = "26"
+                        'oFila("ClasePago") = txt_clase.Text
                         ''JLC Mejoras Clase de Pago -Fin
 
                         oFila("ConceptoPago") = "350"
@@ -966,6 +962,7 @@ Partial Class Siniestros_OrdenPago
                         Else
                             oFila("IdPersona") = txtCodigoBeneficiario_stro.Text
                         End If
+                        oFila("FastTrack") = oFilaSeleccion(0).Item("Fast_track")
                         'oFila("IdPersona") = oFilaSeleccion(0).Item("id_persona") 'se comenta por el tema de fondos
                         'se comenta por el tema de fondos
 
@@ -1178,6 +1175,7 @@ Partial Class Siniestros_OrdenPago
                         oParametros.Add("CuentaBancaria", oCuentaBancariaT_stro.Value)
                         oParametros.Add("Plaza", oPlazaT_stro.Value)
                         oParametros.Add("ABA", oAbaT_stro.Value)
+                        oParametros.Add("Fasttrack", oGrdOrden.Rows(0).Item("FastTrack")) 'se agrega por proyecto de inter
 
                         bTieneDatosBancarios = True
 
@@ -3134,7 +3132,8 @@ Partial Class Siniestros_OrdenPago
             dt.Columns.Add("CondicionISR", Type.GetType("System.Int32"))
             dt.Columns.Add("CondicionCED", Type.GetType("System.Int32"))
             dt.Columns.Add("MonedaFactura", Type.GetType("System.Int32"))
-
+            'campos de fasttrack
+            dt.Columns.Add("FastTrack", Type.GetType("System.String"))
             'campos multipago y numero pago
             dt.Columns.Add("FolioOnbase", Type.GetType("System.Int32")) 'FJCP MULTIPAGO AGREGAR 
             dt.Columns.Add("NumeroPago", Type.GetType("System.Int32")) 'FJCP MEJORAS FASE II NUMERO PAGO
@@ -3312,9 +3311,6 @@ Partial Class Siniestros_OrdenPago
 
 
         Try
-
-
-
             Dim PosibleDescuento As Decimal
             If chkVariasFacturas.Checked = False Then
                 Dim chkdelete As CheckBox
@@ -3423,6 +3419,8 @@ Partial Class Siniestros_OrdenPago
                                             Me.cmbTipoPagoOP.SelectedValue = "C"
                                         End If
                                     End If
+
+
                                 Else
                                     Mensaje.MuestraMensaje("Fecha Comprobante menor al año fiscal: ", "Fecha del comprobante Fiscal: " + oDatos.Tables(0).Rows(0).Item("fecha_emision_gmx").ToString(), TipoMsg.Falla)
                                     Limpiartodo()
@@ -3439,7 +3437,7 @@ Partial Class Siniestros_OrdenPago
                             For Each fila In oDatos.Tables(2).Rows
                                 Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
                             Next
-
+                            CargarAnalistasFondos(cmbOrigenOP.SelectedValue)
                         End If
 
                         'se comento por la parte de fondo que no tiene subsiniestro
@@ -3566,7 +3564,7 @@ Partial Class Siniestros_OrdenPago
                             For Each fila In oDatos.Tables(2).Rows
                                 Me.cmbOrigenOP.Items.Add(New ListItem(fila.Item("DescripcionOrigenPago").ToString.ToUpper, fila.Item("CodigoOrigenPago")))
                             Next
-
+                            CargarAnalistasFondos(cmbOrigenOP.SelectedValue)
                         End If
 
                         '''''    For Each fila In oDatos.Tables(0).Rows
