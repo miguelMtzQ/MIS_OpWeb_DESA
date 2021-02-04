@@ -92,6 +92,7 @@ Partial Class Siniestros_OrdenPago
         If Not IsPostBack Then
             Master.Titulo = "OP Tradicional"
             InicializarValores()
+            linkOnBase.HRef = "" 'FJCP 12090 MEJORAS Folio OnBase
         End If
 
         If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
@@ -128,7 +129,7 @@ Partial Class Siniestros_OrdenPago
             'lblDependencias.Visible = False
             'drDependencias.Visible = False
         End If
-        linkOnBase.HRef = "" 'FJCP 12090 MEJORAS Folio OnBase
+
 
 
     End Sub
@@ -2937,9 +2938,9 @@ Partial Class Siniestros_OrdenPago
                                 InicializarValores()
                                 'Impresión reporte
                                 Dim ws As New ws_Generales.GeneralesClient
-                                Dim server As String = ws.ObtieneParametro(9)
+                                Dim server As String = ws.ObtieneParametro(3)
                                 server = Replace(Replace(server, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-                                server = Replace(server, "ReportesGMX_UAT", "ReportesOPSiniestros")
+                                server = Replace(server, "ReportesGMX_DESA", "ReportesOPSiniestros_DESA")
                                 server = Replace(server, "OrdenPago", "OrdenPago_stro")
                                 'Funciones.EjecutaFuncion("fn_ImprimirOrden('" & server & "','" & "234777" & "');")
                                 Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');",

@@ -91,6 +91,7 @@ Partial Class Siniestros_OrdenPago
         If Not IsPostBack Then
             Master.Titulo = "OP Fondos"
             InicializarValores()
+            linkOnBase.HRef = "" 'FJCP 12090 MEJORAS Folio OnBase
         End If
 
         If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
@@ -134,7 +135,7 @@ Partial Class Siniestros_OrdenPago
             'lblDependencias.Visible = False
             'drDependencias.Visible = False
         End If
-        linkOnBase.HRef = "" 'FJCP 12090 MEJORAS Folio OnBase
+
 
     End Sub
     Public Sub EliminarFila(Elimi As Int16)
@@ -2662,11 +2663,11 @@ Partial Class Siniestros_OrdenPago
 
                                 'Impresion Solicitud de Pago
                                 Dim wssp As New ws_Generales.GeneralesClient
-                                Dim serversp As String = wssp.ObtieneParametro(9)
+                                Dim serversp As String = wssp.ObtieneParametro(3)
                                 'impresion de la solicitud de pago
                                 If cmbTipoUsuario.SelectedValue = eTipoUsuario.Proveedor Then
                                     serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&P_varios_op=@nro_op"
-                                    serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
+                                    serversp = Replace(serversp, "ReportesGMX_DESA", "ReportesOPSiniestros_DESA")
                                     serversp = Replace(serversp, "OrdenPago", "SolicitudPago")
                                     Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", serversp, oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("SolicitudPago")), "sp")
 
@@ -2674,9 +2675,9 @@ Partial Class Siniestros_OrdenPago
                                 InicializarValores()
                                 'Impresión reporte de numero de op 
                                 serversp = vbNullString
-                                serversp = wssp.ObtieneParametro(9)
+                                serversp = wssp.ObtieneParametro(3)
                                 serversp = Replace(Replace(serversp, "@Reporte", "OrdenPago"), "@Formato", "PDF") & "&nro_op=@nro_op"
-                                serversp = Replace(serversp, "ReportesGMX_UAT", "ReportesOPSiniestros")
+                                serversp = Replace(serversp, "ReportesGMX_DESA", "ReportesOPSiniestros_DESA")
                                 serversp = Replace(serversp, "OrdenPago", "OrdenPago_stro")
 
                                 Funciones.EjecutaFuncion(String.Format("fn_ImprimirOrden('{0}','{1}');", serversp, CStr(oDatos.Tables(oDatos.Tables.Count - 1).Rows(0).Item("OrdenPago"))), "op")
